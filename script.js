@@ -46,3 +46,4 @@ window.thirdDigitIsSumOfFirstTwo = function(strings) {
         return parseInt(string[2]) === sum % 10;
     });
 };
+//aha
