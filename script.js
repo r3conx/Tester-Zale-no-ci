@@ -103,17 +103,27 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // Wyczyszczenie poprzednich wyników
 
-    // Iteracja po wszystkich zaznaczonych zależnościach
-    document.querySelectorAll('.dependency input:checked').forEach(dep => {
-        const depName = dep.id.replace('check-', '');
-        if(typeof window[depName] === "function") {
-            const result = window[depName](strings);
-            resultsDiv.innerHTML += `<p>Zależność ${depName}: ${result}</p>`;
-        } else {
-            console.error("Function not found:", depName);
-        }
+    // Dodanie standardowych zależności
+    const dependencies = [
+        window.thirdDigitIsSumOfFirstTwo,
+        window.sumOfAllDigits,
+        window.unitDigitOfFirstTwoMultiplication,
+        window.differenceBetweenFirstAndLastDigit
+    ];
+
+    // Dodanie dynamicznych zależności
+    const dynamicDependencies = window.findSumDependencies(strings);
+    dynamicDependencies.forEach(func => {
+        dependencies.push(func);
+    });
+
+    // Iteracja po wszystkich zależnościach
+    dependencies.forEach(dependency => {
+        const result = dependency(strings);
+        resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
     });
 }
+
 
 
 // Przykładowa funkcja zależności
