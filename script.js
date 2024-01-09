@@ -25,23 +25,24 @@ function addDependency(name, funcName) {
 }
 
 
-
+//GENERATOR
 function generateString() {
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => dep.id.replace('check-', ''));
+                                      .map(dep => window[dep.id.replace('check-', '')]);
 
     if (selectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
 
-    // Generowanie stringu spełniającego pierwszą wybraną zależność
     let generatedString = '';
-    const dependency = window[selectedDependencies[0]];
+    let isStringValid;
 
     do {
+		console.log(generatedString);
         generatedString = generateRandomString(5); // Generuje losowy ciąg 5 znaków
-    } while (!dependency([generatedString])[0]);
+        isStringValid = selectedDependencies.every(dependency => dependency([generatedString])[0]);
+    } while (!isStringValid);
 
     document.getElementById('inputStrings').value = generatedString;
 }
@@ -55,6 +56,7 @@ function generateRandomString(length) {
     return result;
 }
 
+//GENERATOR
 
 
 
