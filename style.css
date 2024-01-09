@@ -1,0 +1,24 @@
+/* style.css */
+#container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+#inputStrings {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#dependenciesList {
+    list-style: none;
+    padding: 0;
+}
+
+.dependency {
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    cursor: move; /* styl kursora do przeciągania */
+}
