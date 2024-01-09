@@ -48,3 +48,4 @@ window.thirdDigitIsSumOfFirstTwo = function(strings) {
 };
 //ahass
 //test
+//dasd
