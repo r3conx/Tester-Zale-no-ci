@@ -114,15 +114,20 @@ function runTest() {
     // Dodanie dynamicznych zależności
     const dynamicDependencies = window.findSumDependencies(strings);
     dynamicDependencies.forEach(func => {
-        dependencies.push(func);
+        if (typeof func === 'function') {
+            dependencies.push(func);
+        }
     });
 
     // Iteracja po wszystkich zależnościach
     dependencies.forEach(dependency => {
-        const result = dependency(strings);
-        resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
+        if (typeof dependency === 'function') {
+            const result = dependency(strings);
+            resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
+        }
     });
 }
+
 
 
 
