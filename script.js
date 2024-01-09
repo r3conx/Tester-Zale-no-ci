@@ -50,4 +50,4 @@ window.thirdDigitIsSumOfFirstTwo = function(strings) {
 //test
 //dasd
 //trol
-//aha
+//aha ahaas
