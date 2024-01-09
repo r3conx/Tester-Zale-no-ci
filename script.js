@@ -8,7 +8,8 @@ function initializeDependencies() {
     addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'thirdDigitIsSumOfFirstTwo');
     addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
-    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
+    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit'),
+	addDependency('suma na różnych pozycjach','findSumDependencies');
 }
 
 
@@ -26,7 +27,11 @@ function addDependency(name, funcName) {
 
 
 //GENERATOR
+
+
 function generateString() {
+    const inputStrings = document.getElementById('inputStrings').value.split(',');
+    console.log(inputStrings[0].length);
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
                                       .map(dep => window[dep.id.replace('check-', '')]);
 
@@ -35,17 +40,39 @@ function generateString() {
         return;
     }
 
+    // Analiza wyników zależności dla podanych stringów
+    const dependencyResults = selectedDependencies.map(dependency => 
+        dependency(inputStrings)
+    );
+
+    // Filtracja zależności, które mają wspólne wyniki dla wszystkich stringów
+    const commonDependencies = selectedDependencies.filter((_, index) => 
+        dependencyResults[index].every(result => result === dependencyResults[index][0])
+    );
+
     let generatedString = '';
     let isStringValid;
+    let attempts = 0;
+    let limit = 10000;
 
     do {
-		console.log(generatedString);
-        generatedString = generateRandomString(5); // Generuje losowy ciąg 5 znaków
-        isStringValid = selectedDependencies.every(dependency => dependency([generatedString])[0]);
-    } while (!isStringValid);
+        generatedString = generateRandomString(inputStrings[0].length);
+        isStringValid = commonDependencies.every(dependency => 
+            dependency([generatedString])[0] === dependency(inputStrings)[0]
+        );
+    } while (!isStringValid && attempts < limit);
 
-    document.getElementById('inputStrings').value = generatedString;
+    if (attempts === limit) {
+        console.log("Nie udało się wygenerować ciągu po ", limit, " próbach.");
+        return;
+    }
+
+    document.getElementById('inputStrings').value += "," + generatedString;
+
 }
+
+
+
 
 function generateRandomString(length) {
     const characters = '0123456789';
@@ -116,4 +143,37 @@ window.differenceBetweenFirstAndLastDigit = function(strings) {
 };
 
 
+window.findSumDependencies = function(strings) {
+    let dependencies = [];
+    const length = strings[0].length;
+
+    // Sprawdzenie, czy wszystkie stringi mają tę samą długość
+    if (!strings.every(string => string.length === length)) {
+        return ['Błąd: Stringi mają różne długości'];
+    }
+
+    // Iteracja przez wszystkie kombinacje pozycji
+    for (let startPos = 0; startPos < length - 1; startPos++) {
+        for (let endPos = startPos + 1; endPos < length; endPos++) {
+            let sums = strings.map(string => 
+                sumDigits(string, startPos, endPos) % 10
+            );
+
+            // Sprawdzenie, czy suma jest taka sama dla wszystkich stringów
+            if (sums.every(sum => sum === sums[0])) {
+                dependencies.push(`Suma cyfr od pozycji ${startPos + 1} do ${endPos + 1} jest taka sama: ${sums[0]}`);
+            }
+        }
+    }
+
+    return dependencies.length > 0 ? dependencies : ['Brak wspólnych zależności sum'];
+};
+
+function sumDigits(string, start, end) {
+    let sum = 0;
+    for (let i = start; i <= end; i++) {
+        sum += parseInt(string[i], 10);
+    }
+    return sum;
+}
 
