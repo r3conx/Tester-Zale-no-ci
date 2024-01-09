@@ -8,8 +8,14 @@ function initializeDependencies() {
     addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'thirdDigitIsSumOfFirstTwo');
     addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
-    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit'),
-	addDependency('suma na różnych pozycjach','findSumDependencies');
+    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
+
+    // Dodawanie dynamicznych zależności
+    const inputStrings = document.getElementById('inputStrings').value.split(',');
+    const dynamicDependencies = window.findSumDependencies(inputStrings);
+    dynamicDependencies.forEach(func => {
+        addDependency('Dynamiczna Zależność', func);
+    });
 }
 
 
@@ -144,7 +150,7 @@ window.differenceBetweenFirstAndLastDigit = function(strings) {
 
 
 window.findSumDependencies = function(strings) {
-    let dependencies = [];
+    let dependencyFunctions = [];
     const length = strings[0].length;
 
     // Sprawdzenie, czy wszystkie stringi mają tę samą długość
@@ -155,19 +161,24 @@ window.findSumDependencies = function(strings) {
     // Iteracja przez wszystkie kombinacje pozycji
     for (let startPos = 0; startPos < length - 1; startPos++) {
         for (let endPos = startPos + 1; endPos < length; endPos++) {
-            let sums = strings.map(string => 
-                sumDigits(string, startPos, endPos) % 10
-            );
+            let sums = strings.map(string => sumDigits(string, startPos, endPos) % 10);
 
             // Sprawdzenie, czy suma jest taka sama dla wszystkich stringów
             if (sums.every(sum => sum === sums[0])) {
-                dependencies.push(`Suma cyfr od pozycji ${startPos + 1} do ${endPos + 1} jest taka sama: ${sums[0]}`);
+                let func = createSumDependencyFunction(startPos, endPos, sums[0]);
+                dependencyFunctions.push(func);
             }
         }
     }
 
-    return dependencies.length > 0 ? dependencies : ['Brak wspólnych zależności sum'];
+    return dependencyFunctions.length > 0 ? dependencyFunctions : [() => ['Brak wspólnych zależności sum']];
 };
+
+function createSumDependencyFunction(start, end, expectedSum) {
+    return function(strings) {
+        return strings.map(string => sumDigits(string, start, end) % 10 === expectedSum);
+    };
+}
 
 function sumDigits(string, start, end) {
     let sum = 0;
@@ -176,4 +187,5 @@ function sumDigits(string, start, end) {
     }
     return sum;
 }
+
 
