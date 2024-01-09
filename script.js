@@ -10,13 +10,15 @@ function initializeDependencies() {
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
     addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
 
-    // Dodawanie dynamicznych zależności
-    const inputStrings = document.getElementById('inputStrings').value.split(',');
-    const dynamicDependencies = window.findSumDependencies(inputStrings);
-    dynamicDependencies.forEach(func => {
-        addDependency('Dynamiczna Zależność', func);
+    // Przykładowe stringi do inicjalizacji dynamicznych zależności
+    const exampleStrings = ["1234", "1235"];
+    const dynamicDependencies = window.findSumDependencies(exampleStrings);
+    dynamicDependencies.forEach((func, index) => {
+        addDependency(`Dynamiczna Zależność ${index + 1}`, `dynamicDep${index}`);
+        window[`dynamicDep${index}`] = func;
     });
 }
+
 
 
 function addDependency(name, funcName) {
@@ -104,14 +106,15 @@ function runTest() {
     // Iteracja po wszystkich zaznaczonych zależnościach
     document.querySelectorAll('.dependency input:checked').forEach(dep => {
         const depName = dep.id.replace('check-', '');
-        if(typeof window[depName] === "function") { // Sprawdzenie, czy funkcja istnieje
+        if(typeof window[depName] === "function") {
             const result = window[depName](strings);
             resultsDiv.innerHTML += `<p>Zależność ${depName}: ${result}</p>`;
         } else {
-            console.error("Function not found:", depName); // Błąd, jeśli funkcja nie została znaleziona
+            console.error("Function not found:", depName);
         }
     });
 }
+
 
 // Przykładowa funkcja zależności
 window.thirdDigitIsSumOfFirstTwo = function(strings) {
@@ -150,35 +153,34 @@ window.differenceBetweenFirstAndLastDigit = function(strings) {
 
 
 window.findSumDependencies = function(strings) {
-    let dependencyFunctions = [];
+    console.log("Analizowane stringi:", strings);
+    let dependencies = [];
     const length = strings[0].length;
 
-    // Sprawdzenie, czy wszystkie stringi mają tę samą długość
     if (!strings.every(string => string.length === length)) {
+        console.error('Błąd: Stringi mają różne długości');
         return ['Błąd: Stringi mają różne długości'];
     }
 
-    // Iteracja przez wszystkie kombinacje pozycji
-    for (let startPos = 0; startPos < length - 1; startPos++) {
-        for (let endPos = startPos + 1; endPos < length; endPos++) {
-            let sums = strings.map(string => sumDigits(string, startPos, endPos) % 10);
-
-            // Sprawdzenie, czy suma jest taka sama dla wszystkich stringów
-            if (sums.every(sum => sum === sums[0])) {
-                let func = createSumDependencyFunction(startPos, endPos, sums[0]);
-                dependencyFunctions.push(func);
+    let stringDependencies = strings.map(string => {
+        let deps = [];
+        for (let startPos = 0; startPos < length - 1; startPos++) {
+            for (let endPos = startPos + 1; endPos < length; endPos++) {
+                let sum = sumDigits(string, startPos, endPos) % 10;
+                deps.push(`${startPos}-${endPos}:${sum}`);
             }
         }
-    }
+        console.log(`Zależności dla stringa ${string}:`, deps);
+        return deps;
+    });
 
-    return dependencyFunctions.length > 0 ? dependencyFunctions : [() => ['Brak wspólnych zależności sum']];
+    let commonDeps = stringDependencies[0].filter(dep => 
+        stringDependencies.every(deps => deps.includes(dep))
+    );
+
+    console.log("Wspólne zależności:", commonDeps);
+    return commonDeps.length > 0 ? commonDeps : ['Brak wspólnych zależności sum'];
 };
-
-function createSumDependencyFunction(start, end, expectedSum) {
-    return function(strings) {
-        return strings.map(string => sumDigits(string, start, end) % 10 === expectedSum);
-    };
-}
 
 function sumDigits(string, start, end) {
     let sum = 0;
@@ -187,5 +189,3 @@ function sumDigits(string, start, end) {
     }
     return sum;
 }
-
-
