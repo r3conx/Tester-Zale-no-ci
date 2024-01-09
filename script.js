@@ -11,7 +11,7 @@ function initializeDependencies() {
     addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
 
     // Przykładowe stringi do inicjalizacji dynamicznych zależności
-    const exampleStrings = ["1234", "1235"];
+    const exampleStrings = ["123456", "123456"];
     const dynamicDependencies = window.findSumDependencies(exampleStrings);
     dynamicDependencies.forEach((func, index) => {
         addDependency(`Dynamiczna Zależność ${index + 1}`, `dynamicDep${index}`);
@@ -39,9 +39,9 @@ function addDependency(name, funcName) {
 
 function generateString() {
     const inputStrings = document.getElementById('inputStrings').value.split(',');
-    console.log(inputStrings[0].length);
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => window[dep.id.replace('check-', '')]);
+                                      .map(dep => window[dep.id.replace('check-', '')])
+                                      .filter(dep => typeof dep === 'function'); // Dodano filtr
 
     if (selectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
