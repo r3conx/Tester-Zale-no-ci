@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeDependencies() {
     addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'thirdDigitIsSumOfFirstTwo');
+    addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
+    addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
+    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
 }
+
 
 function addDependency(name, funcName) {
     const list = document.getElementById('dependenciesList');
@@ -19,6 +23,42 @@ function addDependency(name, funcName) {
     `;
     list.appendChild(listItem);
 }
+
+
+
+function generateString() {
+    const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
+                                      .map(dep => dep.id.replace('check-', ''));
+
+    if (selectedDependencies.length === 0) {
+        alert('Wybierz przynajmniej jedną zależność.');
+        return;
+    }
+
+    // Generowanie stringu spełniającego pierwszą wybraną zależność
+    let generatedString = '';
+    const dependency = window[selectedDependencies[0]];
+
+    do {
+        generatedString = generateRandomString(5); // Generuje losowy ciąg 5 znaków
+    } while (!dependency([generatedString])[0]);
+
+    document.getElementById('inputStrings').value = generatedString;
+}
+
+function generateRandomString(length) {
+    const characters = '0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+
+
+
+
 
 function runTest() {
     const input = document.getElementById('inputStrings').value;
@@ -46,8 +86,32 @@ window.thirdDigitIsSumOfFirstTwo = function(strings) {
         return parseInt(string[2]) === sum % 10;
     });
 };
-//ahass
-//test
-//dasd
-//trol
-//aha ahaas
+
+
+window.sumOfAllDigits = function(strings) {
+    return strings.map(string => {
+        return string.split('').reduce((sum, digit) => sum + parseInt(digit, 10), 0);
+    });
+};
+
+
+window.unitDigitOfFirstTwoMultiplication = function(strings) {
+    return strings.map(string => {
+        if (string.length < 2) return false;
+        const product = parseInt(string[0], 10) * parseInt(string[1], 10);
+        return product % 10;
+    });
+};
+
+
+window.differenceBetweenFirstAndLastDigit = function(strings) {
+    return strings.map(string => {
+        if (string.length < 2) return false;
+        const firstDigit = parseInt(string[0], 10);
+        const lastDigit = parseInt(string[string.length - 1], 10);
+        return Math.abs(firstDigit - lastDigit);
+    });
+};
+
+
+
