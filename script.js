@@ -86,7 +86,7 @@ function generateString() {
     // Połącz stałe i dynamiczne zależności
     const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
 
-    if (allSelectedDependencies.length === 0) {
+    if (selectedStaticDependencies.length === 0 && selectedDynamicDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
