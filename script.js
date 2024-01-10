@@ -96,7 +96,7 @@ function generateString() {
     );
 
     // Filtracja zależności, które mają wspólne wyniki dla wszystkich stringów
-    const commonDependencies = AllselectedDependencies.filter((_, index) => 
+    const commonDependencies = allselectedDependencies.filter((_, index) => 
         dependencyResults[index].every(result => result === dependencyResults[index][0])
     );
 
