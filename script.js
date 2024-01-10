@@ -194,21 +194,22 @@ window.findSumDependencies = function(strings) {
     let stringDependencies = strings.map(string => {
         let deps = new Set();
 
-        // Sprawdzanie różnych kombinacji sumy cyfr
+        // Sprawdzanie kombinacji sumy dowolnych cyfr i porównywanie z innymi cyframi
         for (let i = 0; i < length; i++) {
-            for (let j = i + 1; j < length; j++) {
-                for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j) {
-                        let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
-                        if (sum === parseInt(string[k], 10)) {
-                            deps.add(`sum${i}${j}equals${k}`);
+            for (let j = 0; j < length; j++) {
+                if (i !== j) {
+                    let sum = 0;
+                    for (let k = 0; k < length; k++) {
+                        if (k !== i && k !== j) {
+                            sum += parseInt(string[k], 10);
                         }
+                    }
+                    if (sum % 10 === parseInt(string[j], 10)) {
+                        deps.add(`sumExcept${i}${j}equals${j}`);
                     }
                 }
             }
         }
-
-        // Dodajemy tutaj inne rodzaje analiz zależności...
 
         return Array.from(deps);
     });
@@ -222,21 +223,30 @@ window.findSumDependencies = function(strings) {
     let dynamicDepFunctions = {};
 
     commonDeps.forEach((dep, index) => {
-        dynamicDepFunctions[`dynamicDep${index + 1}`] = createDynamicFunction(dep);
+        dynamicDepFunctions[`dynamicDep${index + 1}`] = createDynamicFunction(dep, length);
     });
 
     return dynamicDepFunctions;
 };
 
-function createDynamicFunction(dep) {
-    let parts = dep.split(/sum|equals/).map(Number);
+function createDynamicFunction(dep, length) {
+    let match = dep.match(/sumExcept(\d+)(\d+)equals(\d+)/);
+    let excludeIndices = [parseInt(match[1], 10), parseInt(match[2], 10)];
+    let targetIndex = parseInt(match[3], 10);
+
     return function(testStrings) {
         return testStrings.map(string => {
-            let sum = (parseInt(string[parts[0]], 10) + parseInt(string[parts[1]], 10)) % 10;
-            return sum === parseInt(string[parts[2]], 10);
+            let sum = 0;
+            for (let i = 0; i < length; i++) {
+                if (!excludeIndices.includes(i)) {
+                    sum += parseInt(string[i], 10);
+                }
+            }
+            return sum % 10 === parseInt(string[targetIndex], 10);
         });
     };
 }
+
 
 
 function createMultiSumFunc(dep) {
