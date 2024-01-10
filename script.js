@@ -80,7 +80,7 @@ function generateString() {
     let generatedString = '';
     let isStringValid;
     let attempts = 0;
-    const limit = 100000;
+    const limit = 1000000;
 
     do {
         generatedString = generateRandomString(inputStrings[0].length);
