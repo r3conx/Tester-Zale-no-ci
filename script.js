@@ -196,17 +196,15 @@ window.findSumDependencies = function(strings) {
 
         // Sprawdzanie kombinacji sumy dowolnych cyfr i porównywanie z innymi cyframi
         for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length; j++) {
-                if (i !== j) {
-                    let sum = 0;
-                    for (let k = 0; k < length; k++) {
-                        if (k !== i && k !== j) {
-                            sum += parseInt(string[k], 10);
-                        }
+            for (let j = i + 1; j < length; j++) {
+                let sum = 0;
+                for (let k = 0; k < length; k++) {
+                    if (k !== i && k !== j) {
+                        sum += parseInt(string[k], 10);
                     }
-                    if (sum % 10 === parseInt(string[j], 10)) {
-                        deps.add(`sumExcept${i}${j}equals${j}`);
-                    }
+                }
+                if (sum % 10 === parseInt(string[j], 10)) {
+                    deps.add(`sumExcept${i}${j}equals${j}`);
                 }
             }
         }
@@ -247,20 +245,6 @@ function createDynamicFunction(dep, length) {
     };
 }
 
-
-
-function createMultiSumFunc(dep) {
-    let parts = dep.match(/multiSum(\d+)to(\d+)isUnit(\d+)/).slice(1).map(Number);
-    return function(testStrings) {
-        return testStrings.map(string => {
-            let sum = 0;
-            for (let i = parts[0]; i <= parts[1]; i++) {
-                sum += parseInt(string[i], 10);
-            }
-            return sum % 10 === parseInt(string[parts[2]], 10);
-        });
-    };
-}
 
 
 
