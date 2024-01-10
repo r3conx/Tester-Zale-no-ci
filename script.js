@@ -186,11 +186,17 @@ window.findSumDependencies = function(strings) {
 
     let stringDependencies = strings.map(string => {
         let deps = new Set();
-        for (let i = 0; i < length - 1; i++) {
+        // Sprawdzanie sumy cyfr na określonych pozycjach
+        for (let i = 0; i < length; i++) {
             for (let j = i + 1; j < length; j++) {
                 let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
                 deps.add(`sum${i}${j}:${sum}`);
             }
+        }
+        // Dodatkowa logika dla specyficznej zależności
+        let lastSum = (parseInt(string[length - 3], 10) + parseInt(string[length - 2], 10)) % 10;
+        if (lastSum === parseInt(string[length - 1], 10)) {
+            deps.add(`lastSumIsSumOfPreviousTwo`);
         }
         return Array.from(deps);
     });
@@ -204,22 +210,32 @@ window.findSumDependencies = function(strings) {
     let dynamicDepFunctions = {};
 
     commonDeps.forEach((dep, index) => {
-        let [funcName, result] = dep.split(':');
-        result = parseInt(result, 10);
+        if (dep === 'lastSumIsSumOfPreviousTwo') {
+            dynamicDepFunctions['dynamicDepLastSum'] = function(testStrings) {
+                return testStrings.map(string => {
+                    let lastSum = (parseInt(string[length - 3], 10) + parseInt(string[length - 2], 10)) % 10;
+                    return lastSum === parseInt(string[length - 1], 10);
+                });
+            };
+        } else {
+            let [funcName, result] = dep.split(':');
+            result = parseInt(result, 10);
 
-        let dynamicFunc = function(testStrings) {
-            return testStrings.map(string => {
-                let [i, j] = funcName.substring(3).split('').map(Number);
-                let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
-                return sum === result;
-            });
-        };
+            let dynamicFunc = function(testStrings) {
+                return testStrings.map(string => {
+                    let [i, j] = funcName.substring(3).split('').map(Number);
+                    let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
+                    return sum === result;
+                });
+            };
 
-        dynamicDepFunctions[`dynamicDep${index + 1}`] = dynamicFunc;
+            dynamicDepFunctions[`dynamicDep${index + 1}`] = dynamicFunc;
+        }
     });
 
     return dynamicDepFunctions;
 };
+
 
 
 function sumDigits(string, start, end) {
