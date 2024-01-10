@@ -10,14 +10,29 @@ function initializeDependencies() {
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
     addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
 
-    // Przykładowe stringi do inicjalizacji dynamicznych zależności
-    const exampleStrings = ["123456", "123456"];
-    const dynamicDependencies = window.findSumDependencies(exampleStrings);
+    // Dodaj obsługę dynamicznych zależności
+    updateDynamicDependencies();
+}
+
+function updateDynamicDependencies() {
+    // Usuń istniejące dynamiczne zależności
+    removeDynamicDependencies();
+
+    // Dodaj nowe dynamiczne zależności na podstawie aktualnych stringów
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+    const dynamicDependencies = window.findSumDependencies(currentStrings);
     dynamicDependencies.forEach((func, index) => {
         addDependency(`Dynamiczna Zależność ${index + 1}`, `dynamicDep${index}`);
         window[`dynamicDep${index}`] = func;
     });
 }
+
+function removeDynamicDependencies() {
+    // Usuń elementy związane z dynamicznymi zależnościami
+    const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
+    dynamicDeps.forEach(dep => dep.remove());
+}
+
 
 
 
@@ -25,7 +40,10 @@ function addDependency(name, funcName) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
     listItem.classList.add('dependency');
-    listItem.id = 'dep-' + funcName; // Użyto funcName jako ID
+    if (funcName.startsWith('dynamicDep')) {
+        listItem.classList.add('dynamic-dependency');
+    }
+    listItem.id = 'dep-' + funcName;
     listItem.innerHTML = `
         <input type="checkbox" id="check-${funcName}" checked>
         <label for="check-${funcName}">${name}</label>
@@ -34,14 +52,17 @@ function addDependency(name, funcName) {
 }
 
 
+
+
 //GENERATOR
 
 
 function generateString() {
+    updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
                                       .map(dep => window[dep.id.replace('check-', '')])
-                                      .filter(dep => typeof dep === 'function'); // Dodano filtr
+                                      .filter(dep => typeof dep === 'function');
 
     if (selectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
@@ -75,7 +96,7 @@ function generateString() {
         return;
     }
 
-    document.getElementById('inputStrings').value += "," + generatedString;
+    document.getElementById('outputStrings').value = generatedString;
 
 }
 
@@ -95,9 +116,8 @@ function generateRandomString(length) {
 
 
 
-
-
 function runTest() {
+    removeDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
@@ -111,12 +131,12 @@ function runTest() {
         window.differenceBetweenFirstAndLastDigit
     ];
 
-    // Dodanie dynamicznych zależności
-    const dynamicDependencies = window.findSumDependencies(strings);
-    dynamicDependencies.forEach(func => {
-        if (typeof func === 'function') {
-            dependencies.push(func);
-        }
+    // Dodaj dynamiczne zależności na podstawie aktualnych stringów
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+    const dynamicDependencies = window.findSumDependencies(currentStrings);
+    dynamicDependencies.forEach((func, index) => {
+        addDependency(`Dynamiczna Zależność ${index + 1}`, `dynamicDep${index}`);
+        window[`dynamicDep${index}`] = func;
     });
 
     // Iteracja po wszystkich zależnościach
