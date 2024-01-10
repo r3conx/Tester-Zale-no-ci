@@ -65,23 +65,26 @@ function addDependency(name, funcName) {
 
 //GENERATOR
 function getDynamicDependencies() {
-    // Zbierz wszystkie dynamiczne zależności
-    const dynamicDependencyElements = document.querySelectorAll('.dynamic-dependency input:checked');
-    const dynamicDependencies = Array.from(dynamicDependencyElements)
-                                     .map(dep => window[dep.id.replace('check-', '')])
-                                     .filter(dep => typeof dep === 'function');
-
-    return dynamicDependencies;
+    return Object.values(dynamicDependencies).filter(func => typeof func === 'function');
 }
+
 
 function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
-    const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => window[dep.id.replace('check-', '')] || dynamicDependencies[dep.id.replace('check-', '')])
-                                      .filter(dep => typeof dep === 'function');
+    
+    // Pobierz zaznaczone stałe zależności
+    const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
+                                             .map(dep => window[dep.id.replace('check-', '')])
+                                             .filter(dep => typeof dep === 'function');
 
-    if (selectedDependencies.length === 0) {
+    // Pobierz zaznaczone dynamiczne zależności
+    const selectedDynamicDependencies = getDynamicDependencies();
+
+    // Połącz stałe i dynamiczne zależności
+    const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
+
+    if (allSelectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
