@@ -64,26 +64,18 @@ function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
 
-    // Pobierz zaznaczone stałe zależności
     const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency:not(.dynamic-dependency) input:checked'))
                                              .map(dep => window[dep.id.replace('check-', '')])
                                              .filter(dep => typeof dep === 'function');
 
-    // Pobierz zaznaczone dynamiczne zależności
     const selectedDynamicDependencies = getDynamicDependencies();
-    console.log("Wybrane dynamiczne zależności:", selectedDynamicDependencies);
-    // Połącz stałe i dynamiczne zależności
+
     const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
 
     if (allSelectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
-
-    const dependencyResults = allSelectedDependencies.map(dependency => dependency(inputStrings));
-
-    const commonDependencies = allSelectedDependencies.filter((_, index) => 
-        dependencyResults[index].every(result => result === dependencyResults[index][0]));
 
     let generatedString = '';
     let isStringValid;
@@ -92,8 +84,9 @@ function generateString() {
 
     do {
         generatedString = generateRandomString(inputStrings[0].length);
-        isStringValid = commonDependencies.every(dependency => 
-            dependency([generatedString])[0] === dependency(inputStrings)[0]);
+        isStringValid = allSelectedDependencies.every(dependency => 
+            dependency([generatedString])[0]
+        );
         attempts++;
     } while (!isStringValid && attempts < limit);
 
@@ -113,6 +106,7 @@ function generateRandomString(length) {
     }
     return result;
 }
+
 
 function runTest() {
     removeDynamicDependencies();
