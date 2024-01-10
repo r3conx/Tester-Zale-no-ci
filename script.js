@@ -18,7 +18,7 @@ let dynamicDependencies = {};
 
 function updateDynamicDependencies() {
     // Usuń istniejące dynamiczne zależności
-    dynamicDependencies = {};
+    removeDynamicDependencies();
 
     // Dodaj nowe dynamiczne zależności na podstawie aktualnych stringów
     const currentStrings = document.getElementById('inputStrings').value.split(',');
@@ -26,9 +26,10 @@ function updateDynamicDependencies() {
     newDynamicDependencies.forEach((func, index) => {
         const depName = `dynamicDep${index}`;
         addDependency(`Dynamiczna Zależność ${index + 1}`, depName);
-        dynamicDependencies[depName] = func;
+        window[depName] = func;
     });
 }
+
 
 
 function removeDynamicDependencies() {
