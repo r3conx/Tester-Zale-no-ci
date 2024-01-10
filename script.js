@@ -14,18 +14,22 @@ function initializeDependencies() {
     updateDynamicDependencies();
 }
 
+let dynamicDependencies = {};
+
 function updateDynamicDependencies() {
     // Usuń istniejące dynamiczne zależności
-    removeDynamicDependencies();
+    dynamicDependencies = {};
 
     // Dodaj nowe dynamiczne zależności na podstawie aktualnych stringów
     const currentStrings = document.getElementById('inputStrings').value.split(',');
-    const dynamicDependencies = window.findSumDependencies(currentStrings);
-    dynamicDependencies.forEach((func, index) => {
-        addDependency(`Dynamiczna Zależność ${index + 1}`, `dynamicDep${index}`);
-        window[`dynamicDep${index}`] = func;
+    const newDynamicDependencies = window.findSumDependencies(currentStrings);
+    newDynamicDependencies.forEach((func, index) => {
+        const depName = `dynamicDep${index}`;
+        addDependency(`Dynamiczna Zależność ${index + 1}`, depName);
+        dynamicDependencies[depName] = func;
     });
 }
+
 
 function removeDynamicDependencies() {
     // Usuń elementy związane z dynamicznymi zależnościami
@@ -67,17 +71,11 @@ function getDynamicDependencies() {
 
 function generateString() {
     updateDynamicDependencies();
-    const inputStrings = document.getElementById('inputStrings').value.split(',');
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => window[dep.id.replace('check-', '')])
+                                      .map(dep => window[dep.id.replace('check-', '')] || dynamicDependencies[dep.id.replace('check-', '')])
                                       .filter(dep => typeof dep === 'function');
 
-    // Dodaj logikę sprawdzającą dynamiczne zależności
-    const dynamicDependencies = getDynamicDependencies();
-    const allDependencies = selectedDependencies.concat(dynamicDependencies);
-    console.log(allDependencies)
-
-    if (allDependencies.length === 0) {
+    if (selectedDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
