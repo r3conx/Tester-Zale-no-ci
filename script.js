@@ -216,30 +216,50 @@ window.findSumDependencies = function(strings) {
 
     let dynamicDepFunctions = {};
 
-    commonDeps.forEach((dep, index) => {
-        dynamicDepFunctions[`dynamicDep${index + 1}`] = createDynamicFunction(dep, length);
-    });
+    for (let numSums = 2; numSums <= 5; numSums++) {
+        for (let i = 0; i < length; i++) {
+            for (let j = i + 1; j < length; j++) {
+                for (let k = j + 1; k < length; k++) {
+                    for (let l = k + 1; l < length; l++) {
+                        for (let m = l + 1; m < length; m++) {
+                            let sumIndices = [i, j, k, l, m];
+                            let depKey = `sumOf${sumIndices.join('')}equals`;
+
+                            let depValues = [];
+                            for (let n = 0; n < length; n++) {
+                                if (!sumIndices.includes(n)) {
+                                    depValues.push(n);
+                                }
+                            }
+
+                            commonDeps.forEach((dep, index) => {
+                                let depName = `${depKey}${dep}`;
+                                dynamicDepFunctions[`dynamicDep${numSums}_${depName}`] = createDynamicFunction(depName, depValues);
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     return dynamicDepFunctions;
 };
 
-function createDynamicFunction(dep, length) {
-    let match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
+function createDynamicFunction(dep, values) {
+    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
     if (match) {
-        let firstIndex = parseInt(match[1], 10);
-        let secondIndex = parseInt(match[2], 10);
-        let targetIndex = parseInt(match[3], 10);
+        let sumIndices = match.slice(1, 6).map(index => parseInt(index, 10));
+        let targetIndex = parseInt(match[6], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
-                let sum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
+                let sum = sumIndices.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
                 return sum % 10 === parseInt(string[targetIndex], 10);
             });
         };
     }
 }
-
-
 
 
 
