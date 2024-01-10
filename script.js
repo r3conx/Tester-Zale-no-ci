@@ -197,23 +197,33 @@ window.findSumDependencies = function(strings) {
         for (let i = 0; i < length; i++) {
             for (let j = i + 1; j < length; j++) {
                 let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
+
+                // Nowa logika do obsługi większej liczby sum
+                let remainingDigits = [];
                 for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j && sum % 10 === parseInt(string[k], 10)) {
-                        deps.add(`sumOf${i}${j}equals${k}`);
+                    if (k !== i && k !== j) {
+                        remainingDigits.push(k);
                     }
                 }
-            }
-        }
 
-        // Nowa logika do obsługi większej liczby sum
-        for (let i = 0; i < length; i++) {
-            let sum = 0;
-            for (let j = i + 1; j < length; j++) {
-                sum += parseInt(string[j], 10);
-                for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j && sum % 10 === parseInt(string[k], 10)) {
-                        deps.add(`sumOf${i}${j}...equals${k}`);
+                function findCombinations(arr, n, sum, result) {
+                    if (n === 0) {
+                        if (sum % 10 === parseInt(string[arr[0]], 10)) {
+                            deps.add(`sumOf${i}${j}...equals${arr[0]}`);
+                        }
+                        return;
                     }
+
+                    for (let x = 0; x < remainingDigits.length; x++) {
+                        let newSum = sum + parseInt(string[arr[x]], 10);
+                        let newArr = arr.slice();
+                        newArr.push(remainingDigits[x]);
+                        findCombinations(newArr, n - 1, newSum, result);
+                    }
+                }
+
+                for (let n = 2; n <= remainingDigits.length; n++) {
+                    findCombinations([], n, sum, []);
                 }
             }
         }
