@@ -194,9 +194,6 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    // Utwórz referencję do math.js w obiekcie globalnym window
-    const math = window.math;
-
     // Tworzenie macierzy równań
     const equations = [];
     for (let i = 0; i < length; i++) {
@@ -207,8 +204,8 @@ window.findSumDependencies = function(strings) {
         equations.push(equation);
     }
 
-    // Rozwiązanie równań
-    const solutions = math.lusolve(equations);
+    // Rozwiązywanie równań
+    const solutions = solveEquations(equations);
 
     // Tworzenie dynamicznych funkcji
     const dynamicDepFunctions = {};
@@ -225,6 +222,36 @@ window.findSumDependencies = function(strings) {
 
     return dynamicDepFunctions;
 };
+
+function solveEquations(equations) {
+    const n = equations.length;
+    const augmentedMatrix = new Array(n);
+
+    for (let i = 0; i < n; i++) {
+        augmentedMatrix[i] = equations[i].slice();
+        augmentedMatrix[i].push(0);
+    }
+
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const factor = augmentedMatrix[j][i] / augmentedMatrix[i][i];
+            for (let k = i; k <= n; k++) {
+                augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
+            }
+        }
+    }
+
+    const solutions = new Array(n);
+    for (let i = n - 1; i >= 0; i--) {
+        let sum = 0;
+        for (let j = i + 1; j < n; j++) {
+            sum += augmentedMatrix[i][j] * solutions[j][0];
+        }
+        solutions[i] = [(augmentedMatrix[i][n] - sum) / augmentedMatrix[i][i]];
+    }
+
+    return solutions;
+}
 
 function createDynamicFunction(dep, length, sum) {
     let match = dep.match(/(\d+)(\d+)equals(\d+)/);
