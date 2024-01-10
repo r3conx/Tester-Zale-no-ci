@@ -240,23 +240,6 @@ function createDynamicFunction(dep, length) {
 }
 
 
-function createDynamicFunction(dep, length) {
-    let match = dep.match(/sumExcept(\d+)(\d+)equals(\d+)/);
-    let excludeIndices = [parseInt(match[1], 10), parseInt(match[2], 10)];
-    let targetIndex = parseInt(match[3], 10);
-
-    return function(testStrings) {
-        return testStrings.map(string => {
-            let sum = 0;
-            for (let i = 0; i < length; i++) {
-                if (!excludeIndices.includes(i)) {
-                    sum += parseInt(string[i], 10);
-                }
-            }
-            return sum % 10 === parseInt(string[targetIndex], 10);
-        });
-    };
-}
 
 
 
