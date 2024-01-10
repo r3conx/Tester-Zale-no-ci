@@ -55,7 +55,15 @@ function addDependency(name, funcName) {
 
 
 //GENERATOR
+function getDynamicDependencies() {
+    // Zbierz wszystkie dynamiczne zależności
+    const dynamicDependencyElements = document.querySelectorAll('.dynamic-dependency input:checked');
+    const dynamicDependencies = Array.from(dynamicDependencyElements)
+                                     .map(dep => window[dep.id.replace('check-', '')])
+                                     .filter(dep => typeof dep === 'function');
 
+    return dynamicDependencies;
+}
 
 function generateString() {
     updateDynamicDependencies();
@@ -105,15 +113,7 @@ function generateString() {
 }
 
 
-function getDynamicDependencies() {
-    // Zbierz wszystkie dynamiczne zależności
-    const dynamicDependencyElements = document.querySelectorAll('.dynamic-dependency input:checked');
-    const dynamicDependencies = Array.from(dynamicDependencyElements)
-                                     .map(dep => window[dep.id.replace('check-', '')])
-                                     .filter(dep => typeof dep === 'function');
 
-    return dynamicDependencies;
-}
 
 
 
