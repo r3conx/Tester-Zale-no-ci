@@ -191,53 +191,65 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    let stringDependencies = strings.map(string => {
-        let deps = new Set();
+    let dynamicDepFunctions = {};
 
+    for (let numSums = 2; numSums <= 5; numSums++) {
         for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length; j++) {
-                if (i !== j) {
-                    let sum = 0;
-                    for (let k = 0; k < length; k++) {
-                        if (k !== i && k !== j) {
-                            sum += parseInt(string[k], 10);
+            for (let j = i + 1; j < length; j++) {
+                for (let k = j + 1; k < length; k++) {
+                    for (let l = k + 1; l < length; l++) {
+                        for (let m = l + 1; m < length; m++) {
+                            let sumIndices = [i, j, k, l, m];
+                            let depKey = `sumOf${sumIndices.join('')}equals`;
+
+                            let depValues = [];
+                            for (let n = 0; n < length; n++) {
+                                if (!sumIndices.includes(n)) {
+                                    depValues.push(n);
+                                }
+                            }
+
+                            let commonDeps = [];
+
+                            for (let x = 0; x < length; x++) {
+                                for (let y = 0; y < length; y++) {
+                                    if (x !== y) {
+                                        let sum = 0;
+                                        for (let z = 0; z < length; z++) {
+                                            if (z !== x && z !== y) {
+                                                sum += parseInt(strings[0][z], 10);
+                                            }
+                                        }
+                                        if (sum % 10 === parseInt(strings[0][y], 10)) {
+                                            commonDeps.push(`sumOf${x}${y}equals${y}`);
+                                        }
+                                    }
+                                }
+                            }
+
+                            commonDeps.forEach((dep, index) => {
+                                let depName = `${depKey}${dep}`;
+                                dynamicDepFunctions[`dynamicDep${numSums}_${depName}`] = createDynamicFunction(depName, depValues);
+                            });
                         }
-                    }
-                    if (sum % 10 === parseInt(string[j], 10)) {
-                        deps.add(`sumOf${i}${j}equals${j}`);
                     }
                 }
             }
         }
-
-        return Array.from(deps);
-    });
-
-    let commonDeps = stringDependencies[0].filter(dep => 
-        stringDependencies.every(deps => deps.includes(dep))
-    );
-
-    console.log("Wspólne zależności:", commonDeps);
-
-    let dynamicDepFunctions = {};
-
-    commonDeps.forEach((dep, index) => {
-        dynamicDepFunctions[`dynamicDep${index + 1}`] = createDynamicFunction(dep, length);
-    });
+    }
 
     return dynamicDepFunctions;
 };
 
-function createDynamicFunction(dep, length) {
-    let match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
+function createDynamicFunction(dep, values) {
+    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
     if (match) {
-        let firstIndex = parseInt(match[1], 10);
-        let secondIndex = parseInt(match[2], 10);
-        let targetIndex = parseInt(match[3], 10);
+        let sumIndices = match.slice(1, 6).map(index => parseInt(index, 10));
+        let targetIndex = parseInt(match[6], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
-                let sum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
+                let sum = sumIndices.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
                 return sum % 10 === parseInt(string[targetIndex], 10);
             });
         };
