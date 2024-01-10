@@ -72,7 +72,7 @@ function getDynamicDependencies() {
 function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
-    
+
     // Pobierz zaznaczone stałe zależności
     const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
                                              .map(dep => window[dep.id.replace('check-', '')])
