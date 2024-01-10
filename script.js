@@ -196,26 +196,13 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    // Tworzenie macierzy równań
-    const equations = [];
-    for (let i = 0; i < length; i++) {
-        const equation = [];
-        for (let j = 0; j < length + 1; j++) {
-            equation.push(j === length ? parseInt(strings[0][i], 10) : 0);
-        }
-        equations.push(equation);
-    }
+    let dynamicDepFunctions = {};
 
-    // Rozwiązywanie równań
-    const solutions = solveEquations(equations);
-
-    // Tworzenie dynamicznych funkcji
-    const dynamicDepFunctions = {};
-
+    // Przetwarzanie nowych dynamicznych zależności
     for (let i = 0; i < length; i++) {
         for (let j = 0; j < length; j++) {
             if (i !== j) {
-                const sum = solutions[i][0] + solutions[j][0];
+                const sum = parseInt(strings[0][i], 10) + parseInt(strings[0][j], 10);
                 const sumString = `${i}${j}equals${j}`;
                 dynamicDepFunctions[`dynamicDep${sumString}`] = createDynamicFunction(sumString, length, sum);
             }
@@ -224,6 +211,7 @@ window.findSumDependencies = function(strings) {
 
     return dynamicDepFunctions;
 };
+
 
 function solveEquations(equations) {
     const n = equations.length;
