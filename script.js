@@ -77,6 +77,7 @@ function generateString() {
     const allDependencies = selectedDependencies.concat(dynamicDependencies);
 
     if (allDependencies.length === 0) {
+        console.log(allDependencies)
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
