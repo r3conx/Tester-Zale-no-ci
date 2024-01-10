@@ -64,7 +64,11 @@ function generateString() {
                                       .map(dep => window[dep.id.replace('check-', '')])
                                       .filter(dep => typeof dep === 'function');
 
-    if (selectedDependencies.length === 0) {
+    // Dodaj logikę sprawdzającą dynamiczne zależności
+    const dynamicDependencies = getDynamicDependencies();
+    const allDependencies = selectedDependencies.concat(dynamicDependencies);
+
+    if (allDependencies.length === 0) {
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
