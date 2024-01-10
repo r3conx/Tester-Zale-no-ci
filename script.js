@@ -78,26 +78,32 @@ function generateString() {
     }
 
     let generatedString = '';
-    let isStringValid;
+    let maxSatisfiedDependencies = 0;
     let attempts = 0;
-    const limit = 100000000;
+    const limit = 10000000;
+    const length = inputStrings[0].length;
 
-    do {
-        generatedString = generateRandomString(inputStrings[0].length);
-        isStringValid = allSelectedDependencies.every(dependency => 
-            dependency([generatedString])[0]
-        );
-        attempts++;
-    } while (!isStringValid && attempts < limit);
+    for (let i = 0; i < limit; i++) {
+        let tempString = generateRandomString(length);
+        let satisfiedCount = allSelectedDependencies.filter(dep => dep([tempString])[0]).length;
 
-    if (attempts === limit) {
-        console.log("Nie udało się wygenerować ciągu po", limit, "próbach.");
+        if (satisfiedCount > maxSatisfiedDependencies) {
+            generatedString = tempString;
+            maxSatisfiedDependencies = satisfiedCount;
+        }
+
+        if (maxSatisfiedDependencies === allSelectedDependencies.length) {
+            break;
+        }
+    }
+
+    if (maxSatisfiedDependencies === 0) {
+        console.log("Nie udało się wygenerować ciągu spełniającego jakiekolwiek zależności.");
         return;
     }
 
     document.getElementById('outputStrings').value = generatedString;
-    console.log("Wygenerowany ciąg:", generatedString);
-    console.log("Wygenerowano ciąg po", attempts, "próbach.");
+    console.log("Wygenerowany ciąg:", generatedString, " po", attempts, "próbach.");
 }
 
 function generateRandomString(length) {
@@ -108,6 +114,7 @@ function generateRandomString(length) {
     }
     return result;
 }
+
 
 
 
