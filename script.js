@@ -25,8 +25,9 @@ function updateDynamicDependencies() {
     const newDynamicDependencies = window.findSumDependencies(currentStrings);
     newDynamicDependencies.forEach((func, index) => {
         const depName = `dynamicDep${index}`;
+        dynamicDependencies[depName] = func; // Dodawanie do obiektu dynamicDependencies
         addDependency(`Dynamiczna Zależność ${index + 1}`, depName);
-        window[depName] = func;
+        window[depName] = func; // Dodanie do globalnego obiektu window
     });
 }
 
@@ -66,7 +67,8 @@ function addDependency(name, funcName) {
 
 //GENERATOR
 function getDynamicDependencies() {
-    return Object.values(dynamicDependencies).filter(func => typeof func === 'function');
+    return Object.keys(dynamicDependencies).map(key => window[key]).filter(func => typeof func === 'function');
+
 }
 
 
