@@ -182,6 +182,9 @@ window.differenceBetweenFirstAndLastDigit = function(strings) {
 };
 
 
+// Dodaj bibliotekę math.js do swojego projektu, jeśli jej jeszcze nie masz:
+// 
+
 window.findSumDependencies = function(strings) {
     console.log("Analizowane stringi:", strings);
     const length = strings[0].length;
@@ -191,96 +194,48 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    let dynamicDepFunctions = {};
+    const math = require('mathjs');
+    
+    // Tworzenie macierzy równań
+    const equations = [];
+    for (let i = 0; i < length; i++) {
+        const equation = [];
+        for (let j = 0; j < length + 1; j++) {
+            equation.push(j === length ? parseInt(strings[0][i], 10) : 0);
+        }
+        equations.push(equation);
+    }
+
+    // Rozwiązanie równań
+    const solutions = math.lusolve(equations);
+
+    // Tworzenie dynamicznych funkcji
+    const dynamicDepFunctions = {};
 
     for (let i = 0; i < length; i++) {
-        for (let j = i + 1; j < length; j++) {
-            for (let k = j + 1; k < length; k++) {
-                for (let l = k + 1; l < length; l++) {
-                    for (let m = l + 1; m < length; m++) {
-                        let sumIndices = [i, j, k, l, m];
-                        let depKey = `sumOf${sumIndices.join('')}equals`;
-
-                        let depValues = [];
-                        for (let n = 0; n < length; n++) {
-                            if (!sumIndices.includes(n)) {
-                                depValues.push(n);
-                            }
-                        }
-
-                        for (let x = 0; x < length; x++) {
-                            for (let y = 0; y < length; y++) {
-                                if (x !== y) {
-                                    let sum = sumIndices.reduce((acc, index) => acc + parseInt(strings[0][index], 10), 0);
-                                    if (sum % 10 === parseInt(strings[0][y], 10)) {
-                                        let depName = `${depKey}${x}${y}equals${y}`;
-                                        dynamicDepFunctions[`dynamicDep${depName}`] = createDynamicFunction(depName, depValues);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+        for (let j = 0; j < length; j++) {
+            if (i !== j) {
+                const sum = solutions[i][0] + solutions[j][0];
+                const sumString = `${i}${j}equals${j}`;
+                dynamicDepFunctions[`dynamicDep${sumString}`] = createDynamicFunction(sumString, length, sum);
             }
         }
     }
-
-    let commonDeps = Object.keys(dynamicDepFunctions);
-
-    for (let stringIndex = 0; stringIndex < strings.length; stringIndex++) {
-        let stringDependencies = {};
-
-        for (let i = 0; i < length; i++) {
-            for (let j = i + 1; j < length; j++) {
-                for (let k = j + 1; k < length; k++) {
-                    for (let l = k + 1; l < length; l++) {
-                        for (let m = l + 1; m < length; m++) {
-                            let sumIndices = [i, j, k, l, m];
-                            let depKey = `sumOf${sumIndices.join('')}equals`;
-
-                            let depValues = [];
-                            for (let n = 0; n < length; n++) {
-                                if (!sumIndices.includes(n)) {
-                                    depValues.push(n);
-                                }
-                            }
-
-                            for (let x = 0; x < length; x++) {
-                                for (let y = 0; y < length; y++) {
-                                    if (x !== y) {
-                                        let sum = sumIndices.reduce((acc, index) => acc + parseInt(strings[stringIndex][index], 10), 0);
-                                        if (sum % 10 === parseInt(strings[stringIndex][y], 10)) {
-                                            let depName = `${depKey}${x}${y}equals${y}`;
-                                            stringDependencies[depName] = createDynamicFunction(depName, depValues);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        console.log(`Zależności dla stringu ${stringIndex + 1}:`, stringDependencies);
-    }
-
-    console.log("Wspólne zależności:", commonDeps);
 
     return dynamicDepFunctions;
 };
 
-function createDynamicFunction(dep, values) {
-    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
+function createDynamicFunction(dep, length, sum) {
+    let match = dep.match(/(\d+)(\d+)equals(\d+)/);
     if (match) {
-        let sumIndices = match.slice(1, 6).map(index => parseInt(index, 10));
-        let targetIndex = parseInt(match[7], 10);
-        let positionIndex = parseInt(match[8], 10);
+        let firstIndex = parseInt(match[1], 10);
+        let secondIndex = parseInt(match[2], 10);
+        let targetIndex = parseInt(match[3], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
-                let sum = sumIndices.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
-                return sum % 10 === parseInt(string[targetIndex], 10) && parseInt(string[positionIndex], 10) === sum;
+                let calculatedSum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
+                return calculatedSum % 10 === parseInt(string[targetIndex], 10) && calculatedSum === sum;
             });
         };
     }
