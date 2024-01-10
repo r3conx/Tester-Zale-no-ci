@@ -46,11 +46,7 @@ function addDependency(name, funcName) {
     list.appendChild(listItem);
 }
 
-function getDynamicDependencies() {
-    return Object.keys(dynamicDependencies)
-                 .filter(key => document.getElementById(`check-${key}`).checked)
-                 .map(key => dynamicDependencies[key]);
-}
+
 
 
 function generateString() {
@@ -96,6 +92,12 @@ function generateString() {
     }
 
     document.getElementById('outputStrings').value = generatedString;
+}
+
+function getDynamicDependencies() {
+    return Object.keys(dynamicDependencies)
+                 .filter(key => document.getElementById(`check-${key}`).checked)
+                 .map(key => dynamicDependencies[key]);
 }
 
 function generateRandomString(length) {
