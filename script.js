@@ -249,7 +249,21 @@ window.findSumDependencies = function(strings) {
 
 
 
+function createDynamicFunction(dep, length) {
+    let match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
+    if (match) {
+        let firstIndex = parseInt(match[1], 10);
+        let secondIndex = parseInt(match[2], 10);
+        let targetIndex = parseInt(match[3], 10);
 
+        return function(testStrings) {
+            return testStrings.map(string => {
+                let sum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
+                return sum % 10 === parseInt(string[targetIndex], 10);
+            });
+        };
+    }
+}
 
 function sumDigits(string, start, end) {
     let sum = 0;
