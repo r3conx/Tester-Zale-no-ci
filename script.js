@@ -225,6 +225,8 @@ window.findSumDependencies = function(strings) {
         }
     }
 
+    let commonDeps = Object.keys(dynamicDepFunctions);
+
     for (let stringIndex = 0; stringIndex < strings.length; stringIndex++) {
         let stringDependencies = {};
 
@@ -262,6 +264,8 @@ window.findSumDependencies = function(strings) {
 
         console.log(`Zależności dla stringu ${stringIndex + 1}:`, stringDependencies);
     }
+
+    console.log("Wspólne zależności:", commonDeps);
 
     return dynamicDepFunctions;
 };
