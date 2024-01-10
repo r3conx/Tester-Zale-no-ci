@@ -85,7 +85,7 @@ function generateString() {
     for (let i = 0; i < limit; i++) {
         let tempString = generateRandomString(length);
         let satisfiedCount = allSelectedDependencies.filter(dep => dep([tempString])[0]).length;
-
+        attempts++;
         if (satisfiedCount > maxSatisfiedDependencies) {
             generatedString = tempString;
             maxSatisfiedDependencies = satisfiedCount;
