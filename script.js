@@ -17,12 +17,14 @@ function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
     const newDynamicDependencies = window.findSumDependencies(currentStrings);
-    
+
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         dynamicDependencies[depName] = func;
+        window[depName] = func; // Dodajemy funkcje do globalnego zakresu nazw
         addDependency(`Dynamiczna Zależność ${depName}`, depName);
     });
 }
+
 
 
 
