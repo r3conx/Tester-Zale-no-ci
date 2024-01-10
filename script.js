@@ -225,15 +225,53 @@ window.findSumDependencies = function(strings) {
         }
     }
 
+    for (let stringIndex = 0; stringIndex < strings.length; stringIndex++) {
+        let stringDependencies = {};
+
+        for (let i = 0; i < length; i++) {
+            for (let j = i + 1; j < length; j++) {
+                for (let k = j + 1; k < length; k++) {
+                    for (let l = k + 1; l < length; l++) {
+                        for (let m = l + 1; m < length; m++) {
+                            let sumIndices = [i, j, k, l, m];
+                            let depKey = `sumOf${sumIndices.join('')}equals`;
+
+                            let depValues = [];
+                            for (let n = 0; n < length; n++) {
+                                if (!sumIndices.includes(n)) {
+                                    depValues.push(n);
+                                }
+                            }
+
+                            for (let x = 0; x < length; x++) {
+                                for (let y = 0; y < length; y++) {
+                                    if (x !== y) {
+                                        let sum = sumIndices.reduce((acc, index) => acc + parseInt(strings[stringIndex][index], 10), 0);
+                                        if (sum % 10 === parseInt(strings[stringIndex][y], 10)) {
+                                            let depName = `${depKey}${x}${y}equals${y}`;
+                                            stringDependencies[depName] = createDynamicFunction(depName, depValues);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log(`Zależności dla stringu ${stringIndex + 1}:`, stringDependencies);
+    }
+
     return dynamicDepFunctions;
 };
 
 function createDynamicFunction(dep, values) {
-    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)(\d+)/);
+    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
     if (match) {
         let sumIndices = match.slice(1, 6).map(index => parseInt(index, 10));
-        let targetIndex = parseInt(match[6], 10);
-        let positionIndex = parseInt(match[7], 10);
+        let targetIndex = parseInt(match[7], 10);
+        let positionIndex = parseInt(match[8], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
