@@ -174,7 +174,7 @@ window.findSumDependencies = function(strings) {
 
     if (!strings.every(string => string.length === length)) {
         console.error('Błąd: Stringi mają różne długości');
-        return ['Błąd: Stringi mają różne długości'];
+        return [];
     }
 
     let stringDependencies = strings.map(string => {
@@ -182,7 +182,7 @@ window.findSumDependencies = function(strings) {
         for (let startPos = 0; startPos < length - 1; startPos++) {
             for (let endPos = startPos + 1; endPos < length; endPos++) {
                 let sum = sumDigits(string, startPos, endPos) % 10;
-                deps.push(`${startPos}-${endPos}:${sum}`);
+                deps.push(`sum${startPos}${endPos}:${sum}`);
             }
         }
         console.log(`Zależności dla stringa ${string}:`, deps);
@@ -194,7 +194,11 @@ window.findSumDependencies = function(strings) {
     );
 
     console.log("Wspólne zależności:", commonDeps);
-    return commonDeps.length > 0 ? commonDeps : ['Brak wspólnych zależności sum'];
+
+    // Generuj unikatowe nazwy funkcji dla wspólnych zależności
+    let dynamicDepNames = commonDeps.map((dep, index) => `dynamicDep${index + 1}`);
+
+    return dynamicDepNames;
 };
 
 function sumDigits(string, start, end) {
@@ -204,3 +208,4 @@ function sumDigits(string, start, end) {
     }
     return sum;
 }
+
