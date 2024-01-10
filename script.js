@@ -209,28 +209,17 @@ window.findSumDependencies = function(strings) {
                                 }
                             }
 
-                            let commonDeps = [];
-
                             for (let x = 0; x < length; x++) {
                                 for (let y = 0; y < length; y++) {
                                     if (x !== y) {
-                                        let sum = 0;
-                                        for (let z = 0; z < length; z++) {
-                                            if (z !== x && z !== y) {
-                                                sum += parseInt(strings[0][z], 10);
-                                            }
-                                        }
+                                        let sum = sumIndices.reduce((acc, index) => acc + parseInt(strings[0][index], 10), 0);
                                         if (sum % 10 === parseInt(strings[0][y], 10)) {
-                                            commonDeps.push(`sumOf${x}${y}equals${y}`);
+                                            let depName = `${depKey}${x}${y}equals${y}`;
+                                            dynamicDepFunctions[`dynamicDep${numSums}_${depName}`] = createDynamicFunction(depName, depValues);
                                         }
                                     }
                                 }
                             }
-
-                            commonDeps.forEach((dep, index) => {
-                                let depName = `${depKey}${dep}`;
-                                dynamicDepFunctions[`dynamicDep${numSums}_${depName}`] = createDynamicFunction(depName, depValues);
-                            });
                         }
                     }
                 }
@@ -242,10 +231,10 @@ window.findSumDependencies = function(strings) {
 };
 
 function createDynamicFunction(dep, values) {
-    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
+    let match = dep.match(/sumOf(\d+)(\d+)(\d+)(\d+)(\d+)(\d+)equals(\d+)/);
     if (match) {
         let sumIndices = match.slice(1, 6).map(index => parseInt(index, 10));
-        let targetIndex = parseInt(match[6], 10);
+        let targetIndex = parseInt(match[7], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
