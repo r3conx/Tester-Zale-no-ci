@@ -212,14 +212,25 @@ window.findSumDependencies = function(strings) {
         }
 
         for (let i = 0; i < length; i++) {
+            let sum = 0;
             for (let j = 0; j < length; j++) {
                 if (i !== j) {
-                    for (let k = 0; k < length; k++) {
-                        if (k !== i && k !== j) {
-                            let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
-                            if (sum % 10 === parseInt(string[k], 10)) {
-                                deps.add(`sumOf${i}${j}equals${k}`);
-                            }
+                    sum += parseInt(string[j], 10);
+                }
+            }
+            if (sum % 10 === parseInt(string[i], 10)) {
+                deps.add(`sumAllExcept${i}equals${i}`);
+            }
+        }
+
+        // Dodanie obsługi sumy dwóch cyfr równa trzeciej cyfrze
+        for (let i = 0; i < length; i++) {
+            for (let j = 0; j < length; j++) {
+                for (let k = 0; k < length; k++) {
+                    if (i !== j && i !== k && j !== k) {
+                        let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
+                        if (sum % 10 === parseInt(string[k], 10)) {
+                            deps.add(`sumOf${i}${j}equals${k}`);
                         }
                     }
                 }
@@ -255,6 +266,24 @@ function createDynamicFunction(dep, length) {
                 let sum = 0;
                 for (let i = 0; i < length; i++) {
                     if (!excludeIndices.includes(i)) {
+                        sum += parseInt(string[i], 10);
+                    }
+                }
+                return sum % 10 === parseInt(string[targetIndex], 10);
+            });
+        };
+    }
+
+    match = dep.match(/sumAllExcept(\d+)equals(\d+)/);
+    if (match) {
+        let excludeIndex = parseInt(match[1], 10);
+        let targetIndex = parseInt(match[2], 10);
+
+        return function(testStrings) {
+            return testStrings.map(string => {
+                let sum = 0;
+                for (let i = 0; i < length; i++) {
+                    if (i !== excludeIndex) {
                         sum += parseInt(string[i], 10);
                     }
                 }
