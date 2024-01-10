@@ -174,7 +174,6 @@ window.differenceBetweenFirstAndLastDigit = function(strings) {
 
 window.findSumDependencies = function(strings) {
     console.log("Analizowane stringi:", strings);
-    let dependencies = [];
     const length = strings[0].length;
 
     if (!strings.every(string => string.length === length)) {
@@ -183,15 +182,14 @@ window.findSumDependencies = function(strings) {
     }
 
     let stringDependencies = strings.map(string => {
-        let deps = [];
-        for (let startPos = 0; startPos < length - 1; startPos++) {
-            for (let endPos = startPos + 1; endPos < length; endPos++) {
-                let sum = sumDigits(string, startPos, endPos) % 10;
-                deps.push(`sum${startPos}${endPos}:${sum}`);
+        let deps = new Set();
+        for (let i = 0; i < length - 1; i++) {
+            for (let j = i + 1; j < length; j++) {
+                let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
+                deps.add(`sum${i}${j}:${sum}`);
             }
         }
-        console.log(`Zależności dla stringa ${string}:`, deps);
-        return deps;
+        return Array.from(deps);
     });
 
     let commonDeps = stringDependencies[0].filter(dep => 
@@ -208,8 +206,8 @@ window.findSumDependencies = function(strings) {
 
         let dynamicFunc = function(testStrings) {
             return testStrings.map(string => {
-                let [startPos, endPos] = funcName.substring(3).split('').map(Number);
-                let sum = sumDigits(string, startPos, endPos) % 10;
+                let [i, j] = funcName.substring(3).split('').map(Number);
+                let sum = (parseInt(string[i], 10) + parseInt(string[j], 10)) % 10;
                 return sum === result;
             });
         };
@@ -219,6 +217,7 @@ window.findSumDependencies = function(strings) {
 
     return dynamicDepFunctions;
 };
+
 
 function sumDigits(string, start, end) {
     let sum = 0;
