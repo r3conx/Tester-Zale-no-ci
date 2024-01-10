@@ -96,6 +96,8 @@ function generateString() {
     }
 
     document.getElementById('outputStrings').value = generatedString;
+    console.log("Wygenerowany ciąg:", generatedString);
+    console.log("Wygenerowano ciąg po", attempts, "próbach.");
 }
 
 function generateRandomString(length) {
