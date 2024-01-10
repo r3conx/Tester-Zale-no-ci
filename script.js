@@ -18,11 +18,14 @@ function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
     const newDynamicDependencies = window.findSumDependencies(currentStrings);
-    newDynamicDependencies.forEach((depName, index) => {
-        dynamicDependencies[depName] = window[depName];
-        addDependency(`Dynamiczna Zależność ${index + 1}`, depName);
+    
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        dynamicDependencies[depName] = func;
+        addDependency(`Dynamiczna Zależność ${depName}`, depName);
     });
 }
+
+
 
 function removeDynamicDependencies() {
     const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
@@ -49,8 +52,12 @@ function addDependency(name, funcName) {
 function getDynamicDependencies() {
     return Object.keys(dynamicDependencies)
                  .filter(key => document.getElementById(`check-${key}`).checked)
-                 .map(key => dynamicDependencies[key]);
+                 .map(key => dynamicDependencies[key])
+                 .filter(func => typeof func === 'function');
 }
+
+
+
 
 
 function generateString() {
@@ -178,7 +185,7 @@ window.findSumDependencies = function(strings) {
 
     if (!strings.every(string => string.length === length)) {
         console.error('Błąd: Stringi mają różne długości');
-        return [];
+        return {};
     }
 
     let stringDependencies = strings.map(string => {
@@ -199,10 +206,24 @@ window.findSumDependencies = function(strings) {
 
     console.log("Wspólne zależności:", commonDeps);
 
-    // Generuj unikatowe nazwy funkcji dla wspólnych zależności
-    let dynamicDepNames = commonDeps.map((dep, index) => `dynamicDep${index + 1}`);
+    let dynamicDepFunctions = {};
 
-    return dynamicDepNames;
+    commonDeps.forEach((dep, index) => {
+        let [funcName, result] = dep.split(':');
+        result = parseInt(result, 10);
+
+        let dynamicFunc = function(testStrings) {
+            return testStrings.map(string => {
+                let [startPos, endPos] = funcName.substring(3).split('').map(Number);
+                let sum = sumDigits(string, startPos, endPos) % 10;
+                return sum === result;
+            });
+        };
+
+        dynamicDepFunctions[`dynamicDep${index + 1}`] = dynamicFunc;
+    });
+
+    return dynamicDepFunctions;
 };
 
 function sumDigits(string, start, end) {
@@ -212,4 +233,3 @@ function sumDigits(string, start, end) {
     }
     return sum;
 }
-
