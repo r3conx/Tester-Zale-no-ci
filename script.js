@@ -209,6 +209,8 @@ window.findSumDependencies = function(strings) {
             }
         }
 
+        console.log(`Zależności dla stringu ${string}:`, Array.from(deps));
+
         return Array.from(deps);
     });
 
