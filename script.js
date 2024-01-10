@@ -33,10 +33,14 @@ function updateDynamicDependencies() {
 
 
 function removeDynamicDependencies() {
-    // Usuń elementy związane z dynamicznymi zależnościami
     const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
-    dynamicDeps.forEach(dep => dep.remove());
+    dynamicDeps.forEach(dep => {
+        const depName = dep.id.replace('dep-', '');
+        delete window[depName];
+        dep.remove();
+    });
 }
+
 
 
 
@@ -74,7 +78,7 @@ function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => window[dep.id.replace('check-', '')])
+                                      .map(dep => window[dep.id.replace('check-', '')] || dynamicDependencies[dep.id.replace('check-', '')])
                                       .filter(dep => typeof dep === 'function');
 
     if (selectedDependencies.length === 0) {
