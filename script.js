@@ -48,9 +48,10 @@ function addDependency(name, funcName) {
 
 function getDynamicDependencies() {
     return Object.keys(dynamicDependencies)
-                 .map(key => dynamicDependencies[key])
-                 .filter(func => typeof func === 'function');
+                 .filter(key => document.getElementById(`check-${key}`).checked)
+                 .map(key => dynamicDependencies[key]);
 }
+
 
 function generateString() {
     updateDynamicDependencies();
