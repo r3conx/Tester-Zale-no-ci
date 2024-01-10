@@ -108,6 +108,7 @@ function generateRandomString(length) {
 }
 
 
+
 function runTest() {
     removeDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
