@@ -56,12 +56,15 @@ function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
 
+    // Pobierz zaznaczone stałe zależności
     const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency:not(.dynamic-dependency) input:checked'))
                                              .map(dep => window[dep.id.replace('check-', '')])
                                              .filter(dep => typeof dep === 'function');
 
+    // Pobierz zaznaczone dynamiczne zależności
     const selectedDynamicDependencies = getDynamicDependencies();
 
+    // Połącz stałe i dynamiczne zależności
     const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
 
     if (allSelectedDependencies.length === 0) {
