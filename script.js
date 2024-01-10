@@ -196,16 +196,30 @@ window.findSumDependencies = function(strings) {
 
         // Sprawdzanie kombinacji sumy dowolnych cyfr i porównywanie z innymi cyframi
         for (let i = 0; i < length; i++) {
-            for (let j = i + 1; j < length; j++) {
-                let sum = 0;
-                for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j) {
-                        sum += parseInt(string[k], 10);
+            for (let j = 0; j < length; j++) {
+                if (i !== j) {
+                    let sum = 0;
+                    for (let k = 0; k < length; k++) {
+                        if (k !== i && k !== j) {
+                            sum += parseInt(string[k], 10);
+                        }
+                    }
+                    if (sum % 10 === parseInt(string[j], 10)) {
+                        deps.add(`sumExcept${i}${j}equals${j}`);
                     }
                 }
-                if (sum % 10 === parseInt(string[j], 10)) {
-                    deps.add(`sumExcept${i}${j}equals${j}`);
+            }
+        }
+
+        for (let i = 0; i < length; i++) {
+            let sum = 0;
+            for (let j = 0; j < length; j++) {
+                if (i !== j) {
+                    sum += parseInt(string[j], 10);
                 }
+            }
+            if (sum % 10 === parseInt(string[i], 10)) {
+                deps.add(`sumAllExcept${i}equals${i}`);
             }
         }
 
@@ -229,21 +243,42 @@ window.findSumDependencies = function(strings) {
 
 function createDynamicFunction(dep, length) {
     let match = dep.match(/sumExcept(\d+)(\d+)equals(\d+)/);
-    let excludeIndices = [parseInt(match[1], 10), parseInt(match[2], 10)];
-    let targetIndex = parseInt(match[3], 10);
+    if (match) {
+        let excludeIndices = [parseInt(match[1], 10), parseInt(match[2], 10)];
+        let targetIndex = parseInt(match[3], 10);
 
-    return function(testStrings) {
-        return testStrings.map(string => {
-            let sum = 0;
-            for (let i = 0; i < length; i++) {
-                if (!excludeIndices.includes(i)) {
-                    sum += parseInt(string[i], 10);
+        return function(testStrings) {
+            return testStrings.map(string => {
+                let sum = 0;
+                for (let i = 0; i < length; i++) {
+                    if (!excludeIndices.includes(i)) {
+                        sum += parseInt(string[i], 10);
+                    }
                 }
-            }
-            return sum % 10 === parseInt(string[targetIndex], 10);
-        });
-    };
+                return sum % 10 === parseInt(string[targetIndex], 10);
+            });
+        };
+    }
+
+    match = dep.match(/sumAllExcept(\d+)equals(\d+)/);
+    if (match) {
+        let excludeIndex = parseInt(match[1], 10);
+        let targetIndex = parseInt(match[2], 10);
+
+        return function(testStrings) {
+            return testStrings.map(string => {
+                let sum = 0;
+                for (let i = 0; i < length; i++) {
+                    if (i !== excludeIndex) {
+                        sum += parseInt(string[i], 10);
+                    }
+                }
+                return sum % 10 === parseInt(string[targetIndex], 10);
+            });
+        };
+    }
 }
+
 
 
 
