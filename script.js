@@ -194,8 +194,9 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    const math = require('mathjs');
-    
+    // Utwórz referencję do math.js w obiekcie globalnym window
+    const math = window.math;
+
     // Tworzenie macierzy równań
     const equations = [];
     for (let i = 0; i < length; i++) {
@@ -240,10 +241,6 @@ function createDynamicFunction(dep, length, sum) {
         };
     }
 }
-
-
-
-
 
 
 
