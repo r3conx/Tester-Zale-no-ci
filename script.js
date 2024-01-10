@@ -212,14 +212,17 @@ window.findSumDependencies = function(strings) {
         }
 
         for (let i = 0; i < length; i++) {
-            let sum = 0;
             for (let j = 0; j < length; j++) {
                 if (i !== j) {
-                    sum += parseInt(string[j], 10);
+                    for (let k = 0; k < length; k++) {
+                        if (k !== i && k !== j) {
+                            let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
+                            if (sum % 10 === parseInt(string[k], 10)) {
+                                deps.add(`sumOf${i}${j}equals${k}`);
+                            }
+                        }
+                    }
                 }
-            }
-            if (sum % 10 === parseInt(string[i], 10)) {
-                deps.add(`sumAllExcept${i}equals${i}`);
             }
         }
 
@@ -260,19 +263,15 @@ function createDynamicFunction(dep, length) {
         };
     }
 
-    match = dep.match(/sumAllExcept(\d+)equals(\d+)/);
+    match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
     if (match) {
-        let excludeIndex = parseInt(match[1], 10);
-        let targetIndex = parseInt(match[2], 10);
+        let firstIndex = parseInt(match[1], 10);
+        let secondIndex = parseInt(match[2], 10);
+        let targetIndex = parseInt(match[3], 10);
 
         return function(testStrings) {
             return testStrings.map(string => {
-                let sum = 0;
-                for (let i = 0; i < length; i++) {
-                    if (i !== excludeIndex) {
-                        sum += parseInt(string[i], 10);
-                    }
-                }
+                let sum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
                 return sum % 10 === parseInt(string[targetIndex], 10);
             });
         };
