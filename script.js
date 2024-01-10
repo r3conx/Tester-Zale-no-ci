@@ -186,6 +186,7 @@ window.findSumDependencies = function(strings) {
 
     let stringDependencies = strings.map(string => {
         let deps = new Set();
+        
         // Sprawdzanie sumy cyfr na określonych pozycjach
         for (let i = 0; i < length; i++) {
             for (let j = i + 1; j < length; j++) {
@@ -193,11 +194,22 @@ window.findSumDependencies = function(strings) {
                 deps.add(`sum${i}${j}:${sum}`);
             }
         }
-        // Dodatkowa logika dla specyficznej zależności
-        let lastSum = (parseInt(string[length - 3], 10) + parseInt(string[length - 2], 10)) % 10;
-        if (lastSum === parseInt(string[length - 1], 10)) {
-            deps.add(`lastSumIsSumOfPreviousTwo`);
+
+        // Sprawdzanie sumy od dwóch do pięciu cyfr porównanej z inną cyfrą
+        for (let sumLength = 2; sumLength <= 5; sumLength++) {
+            for (let start = 0; start <= length - sumLength - 1; start++) {
+                for (let comparePos = start + sumLength; comparePos < length; comparePos++) {
+                    let sum = 0;
+                    for (let pos = start; pos < start + sumLength; pos++) {
+                        sum += parseInt(string[pos], 10);
+                    }
+                    if (sum % 10 === parseInt(string[comparePos], 10)) {
+                        deps.add(`multiSum${start}to${start + sumLength - 1}isUnit${comparePos}`);
+                    }
+                }
+            }
         }
+
         return Array.from(deps);
     });
 
@@ -210,13 +222,8 @@ window.findSumDependencies = function(strings) {
     let dynamicDepFunctions = {};
 
     commonDeps.forEach((dep, index) => {
-        if (dep === 'lastSumIsSumOfPreviousTwo') {
-            dynamicDepFunctions['dynamicDepLastSum'] = function(testStrings) {
-                return testStrings.map(string => {
-                    let lastSum = (parseInt(string[length - 3], 10) + parseInt(string[length - 2], 10)) % 10;
-                    return lastSum === parseInt(string[length - 1], 10);
-                });
-            };
+        if (dep.startsWith('multiSum')) {
+            dynamicDepFunctions[`dynamicDep${index + 1}`] = createMultiSumFunc(dep);
         } else {
             let [funcName, result] = dep.split(':');
             result = parseInt(result, 10);
@@ -235,6 +242,20 @@ window.findSumDependencies = function(strings) {
 
     return dynamicDepFunctions;
 };
+
+function createMultiSumFunc(dep) {
+    let parts = dep.match(/multiSum(\d+)to(\d+)isUnit(\d+)/).slice(1).map(Number);
+    return function(testStrings) {
+        return testStrings.map(string => {
+            let sum = 0;
+            for (let i = parts[0]; i <= parts[1]; i++) {
+                sum += parseInt(string[i], 10);
+            }
+            return sum % 10 === parseInt(string[parts[2]], 10);
+        });
+    };
+}
+
 
 
 
