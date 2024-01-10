@@ -90,6 +90,7 @@ function generateString() {
         if (satisfiedCount > maxSatisfiedDependencies) {
             generatedString = tempString;
             maxSatisfiedDependencies = satisfiedCount;
+            console.log("Nowy rekord:", generatedString, " -", maxSatisfiedDependencies, "zależności spełnionych.");
         }
 
         if (maxSatisfiedDependencies === allSelectedDependencies.length) {
