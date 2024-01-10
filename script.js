@@ -194,7 +194,7 @@ window.findSumDependencies = function(strings) {
     let stringDependencies = strings.map(string => {
         let deps = new Set();
 
-        // Sprawdzanie kombinacji sumy dowolnych cyfr i porównywanie z innymi cyframi
+        // Sprawdzanie, czy suma dowolnych cyfr jest równa innej cyfrze w stringu
         for (let i = 0; i < length; i++) {
             for (let j = 0; j < length; j++) {
                 if (i !== j) {
@@ -205,21 +205,7 @@ window.findSumDependencies = function(strings) {
                         }
                     }
                     if (sum % 10 === parseInt(string[j], 10)) {
-                        deps.add(`sumExcept${i}${j}equals${j}`);
-                    }
-                }
-            }
-        }
-
-        // Dodanie obsługi sumy dwóch cyfr równa trzeciej cyfrze
-        for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length; j++) {
-                for (let k = 0; k < length; k++) {
-                    if (i !== j && i !== k && j !== k) {
-                        let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
-                        if (sum % 10 === parseInt(string[k], 10)) {
-                            deps.add(`sumOf${i}${j}equals${k}`);
-                        }
+                        deps.add(`sumOf${i}${j}equals${j}`);
                     }
                 }
             }
@@ -244,25 +230,7 @@ window.findSumDependencies = function(strings) {
 };
 
 function createDynamicFunction(dep, length) {
-    let match = dep.match(/sumExcept(\d+)(\d+)equals(\d+)/);
-    if (match) {
-        let excludeIndices = [parseInt(match[1], 10), parseInt(match[2], 10)];
-        let targetIndex = parseInt(match[3], 10);
-
-        return function(testStrings) {
-            return testStrings.map(string => {
-                let sum = 0;
-                for (let i = 0; i < length; i++) {
-                    if (!excludeIndices.includes(i)) {
-                        sum += parseInt(string[i], 10);
-                    }
-                }
-                return sum % 10 === parseInt(string[targetIndex], 10);
-            });
-        };
-    }
-
-    match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
+    let match = dep.match(/sumOf(\d+)(\d+)equals(\d+)/);
     if (match) {
         let firstIndex = parseInt(match[1], 10);
         let secondIndex = parseInt(match[2], 10);
@@ -270,7 +238,12 @@ function createDynamicFunction(dep, length) {
 
         return function(testStrings) {
             return testStrings.map(string => {
-                let sum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
+                let sum = 0;
+                for (let i = 0; i < length; i++) {
+                    if (i !== firstIndex && i !== secondIndex) {
+                        sum += parseInt(string[i], 10);
+                    }
+                }
                 return sum % 10 === parseInt(string[targetIndex], 10);
             });
         };
