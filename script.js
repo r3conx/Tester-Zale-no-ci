@@ -64,7 +64,7 @@ function generateString() {
 
     // Pobierz zaznaczone dynamiczne zależności
     const selectedDynamicDependencies = getDynamicDependencies();
-
+    console.log("Wybrane dynamiczne zależności:", selectedDynamicDependencies);
     // Połącz stałe i dynamiczne zależności
     const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
 
