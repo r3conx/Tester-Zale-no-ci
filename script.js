@@ -195,11 +195,13 @@ window.findSumDependencies = function(strings) {
         let deps = new Set();
 
         for (let i = 0; i < length; i++) {
-            for (let j = i + 1; j < length; j++) {
-                let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
+            for (let j = 0; j < length; j++) {
                 for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j && sum % 10 === parseInt(string[k], 10)) {
-                        deps.add(`sumOf${i}${j}equals${k}`);
+                    if (i !== j && i !== k && j !== k) {
+                        let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
+                        if (sum % 10 === parseInt(string[k], 10)) {
+                            deps.add(`sumOf${i}${j}equals${k}`);
+                        }
                     }
                 }
             }
