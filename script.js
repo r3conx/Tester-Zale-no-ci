@@ -191,29 +191,6 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    let stringDependencies = strings.map(string => {
-        let deps = new Set();
-
-        for (let i = 0; i < length; i++) {
-            for (let j = i + 1; j < length; j++) {
-                let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
-                for (let k = 0; k < length; k++) {
-                    if (k !== i && k !== j && sum % 10 === parseInt(string[k], 10)) {
-                        deps.add(`sumOf${i}${j}equals${k}`);
-                    }
-                }
-            }
-        }
-
-        return Array.from(deps);
-    });
-
-    let commonDeps = stringDependencies[0].filter(dep => 
-        stringDependencies.every(deps => deps.includes(dep))
-    );
-
-    console.log("Wspólne zależności:", commonDeps);
-
     let dynamicDepFunctions = {};
 
     for (let numSums = 2; numSums <= 5; numSums++) {
@@ -232,9 +209,27 @@ window.findSumDependencies = function(strings) {
                                 }
                             }
 
+                            let commonDeps = [];
+
+                            for (let x = 0; x < length; x++) {
+                                for (let y = 0; y < length; y++) {
+                                    if (x !== y) {
+                                        let sum = 0;
+                                        for (let z = 0; z < length; z++) {
+                                            if (z !== x && z !== y) {
+                                                sum += parseInt(strings[0][z], 10);
+                                            }
+                                        }
+                                        if (sum % 10 === parseInt(strings[0][y], 10)) {
+                                            commonDeps.push(`sumOf${x}${y}equals${y}`);
+                                        }
+                                    }
+                                }
+                            }
+
                             commonDeps.forEach((dep, index) => {
                                 let depName = `${depKey}${dep}`;
-                                dynamicDepFunctions[`dynamicDep${index + 1}_${depName}`] = createDynamicFunction(depName, depValues);
+                                dynamicDepFunctions[`dynamicDep${numSums}_${depName}`] = createDynamicFunction(depName, depValues);
                             });
                         }
                     }
