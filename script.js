@@ -74,7 +74,7 @@ function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
     const selectedDependencies = Array.from(document.querySelectorAll('.dependency input:checked'))
-                                      .map(dep => window[dep.id.replace('check-', '')] || dynamicDependencies[dep.id.replace('check-', '')])
+                                      .map(dep => window[dep.id.replace('check-', '')])
                                       .filter(dep => typeof dep === 'function');
 
     if (selectedDependencies.length === 0) {
