@@ -45,6 +45,7 @@ function removeDynamicDependencies() {
 
 
 
+
 function addDependency(name, funcName) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
@@ -90,12 +91,12 @@ function generateString() {
     }
 
     // Analiza wyników zależności dla podanych stringów
-    const dependencyResults = selectedDependencies.map(dependency => 
+    const dependencyResults = allSelectedDependencies.map(dependency => 
         dependency(inputStrings)
     );
 
     // Filtracja zależności, które mają wspólne wyniki dla wszystkich stringów
-    const commonDependencies = selectedDependencies.filter((_, index) => 
+    const commonDependencies = AllselectedDependencies.filter((_, index) => 
         dependencyResults[index].every(result => result === dependencyResults[index][0])
     );
 
