@@ -75,9 +75,9 @@ function generateString() {
     // Dodaj logikę sprawdzającą dynamiczne zależności
     const dynamicDependencies = getDynamicDependencies();
     const allDependencies = selectedDependencies.concat(dynamicDependencies);
+    console.log(allDependencies)
 
     if (allDependencies.length === 0) {
-        console.log(allDependencies)
         alert('Wybierz przynajmniej jedną zależność.');
         return;
     }
