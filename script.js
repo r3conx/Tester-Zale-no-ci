@@ -191,38 +191,27 @@ window.findSumDependencies = function(strings) {
         return {};
     }
 
-    let stringDependencies = strings.map(string => {
-        let deps = new Set();
+    let allDependencies = new Set();
 
-        for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length; j++) {
-                if (i !== j) {
-                    for (let k = 0; k < length; k++) {
-                        if (k !== i && k !== j) {
-                            let sum = parseInt(string[i], 10) + parseInt(string[j], 10);
-                            if (sum % 10 === parseInt(string[k], 10)) {
-                                deps.add(`sumOf${i}${j}equals${k}`);
-                            }
-                        }
+    for (let i = 0; i < length; i++) {
+        for (let j = 0; j < length; j++) {
+            for (let k = 0; k < length; k++) {
+                if (i !== j && i !== k && j !== k) {
+                    let sum = parseInt(strings[0][i], 10) + parseInt(strings[0][j], 10);
+                    if (sum % 10 === parseInt(strings[0][k], 10)) {
+                        let dep = `sumOf${i}${j}equals${k}`;
+                        allDependencies.add(dep);
                     }
                 }
             }
         }
+    }
 
-        console.log(`Zależności dla stringu ${string}:`, Array.from(deps));
-
-        return Array.from(deps);
-    });
-
-    let commonDeps = stringDependencies[0].filter(dep => 
-        stringDependencies.every(deps => deps.includes(dep))
-    );
-
-    console.log("Wspólne zależności:", commonDeps);
+    console.log("Znalezione zależności:", Array.from(allDependencies));
 
     let dynamicDepFunctions = {};
 
-    commonDeps.forEach((dep, index) => {
+    Array.from(allDependencies).forEach((dep, index) => {
         dynamicDepFunctions[`dynamicDep${index + 1}`] = createDynamicFunction(dep, length);
     });
 
