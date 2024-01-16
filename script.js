@@ -57,49 +57,48 @@ function getDynamicDependencies() {
 function generateString() {
     updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
-
-    const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency:not(.dynamic-dependency) input:checked'))
-                                             .map(dep => window[dep.id.replace('check-', '')])
-                                             .filter(dep => typeof dep === 'function');
-
-    const selectedDynamicDependencies = getDynamicDependencies();
-
-    const allSelectedDependencies = selectedStaticDependencies.concat(selectedDynamicDependencies);
-
-    if (allSelectedDependencies.length === 0) {
-        alert('Wybierz przynajmniej jedną zależność.');
-        return;
-    }
-
+    const selectedDependencies = getSelectedDependencies();
+    const maxLength = Math.max(...inputStrings.map(s => s.length));
+    
     let generatedString = '';
-    let maxSatisfiedDependencies = 0;
     let attempts = 0;
-    const limit = 100000;
-    const length = inputStrings[0].length;
+    const maxAttempts = 10000;  // Możesz dostosować limit prób
 
-    for (let i = 0; i < limit; i++) {
-        let tempString = generateRandomString(length);
-        let satisfiedCount = allSelectedDependencies.filter(dep => dep([tempString])[0]).length;
-        attempts++;
-        if (satisfiedCount > maxSatisfiedDependencies) {
-            generatedString = tempString;
-            maxSatisfiedDependencies = satisfiedCount;
-            console.log("Nowy rekord:", generatedString, " -", maxSatisfiedDependencies, "zależności spełnionych.");
-        }
-
-        if (maxSatisfiedDependencies === allSelectedDependencies.length) {
+    while(attempts < maxAttempts) {
+        let candidate = generateRandomString(maxLength);
+        if (testStringWithDependencies(candidate, selectedDependencies)) {
+            generatedString = candidate;
             break;
         }
+        attempts++;
     }
 
-    if (maxSatisfiedDependencies === 0) {
-        console.log("Nie udało się wygenerować ciągu spełniającego jakiekolwiek zależności.");
-        return;
+    if (generatedString) {
+        document.getElementById('outputStrings').textContent = generatedString;
+    } else {
+        console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
     }
-
-    document.getElementById('outputStrings').value = generatedString;
-    console.log("Wygenerowany ciąg:", generatedString, " po", attempts, "próbach.");
 }
+
+function getSelectedDependencies() {
+    return Object.keys(dynamicDependencies)
+        .filter(key => document.getElementById(`check-${key}`).checked)
+        .map(key => dynamicDependencies[key]);
+}
+
+function generateRandomString(length) {
+    const characters = '0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+function testStringWithDependencies(string, dependencies) {
+    return dependencies.every(dep => dep([string])[0]);
+}
+
 
 function runTest() {
     removeDynamicDependencies();
@@ -164,108 +163,6 @@ function generateRandomString(length) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
-}
-
-
-
-// Przykładowa funkcja zależności
-window.thirdDigitIsSumOfFirstTwo = function(strings) {
-    return strings.map(string => {
-        if (string.length < 3) return false;
-        const sum = parseInt(string[0]) + parseInt(string[1]);
-        return parseInt(string[2]) === sum % 10;
-    });
-};
-
-
-window.sumOfAllDigits = function(strings) {
-    return strings.map(string => {
-        return string.split('').reduce((sum, digit) => sum + parseInt(digit, 10), 0);
-    });
-};
-
-
-window.unitDigitOfFirstTwoMultiplication = function(strings) {
-    return strings.map(string => {
-        if (string.length < 2) return false;
-        const product = parseInt(string[0], 10) * parseInt(string[1], 10);
-        return product % 10;
-    });
-};
-
-
-window.differenceBetweenFirstAndLastDigit = function(strings) {
-    return strings.map(string => {
-        if (string.length < 2) return false;
-        const firstDigit = parseInt(string[0], 10);
-        const lastDigit = parseInt(string[string.length - 1], 10);
-        return Math.abs(firstDigit - lastDigit);
-    });
-};
-
-
-// Dodaj bibliotekę math.js do swojego projektu, jeśli jej jeszcze nie masz:
-// 
-
-window.findSumDependencies = function(strings) {
-    console.log("Analizowane stringi:", strings);
-    const length = strings[0].length;
-
-    if (!strings.every(string => string.length === length)) {
-        console.error('Błąd: Stringi mają różne długości');
-        return {};
-    }
-
-    let dynamicDepFunctions = {};
-
-    // Przetwarzanie nowych dynamicznych zależności
-
-    // Logi z osobnymi zależnościami dla każdego stringu
-    for (let i = 0; i < strings.length; i++) {
-        const dependencies = Object.keys(dynamicDepFunctions).filter(dep => dep.includes(`dynamicDep${i}`));
-        console.log(`Zależności dla stringu ${i + 1}:`, dependencies);
-    }
-
-    // Logi z wspólnymi zależnościami
-    const commonDependencies = Object.keys(dynamicDepFunctions).filter(dep => {
-        return strings.every((string, index) => {
-            if (index === 0) return true; // Pomijamy pierwszy string
-            const dynamicFunctionName = `dynamicDep${index}`;
-            return dynamicDepFunctions[dep] === dynamicDepFunctions[dynamicFunctionName];
-        });
-    });
-    console.log("Wspólne zależności:", commonDependencies);
-
-    return dynamicDepFunctions;
-};
-
-
-
-
-
-function sumDigits(string, start, end) {
-    let sum = 0;
-    for (let i = start; i <= end; i++) {
-        sum += parseInt(string[i], 10);
-    }
-    return sum;
-}
-
-
-function wypiszZaleznosci(strings) {
-    const dependencies = window.findSumDependencies(strings);
-    let resultsHtml = '';
-
-    Object.entries(dependencies).forEach(([depName, depFunc]) => {
-        const result = depFunc(strings);
-        result.forEach((res, index) => {
-            if (res) {
-                resultsHtml += `<p>Zależność dla pozycji ${index + 1} (${strings[index]}): ${depName}</p>`;
-            }
-        });
-    });
-
-    document.getElementById('wyniki').innerHTML = resultsHtml;
 }
 
 
