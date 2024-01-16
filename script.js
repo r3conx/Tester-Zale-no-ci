@@ -132,7 +132,7 @@ function generateStringBasedOnSumDependencies() {
         }
     }
 
-    document.getElementById('outputStrings').textContent = generatedString.join('');
+    document.getElementById('outputStrings').textContent = generatedString.join('s');
     console.log(`Wygenerowany string: ${generatedString.join('')}`);
 }
 
