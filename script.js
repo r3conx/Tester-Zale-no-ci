@@ -35,14 +35,13 @@ let dynamicDependencies = {};
 
 function initializeDependencies() {
     updateDynamicDependencies();
-
     const selectedFunctions = getSelectedFunctions();
 
     selectedFunctions.forEach(funcName => {
-        if (window[funcName]) {
+        if (window[funcName]) { // Użyj window[funcName] zamiast dependencyManager[funcName]
             dynamicDependencies = {
                 ...dynamicDependencies,
-                ...window[funcName](strings),
+                ...window[funcName](strings), // Użyj window[funcName]
             };
         }
     });
