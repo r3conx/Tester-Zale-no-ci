@@ -32,15 +32,14 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
-    resultsDiv.innerHTML += ``;
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
     Testy:
     `;
     updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
 
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
