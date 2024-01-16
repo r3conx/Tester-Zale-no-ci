@@ -22,6 +22,7 @@ function updateDynamicDependencies() {
             if (result.every(res => res)) {
                 dynamicDependencies[depName] = func;
                 addDependency(`Dynamiczna: ${depName}`, depName);
+                console.log("added dependency: ",depName);
             }
         });
     }
@@ -101,6 +102,7 @@ function generateString() {
         console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
         console.log(`Wygenerowany string: ${generatedString}`);
         console.log(`Wybrane zależności: ${selectedDependencies.map(dep => dep.name).join(', ')}`);
+        console.log(`Wygenerowany string spełnia zależności: ${selectedDependencies.map(dep => dep.name).join(', ')}`);
     } else {
         console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
         console.log(`Próbowano ${attempts} razy.`);
