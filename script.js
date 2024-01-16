@@ -42,7 +42,8 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
         }
     });
-            }
+}
+
 
 
 
@@ -71,7 +72,7 @@ function addDependency(name, funcName) {
 }
 
 function generateString() {
-    //updateDynamicDependencies();
+    updateDynamicDependencies();
     const selectedDependencies = getSelectedDependencies();
     const maxLength = Math.max(...(document.getElementById('inputStrings').value.split(',').map(s => s.length)));
 
