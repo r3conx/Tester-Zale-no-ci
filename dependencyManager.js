@@ -63,7 +63,7 @@ registerDependencyFunction('sum', generateDynamicSumDependencies);
 registerDependencyFunction('difference', generateDynamicDifferenceDependencies);
 
 
-module.exports = {
+export default {
     generateDynamicSumDependencies,
     generateDynamicDifferenceDependencies,
 };

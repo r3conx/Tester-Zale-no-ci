@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputStrings = document.getElementById('inputStrings');
     const resultsDiv = document.getElementById('results');
     const outputStrings = document.getElementById('outputStrings');
-    const dependencyManager = require('./dependencyManager');
+    const dependencyManager = require('./dependencyManager').default;
     const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
     functionCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let dynamicDependencies = {};
 
-const dependencyManager = require('./dependencyManager');
+const dependencyManager = require('./dependencyManager').default;
 
 function initializeDependencies() {
     updateDynamicDependencies();
