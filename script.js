@@ -13,14 +13,15 @@ function initializeDependencies() {
     updateDynamicDependencies();
 }
 
+// Modyfikacja funkcji updateDynamicDependencies
 function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
-    const newDynamicDependencies = window.findSumDependencies(currentStrings);
+    const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
     
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         dynamicDependencies[depName] = func;
-        addDependency(`Dynamiczna Zależność ${depName}`, depName);
+        addDependency(`Dynamiczna: ${depName}`, depName);
     });
 
     // Dodaj nowe dynamiczne zależności do listy dynamicznych zależności
