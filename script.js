@@ -17,7 +17,7 @@ function updateDynamicDependencies() {
     const strings = input.split(',');
     const currentStrings = document.getElementById('inputStrings').value.split(',');
         const newDynamicDependencies = generateDynamicSumDependencies(strings);
-
+    console.log("aha");
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(strings);
             console.log(result);
