@@ -140,7 +140,7 @@ function runTest() {
         }
     });
 }
-wypiszZaleznosci(["123", "456", "789"]);
+
 
 
 function generateRandomString(length) {
