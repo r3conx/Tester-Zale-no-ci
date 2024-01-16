@@ -18,8 +18,8 @@ function updateDynamicDependencies() {
         const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            dynamicDependencies[depName] = func; // Dodaj funkcję bez sprawdzania, czy jest spełniona
-            addDependency(`Dynamiczna: ${depName}`, depName); // Dodaj wszystkie zależności do UI
+            dynamicDependencies[depName] = func; 
+            addDependency(`Dynamiczna: ${depName}`, depName); 
         });
     }
 }
