@@ -137,6 +137,18 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
     });
+
+    dependencies.forEach(dependency => {
+        if (typeof dependency === 'function') {
+            console.log(dependency, "1");
+            console.log("2",dependency(strings));
+            console.log(dependencies,"3");
+            console.log(selectedDynamicDependencies,"4");
+            const result = dependency(strings);
+            resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
+        }
+    });
+
 }
 
 
