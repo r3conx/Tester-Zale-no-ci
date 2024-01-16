@@ -164,13 +164,19 @@ function parseDependency(depName) {
 }
 
 function getSelectedDependenciesFromUI() {
-let dependencies = [];
-document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
-let depName = checkbox.id.replace('check-', '');
-dependencies.push(dynamicDependencies[depName]);
-});
-return dependencies;
+    let dependencies = [];
+    document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
+        const depString = checkbox.id.replace('check-', '');
+        const matches = depString.match(/\d+/g);
+        if (matches && matches.length >= 2) {
+            const targetIndex = parseInt(matches.pop(), 10);
+            const sumIndexes = matches.map(Number);
+            dependencies.push(createSumCheckFunction(targetIndex, sumIndexes));
+        }
+    });
+    return dependencies;
 }
+
 
 function getMaxStringLength() {
 // Zwraca maksymalną długość stringu na podstawie aktualnych danych
