@@ -30,22 +30,20 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
-    updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const selectedDependencies = getSelectedDependencies();
+    const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
-    selectedDependencies.forEach(dependency => {
-        if (typeof dependency === 'function') {
-            const result = dependency(strings);
-            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-            resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
-        }
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        const result = func(strings);
+        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+        resultsDiv.innerHTML += `<p>Zależność: ${depName} - ${resultText}</p>`;
     });
 }
+
 
 
 
