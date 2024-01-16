@@ -35,7 +35,6 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
-    removeDynamicDependencies();
     updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
@@ -58,7 +57,7 @@ function runTest() {
 
 
 function removeDynamicDependencies() {
-    const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
+    const dynamicDeps = document.querySelectorAll('.dependency');
     dynamicDeps.forEach(dep => {
         const depName = dep.id.replace('dep-', '');
         delete window[depName];
