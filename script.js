@@ -25,11 +25,7 @@ function runTest() {
         if (typeof dependency === 'function') {
             const result = dependency(strings);
             const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-
-            
-            
             resultsDiv.innerHTML += `<p>Zależność ${dependency}: ${resultText}</p>`;
-            console.log(`Zależność ${dependency}: ${resultText}`);
         }
     });
 }
