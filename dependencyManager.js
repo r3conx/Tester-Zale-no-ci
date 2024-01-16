@@ -1,4 +1,3 @@
-import { generateDynamicSumDependencies, generateDynamicDifferenceDependencies } from './dependencyManager';
 // dependencyManager.js
 const dependencyFunctions = {};
 
