@@ -1,3 +1,4 @@
+const { removeDynamicDependencies, addDependency, generateDynamicSumDependencies } = require('./dependencies');
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
