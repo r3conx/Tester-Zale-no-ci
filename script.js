@@ -161,10 +161,16 @@ function testStringWithSumDependencies(string, dependencies) {
 }
 
 function parseDependency(depName) {
-    // Parsowanie nazwy zależności, aby uzyskać indeksy docelowe i sumowania
-    const [targetIndex, ...sumIndexes] = depName.match(/\d+/g).map(Number);
+    const matches = depName.match(/\d+/g);
+    if (!matches) {
+        console.error('Nieprawidłowy format nazwy zależności:', depName);
+        return [null, []];
+    }
+    const targetIndex = Number(matches[0]);
+    const sumIndexes = matches.slice(1).map(Number);
     return [targetIndex, sumIndexes];
 }
+
 
 function getMaxStringLength() {
     // Zwraca maksymalną długość stringu na podstawie aktualnych danych
