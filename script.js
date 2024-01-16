@@ -37,7 +37,10 @@ function addDependency(name, funcName) {
     
     function getDynamicDependencies() {
         return Object.keys(dynamicDependencies)
-            .filter(key => document.getElementById(`check-${key}`).checked)
+            .filter(key => {
+                const element = document.getElementById(`check-${key}`);
+                return element && element.checked;
+            })
             .map(key => dynamicDependencies[key])
             .filter(func => typeof func === 'function');
     }
