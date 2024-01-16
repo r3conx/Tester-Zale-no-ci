@@ -133,6 +133,12 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
     });
+    dependencies.forEach(dynamicDepFunctions => {
+        if (typeof dynamicDepFunctions === 'function') {
+            const result = dynamicDepFunctions(strings);
+            resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
+        }
+    });
 }
 
 
