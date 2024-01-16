@@ -51,27 +51,7 @@ function initializeDependencies() {
 }
 
 // Funkcja do generowania listy checkboxów
-function generateFunctionCheckboxes() {
-    const functionSelectionDiv = document.getElementById('functionSelection');
-    const functions = Object.keys(window); // Użyj window, aby uzyskać dostęp do funkcji zależności
 
-    functions.forEach(funcName => {
-        if (typeof window[funcName] === 'function') {
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `functionCheckbox-${funcName}`;
-            checkbox.value = funcName;
-            checkbox.checked = true; // Możesz ustawić początkową wartość
-
-            const label = document.createElement('label');
-            label.htmlFor = `functionCheckbox-${funcName}`;
-            label.textContent = funcName;
-
-            functionSelectionDiv.appendChild(checkbox);
-            functionSelectionDiv.appendChild(label);
-        }
-    });
-}
 
 // Wywołaj funkcję do generowania checkboxów
 generateFunctionCheckboxes();
