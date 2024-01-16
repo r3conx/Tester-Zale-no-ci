@@ -172,4 +172,4 @@ function generateRandomString(length) {
     
 
 
-// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne bera
+// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beraas
