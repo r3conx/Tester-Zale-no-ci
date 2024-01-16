@@ -125,8 +125,7 @@ function generateStringBasedOnSumDependencies() {
     let generatedString = Array(maxLength).fill('0');
 
     for (let dependency of selectedDependencies) {
-        const [targetIndex, sumIndexes] = getSelectedDependenciesFromUI(dependency.name);
-        if (!applyDependencyToGeneratedString(generatedString, targetIndex, sumIndexes)) {
+        if (!applyDependencyToGeneratedString(generatedString, dependency)) {
             console.log("Nie udało się wygenerować stringu spełniającego zależności.");
             return;
         }
