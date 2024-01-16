@@ -141,7 +141,7 @@ return function(strings) {
 return strings.map(string => {
 if (string.length <= targetIndex || string.length <= sumStartIndex) return false;
 let sum = 0;
-for (let k = sumStartIndex; k < string.length; k++) {
+for (let k = sumStartIndex; k < string.length; k++) { console.log(k);
 if (k !== targetIndex) {
 sum += parseInt(string[k], 10);
 }
