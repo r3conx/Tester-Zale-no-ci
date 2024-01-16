@@ -1,6 +1,4 @@
 // dependencyManager.js
-const dependencyFunctions = {};
-
 function registerDependencyFunction(name, func) {
     dependencyFunctions[name] = func;
 }
