@@ -165,18 +165,16 @@ function generateRandomString(length) {
 
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
+    function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex) return false;
-                let sum = 0;
-                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                    sum += parseInt(string[i], 10);
-                }
-                return parseInt(string[targetIndex], 10) === (sum % 10); // Uwzględnienie tylko cyfry jedności sumy
+                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
+                let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+                return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
+    
     
     
     
