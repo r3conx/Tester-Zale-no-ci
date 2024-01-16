@@ -47,6 +47,7 @@ function runTest() {
                 
                 resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
             } else {
+                console.log(result);
                 const resultText = 'Nie spełnia zależności';
                 resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
             }
