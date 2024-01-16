@@ -1,4 +1,6 @@
 // script.js
+const input = document.getElementById('inputStrings').value;
+const strings = input.split(',');
 document.addEventListener('DOMContentLoaded', () => {
     // Import modułu dependencyManager.js jako skrypt
     const script = document.createElement('script');
@@ -13,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('inputStrings').value;
-    const strings = input.split(',');
+    
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
     const inputStrings = document.getElementById('inputStrings');
