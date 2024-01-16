@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let dynamicDependencies = {};
 
 function initializeDependencies() {
-    addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'generateDynamicSumDependencies');
+    addDependency('Dynamiczna', 'generateDynamicSumDependencies');
     addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
     addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
