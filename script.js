@@ -19,7 +19,8 @@ function updateDynamicDependencies() {
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(currentStrings);
-            if (result.every(res => res)) { // Dodaj tylko spełnione zależności
+            if (result.every(res => res)) { // Dodaj do listy tylko te zależności, które są spełnione
+                dynamicDependencies[depName] = func;
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
         });
@@ -29,23 +30,22 @@ function updateDynamicDependencies() {
 
 
 
+
 function runTest() {
-    updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const selectedDependencies = getSelectedDependencies();
+    const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
-    selectedDependencies.forEach(dependency => {
-        if (typeof dependency === 'function') {
-            const result = dependency(strings);
-            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-            resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
-        }
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        const result = func(strings);
+        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+        resultsDiv.innerHTML += `<p>Zależność: ${depName} - ${resultText}</p>`;
     });
 }
+
 
 
 
@@ -62,17 +62,15 @@ function removeDynamicDependencies() {
     });
 }
 
-function addDependency(name, funcName) {
+function addDependency(name, funcName, isFulfilled) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
-    listItem.classList.add('dependency');
-    if (funcName.startsWith('dynamicDep')) {
-        listItem.classList.add('dynamic-dependency');
-    }
+    listItem.classList.add('dependency', 'dynamic-dependency');
     listItem.id = 'dep-' + funcName;
-    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" checked><label for="check-${funcName}">${name}</label>`;
+    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" ${isFulfilled ? 'checked' : ''}><label for="check-${funcName}">${name}</label>`;
     list.appendChild(listItem);
 }
+
 
 function generateString() {
     //updateDynamicDependencies();
