@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <style>
+        /* Additional styles to ensure the scrollbar is always shown */
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Container -->
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <header class="flex items-center justify-between py-4">
+            <h1 class="text-xl font-bold">Xayoo Industries</h1>
+            <div class="space-x-4">
+                <a href="#" class="text-gray-400">Home</a>
+                <a href="#" class="text-gray-400">Browse</a>
+                <a href="#" class="text-gray-400">Notifications</a>
+                <a href="#" class="text-gray-400">Messages</a>
+                <a href="#" class="text-gray-400">Lists</a>
+                <a href="#" class="text-gray-400">Profile</a>
+                <a href="#" class="text-gray-400">More</a>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tweet</button>
+        </header>
+        <!-- Main content -->
+        <main class="flex mt-4">
+            <!-- Left sidebar -->
+            <aside class="w-1/5 pr-4">
+                <!-- Placeholder for profile picture -->
+                <img class="rounded-full h-16 w-16 mb-4" src="https://placehold.co/64x64" alt="Profile picture placeholder">
+                <!-- Navigation -->
+                <nav class="mb-4">
+                    <a href="#" class="flex items-center mb-2">
+                        <i class="fas fa-home mr-2"></i>
+                        <span>Main</span>
+                    </a>
+                    <!-- Repeat for each navigation item -->
+                </nav>
+                <!-- Trends -->
+                <div>
+                    <h3 class="text-lg mb-2">Most popular in Poland</h3>
+                    <!-- Trend item -->
+                    <div class="mb-2">
+                        <span>#ProtestWolnychPolakow</span>
+                        <span class="text-gray-600">95.4k posts</span>
+                    </div>
+                    <!-- Repeat for each trend item -->
+                </div>
+            </aside>
+            <!-- Feed -->
+            <section class="w-3/5">
+                <!-- Post -->
+                <div class="mb-4">
+                    <div class="flex items-center mb-2">
+                        <img class="rounded-full h-10 w-10 mr-2" src="https://placehold.co/40x40" alt="User avatar placeholder">
+                        <div>
+                            <span class="font-bold">Xayoo Industries</span>
+                            <span>@IndustriesXayoo</span>
+                        </div>
+                    </div>
+                    <p>Unfortunately the main event #fame has been cancelled.</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-gray-600">1:12 AM - 10 Jul 2023</span>
+                        <div>
+                            <span class="text-gray-600">10</span>
+                            <span class="text-gray-600">4</span>
+                            <span class="text-gray-600">729</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat for each post -->
+            </section>
+            <!-- Right sidebar -->
+            <aside class="w-1/5 pl-4">
+                <!-- Search -->
+                <div class="mb-4">
+                    <input type="text" placeholder="Search" class="p-2 bg-gray-800 text-white w-full rounded">
+                </div>
+                <!-- Related people -->
+                <div>
+                    <h3 class="text-lg mb-2">Related people</h3>
+                    <!-- Related person -->
+                    <div class="flex items-center mb-2">
+                        <img class="rounded-full h-8 w-8 mr-2" src="https://placehold.co/32x32" alt="Related person avatar placeholder">
+                        <span>Xayoo Industries</span>
+                    </div>
+                    <!-- Repeat for each related person -->
+                </div>
+            </aside>
+        </main>
+    </div>
+    <!-- Footer -->
+    <footer class="text-center p-4 text-gray-600">
+        © 2023 Xayoo Industries
+    </footer>
+</body>
+
+</html>
