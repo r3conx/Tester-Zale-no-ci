@@ -134,7 +134,7 @@ function runTest() {
 
             console.log(dependency(strings));
             console.log(dependencies);
-            console.log(dynamicDependencies);
+            console.log(selectedDynamicDependencies);
             const result = dependency(strings);
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
