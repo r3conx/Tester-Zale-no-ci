@@ -1,3 +1,6 @@
+import * as dependencyManager from './dependencyManager.js';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
