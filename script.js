@@ -75,8 +75,11 @@ function generateString() {
 
     if (generatedString) {
         document.getElementById('outputStrings').textContent = generatedString;
+        console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
+        console.log(`Wygenerowany string: ${generatedString}`);
     } else {
         console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
+        console.log(`Próbowano ${attempts} razy.`);
     }
 }
 
