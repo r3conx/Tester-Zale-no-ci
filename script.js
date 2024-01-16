@@ -13,6 +13,7 @@ function initializeDependencies() {
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
+    const input = document.getElementById('inputStrings').value
     const strings = input.split(',');
     const currentStrings = document.getElementById('inputStrings').value.split(',');
     if (currentStrings.length > 0 && currentStrings[0] !== "") {
