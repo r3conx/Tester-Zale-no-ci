@@ -287,5 +287,23 @@ function sumDigits(string, start, end) {
     return sum;
 }
 
+
+function wypiszZaleznosci(strings) {
+    const dependencies = window.findSumDependencies(strings);
+    let resultsHtml = '';
+
+    Object.entries(dependencies).forEach(([depName, depFunc]) => {
+        const result = depFunc(strings);
+        result.forEach((res, index) => {
+            if (res) {
+                resultsHtml += `<p>Zależność dla pozycji ${index + 1} (${strings[index]}): ${depName}</p>`;
+            }
+        });
+    });
+
+    document.getElementById('wyniki').innerHTML = resultsHtml;
+}
+
+
 //elassssssssss
 console.log("elo"); //ahaaaasdasdefg
