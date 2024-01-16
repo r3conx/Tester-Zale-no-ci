@@ -129,37 +129,37 @@ function generateRandomString(length) {
     function generateDynamicSumDependencies(strings) {
         let dynamicDependencies = {};
     
-        strings.forEach(string => {
-            for (let i = 0; i < string.length; i++) {
-                for (let j = 0; j < string.length; j++) {
-                    for (let k = j; k < string.length; k++) {
-                        if (i !== j) {
-                            let dependencyName = `${j+1}+${k+1}=${i+1}`;
-                            dynamicDependencies[dependencyName] = createSumCheckFunction(i, j, k);
-                        }
+        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+            for (let sumStartIndex = 0; sumStartIndex < strings[0].length; sumStartIndex++) {
+                for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
+                    if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
+                        let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
                     }
                 }
             }
-        });
+        }
     
         return dynamicDependencies;
     }
     
-
-function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
-    return function(strings) {
-        return strings.map(string => {
-            if (string.length <= targetIndex || string.length <= sumStartIndex) return false;
-            let sum = 0;
-            for (let k = sumStartIndex; k <= sumEndIndex && k < string.length; k++) {
-                if (k !== targetIndex) {
-                    sum += parseInt(string[k], 10);
+    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || string.length <= sumStartIndex || string.length <= sumEndIndex) {
+                    return false;
                 }
-            }
-            return parseInt(string[targetIndex], 10) === sum % 10;
-        });
-    };
-}
+                let sum = 0;
+                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                    if (i !== targetIndex) {
+                        sum += parseInt(string[i], 10);
+                    }
+                }
+                return parseInt(string[targetIndex], 10) === sum % 10;
+            });
+        };
+    }
+    
 
 
 // Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne ber
