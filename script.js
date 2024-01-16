@@ -94,7 +94,7 @@ function generateString() {
 
     let generatedString = '';
     let attempts = 0;
-    const maxAttempts = 1000000;
+    const maxAttempts = 10000000;
 
     while(attempts < maxAttempts) {
         let candidate = generateRandomString(maxLength);
@@ -109,8 +109,7 @@ function generateString() {
         document.getElementById('outputStrings').textContent = generatedString;
         console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
         console.log(`Wygenerowany string: ${generatedString}`);
-        console.log(`Wybrane zależności: ${selectedDependencies.map(dep => dep.name).join(', ')}`);
-        console.log(`Wygenerowany string spełnia zależności: ${selectedDependencies.map(dep => dep.name).join(', ')}`);
+        console.log('Czas generowania: ' + (performance.now() - startTime) + 'ms');
     } else {
         console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
         console.log(`Próbowano ${attempts} razy.`);
