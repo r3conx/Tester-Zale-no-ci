@@ -88,6 +88,7 @@ function addDependency(name, funcName, isFulfilled) {
 
 
 function generateString() {
+    const startTime = performance.now();
     //updateDynamicDependencies();
     const selectedDependencies = getSelectedDependencies();
     const maxLength = Math.max(...(document.getElementById('inputStrings').value.split(',').map(s => s.length)));
