@@ -138,7 +138,7 @@ function runTest() {
         }
     });
 
-    dependencies.forEach(dependency => {
+    selectedDynamicDependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
             console.log(dependency, "1");
             console.log("2",dependency(strings));
