@@ -133,18 +133,17 @@ function generateRandomString(length) {
             for (let sumStartIndex = 0; sumStartIndex < strings[0].length; sumStartIndex++) {
                 for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
                     if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
-                        let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
-                        console.log("Dodano zależność: ",dependencyName);
-                        }
-                        }
-                        }
-                        }
-                        Object.entries(dynamicDependencies).forEach(([depName, func]) => {
-                            func.name = depName; // Dodaj nazwę zależności jako właściwość funkcji
-                        });
-                        return dynamicDependencies;
+                        let depName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[depName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
+                        dynamicDependencies[depName].name = depName; // Przypisanie nazwy
                     }
+                }
+            }
+        }
+    
+        return dynamicDependencies;
+    }
+    
 
 
     
