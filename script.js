@@ -19,12 +19,14 @@ function updateDynamicDependencies() {
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(currentStrings);
-            if (result.every(res => res)) { // Dodaj tylko spełnione zależności
+            if (result.every(res => res)) { // Dodaj do listy tylko te zależności, które są spełnione
+                dynamicDependencies[depName] = func;
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
         });
     }
 }
+
 
 
 
