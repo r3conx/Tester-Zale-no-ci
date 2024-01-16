@@ -18,15 +18,12 @@ function updateDynamicDependencies() {
         const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            const result = func(currentStrings);
-            if (result.every(res => res)) {
-                dynamicDependencies[depName] = func;
-                addDependency(`Dynamiczna: ${depName}`, depName);
-                console.log("Spełnione zależności: ",depName);
-            }
+            dynamicDependencies[depName] = func; // Dodaj funkcję bez sprawdzania, czy jest spełniona
+            addDependency(`Dynamiczna: ${depName}`, depName); // Dodaj wszystkie zależności do UI
         });
     }
 }
+
 
 
 function runTest() {
@@ -43,9 +40,10 @@ function runTest() {
             const result = dependency(strings);
             const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
             resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
-        }
-    });
-}
+            }
+            });
+            }
+
 
 
 
