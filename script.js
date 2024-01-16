@@ -51,10 +51,10 @@ function initializeDependencies() {
 // Funkcja do generowania listy checkboxów
 function generateFunctionCheckboxes() {
     const functionSelectionDiv = document.getElementById('functionSelection');
-    const functions = Object.keys(dependencyManager);
+    const functions = Object.keys(window); // Użyj window, aby uzyskać dostęp do funkcji zależności
 
     functions.forEach(funcName => {
-        if (typeof dependencyManager[funcName] === 'function') {
+        if (typeof window[funcName] === 'function') {
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = `functionCheckbox-${funcName}`;
