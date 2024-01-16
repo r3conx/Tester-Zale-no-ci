@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
+    document.getElementById('generateStringButton').addEventListener('click', generateString);
 });
 
 let dynamicDependencies = {};
 
 function initializeDependencies() {
-    addDependency('Dynamiczna', 'generateDynamicSumDependencies');
-    addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
-    addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
-    addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
     updateDynamicDependencies();
 }
 
@@ -23,9 +20,6 @@ function updateDynamicDependencies() {
         dynamicDependencies[depName] = func;
         addDependency(`Dynamiczna: ${depName}`, depName);
     });
-
-    // Dodaj nowe dynamiczne zależności do listy dynamicznych zależności
-    selectedDynamicDependencies = getDynamicDependencies();
 }
 
 
