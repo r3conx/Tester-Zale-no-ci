@@ -125,13 +125,7 @@ function getSelectedDependencies() {
 
 function generateRandomString(length) {
     const characters = '0123456789';
-    let result = '';
-
-    Array.from({ length: length }).forEach(() => {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    });
-
-    return result;
+    return Array.from({ length: length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
 }
 
     
