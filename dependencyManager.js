@@ -1,5 +1,9 @@
 // dependencyManager.js
+const dependencyFunctions = {};
 
+function registerDependencyFunction(name, func) {
+    dependencyFunctions[name] = func;
+}
 function generateDynamicSumDependencies(strings) {
     let dynamicDependencies = {};
 
@@ -53,6 +57,11 @@ function createDifferenceCheckFunction(targetIndex, diffIndexes) {
         });
     };
 }
+
+// Rejestracja funkcji generujących zależności
+registerDependencyFunction('sum', generateDynamicSumDependencies);
+registerDependencyFunction('difference', generateDynamicDifferenceDependencies);
+
 
 module.exports = {
     generateDynamicSumDependencies,
