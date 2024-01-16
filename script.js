@@ -121,45 +121,36 @@ function generateString() {
 
 function generateStringBasedOnSumDependencies() {
     const selectedDependencies = getSelectedDependenciesFromUI();
-    console.log(selectedDependencies);
     const maxLength = getMaxStringLength();
     let generatedString = Array(maxLength).fill('0');
 
-    for (let dependency of selectedDependencies) {
-        if (!applyDependencyToGeneratedString(generatedString, dependency)) {
-            console.log("Nie udało się wygenerować stringu spełniającego zależności.");
-            return;
-        }
+    if (generateStringRecursive(generatedString, selectedDependencies, 0)) {
+        document.getElementById('outputStrings').textContent = generatedString.join('');
+    } else {
+        console.log("Nie udało się wygenerować stringu spełniającego zależności.");
     }
-
-    document.getElementById('outputStrings').textContent = generatedString.join('');
-    console.log(`Wygenerowany string: ${generatedString.join('')}`);
 }
 
-function applyDependencyToGeneratedString(generatedString, dependency) {
-    const targetIndex = dependency.targetIndex;
-    const sumIndexes = dependency.sumIndexes;
+function generateStringRecursive(generatedString, dependencies, currentIndex) {
+    if (currentIndex === generatedString.length) {
+        return testStringWithDependencies(generatedString, dependencies);
+    }
 
     for (let i = 0; i <= 9; i++) {
-        for (let j = 0; j <= 9; j++) {
-            let sum = (i + j) % 10;
-            if (canApplyCombination(generatedString, sumIndexes, i, j, targetIndex, sum)) {
-                generatedString[sumIndexes[0]] = i.toString();
-                generatedString[sumIndexes[1]] = j.toString();
-                generatedString[targetIndex] = sum.toString();
-                return true;
-            }
+        generatedString[currentIndex] = i.toString();
+        if (generateStringRecursive(generatedString, dependencies, currentIndex + 1)) {
+            return true;
         }
     }
+
+    generatedString[currentIndex] = '0'; // Resetowanie pozycji w przypadku niepowodzenia
     return false;
 }
 
-function canApplyCombination(generatedString, sumIndexes, i, j, targetIndex, sum) {
-    return sumIndexes.every((index, idx) => {
-        const expectedDigit = idx === 0 ? i : j;
-        return generatedString[index] === '0' || parseInt(generatedString[index], 10) === expectedDigit;
-    }) && (generatedString[targetIndex] === '0' || parseInt(generatedString[targetIndex], 10) === sum);
+function testStringWithDependencies(string, dependencies) {
+    return dependencies.every(dependency => dependency(string));
 }
+
 
 function getSelectedDependenciesFromUI() {
     let dependencies = [];
