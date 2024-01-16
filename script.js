@@ -10,6 +10,31 @@ function initializeDependencies() {
     updateDynamicDependencies();
 }
 
+
+
+function runTest() {
+    updateDynamicDependencies();
+    const input = document.getElementById('inputStrings').value;
+    const strings = input.split(',');
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    const selectedDependencies = getSelectedDependencies();
+
+    selectedDependencies.forEach(dependency => {
+        if (typeof dependency === 'function') {
+            const result = dependency(strings);
+            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+            resultsDiv.innerHTML += `<p>Zależność: ${resultText}</p>`;
+        }
+    });
+}
+
+
+
+
+
+
 function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
