@@ -40,20 +40,13 @@ function runTest() {
 
     selectedDependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
-            var a = dependency(strings);
-            console.log(a);
             const result = dependency(strings);
-            if (result.every(res => res)) {
-                const resultText = 'Spełnia zależność';
-                
-                resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
-            } else {
-                const resultText = 'Nie spełnia zależności';
-                resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
-            }
+            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+            resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
         }
     });
 }
+
 
 
 
@@ -142,7 +135,7 @@ function generateRandomString(length) {
             for (let sumStartIndex = 0; sumStartIndex < strings[0].length; sumStartIndex++) {
                 for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
                     if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
-                        let dependencyName = `sumOfDigitsAt${sumStartIndex+1}to${sumEndIndex+1}EqualsDigitAt${targetIndex+1}`;
+                        let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
                         console.log("Dodano zależność: ",dependencyName);
                         }
