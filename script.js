@@ -62,17 +62,15 @@ function removeDynamicDependencies() {
     });
 }
 
-function addDependency(name, funcName) {
+function addDependency(name, funcName, isFulfilled) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
-    listItem.classList.add('dependency');
-    if (funcName.startsWith('dynamicDep')) {
-        listItem.classList.add('dynamic-dependency');
-    }
+    listItem.classList.add('dependency', 'dynamic-dependency');
     listItem.id = 'dep-' + funcName;
-    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" checked><label for="check-${funcName}">${name}</label>`;
+    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" ${isFulfilled ? 'checked' : ''}><label for="check-${funcName}">${name}</label>`;
     list.appendChild(listItem);
 }
+
 
 function generateString() {
     //updateDynamicDependencies();
