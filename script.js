@@ -39,10 +39,10 @@ function initializeDependencies() {
     const selectedFunctions = getSelectedFunctions();
 
     selectedFunctions.forEach(funcName => {
-        if (dependencyManager[funcName]) {
+        if (window[funcName]) {
             dynamicDependencies = {
                 ...dynamicDependencies,
-                ...dependencyManager[funcName](strings),
+                ...window[funcName](strings),
             };
         }
     });
