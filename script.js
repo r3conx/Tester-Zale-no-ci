@@ -47,10 +47,20 @@ function runTest() {
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-        resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}<br>`;
+        let calcDetails = '';
+
+        // Przykładowa logika do wyświetlania obliczeń dla każdej zależności
+        if (depName.startsWith('sumOfDigitsAt')) {
+            const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
+            calcDetails = strings.map(string => {
+                const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
+                return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
+            }).join(' ');
+        }
+
+        resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
     });
 }
-
 
 
 
