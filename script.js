@@ -161,6 +161,7 @@ function testStringWithSumDependencies(string, dependencies) {
 }
 
 function parseDependency(depName) {
+    const depName = dep.id.replace('dep-', '');
     const matches = depName.match(/\d+/g);
     console.log(matches);
     console.log(depName);
