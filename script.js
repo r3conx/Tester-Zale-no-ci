@@ -17,6 +17,34 @@ function initializeDependencies() {
     updateDynamicDependencies();
 }
 
+// Funkcja do generowania listy checkboxów
+function generateFunctionCheckboxes() {
+    const functionSelectionDiv = document.getElementById('functionSelection');
+    const functions = Object.keys(dependencyManager);
+
+    functions.forEach(funcName => {
+        if (typeof dependencyManager[funcName] === 'function') {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `functionCheckbox-${funcName}`;
+            checkbox.value = funcName;
+            checkbox.checked = true; // Możesz ustawić początkową wartość
+
+            const label = document.createElement('label');
+            label.htmlFor = `functionCheckbox-${funcName}`;
+            label.textContent = funcName;
+
+            functionSelectionDiv.appendChild(checkbox);
+            functionSelectionDiv.appendChild(label);
+        }
+    });
+}
+
+// Wywołaj funkcję do generowania checkboxów
+generateFunctionCheckboxes();
+
+
+
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
@@ -140,49 +168,5 @@ function generateRandomString(length) {
     return dependencies.every(dep => dep([string])[0]);
     }
     
-
-
-
-
-
-
-    // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
-    function generateDynamicSumDependencies(strings) {
-        let dynamicDependencies = {};
-    
-        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-            for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
-                for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
-                    if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
-                        let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[depName] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2]);
-                    }
-                }
-            }
-        }
-    
-        return dynamicDependencies;
-    }
-    
-    
-
-
-    
-    
-    function createSumCheckFunction(targetIndex, sumIndexes) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
-                let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
-                return parseInt(string[targetIndex], 10) === (sum % 10);
-            });
-        };
-    }
-    
-    
-    
-    
-    
-
 
 // Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beraas
