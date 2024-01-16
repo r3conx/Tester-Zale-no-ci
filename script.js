@@ -165,6 +165,38 @@ function generateRandomString(length) {
     return result;
 }
 
+window.findSumDependencies = function(strings) {
+    console.log("Analizowane stringi:", strings);
+    const length = strings[0].length;
+
+    if (!strings.every(string => string.length === length)) {
+        console.error('Błąd: Stringi mają różne długości');
+        return {};
+    }
+
+    let dynamicDepFunctions = {};
+
+    // Przetwarzanie nowych dynamicznych zależności
+
+    // Logi z osobnymi zależnościami dla każdego stringu
+    for (let i = 0; i < strings.length; i++) {
+        const dependencies = Object.keys(dynamicDepFunctions).filter(dep => dep.includes(`dynamicDep${i}`));
+        console.log(`Zależności dla stringu ${i + 1}:`, dependencies);
+    }
+
+    // Logi z wspólnymi zależnościami
+    const commonDependencies = Object.keys(dynamicDepFunctions).filter(dep => {
+        return strings.every((string, index) => {
+            if (index === 0) return true; // Pomijamy pierwszy string
+            const dynamicFunctionName = `dynamicDep${index}`;
+            return dynamicDepFunctions[dep] === dynamicDepFunctions[dynamicFunctionName];
+        });
+    });
+    console.log("Wspólne zależności:", commonDependencies);
+
+    return dynamicDepFunctions;
+};
+
 
 window.generateDynamicSumDependencies = function(strings) {
     let dynamicDependencies = {};
