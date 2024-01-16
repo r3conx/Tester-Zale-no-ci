@@ -22,7 +22,7 @@ function updateDynamicDependencies() {
             if (result.every(res => res)) {
                 dynamicDependencies[depName] = func;
                 addDependency(`Dynamiczna: ${depName}`, depName);
-                console.log("added dependency: ",depName);
+                console.log("Spełnione zależności: ",depName);
             }
         });
     }
