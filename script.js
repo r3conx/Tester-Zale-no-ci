@@ -129,6 +129,7 @@ function runTest() {
 
     dependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
+            console.log(dependency);
             const result = dependency(strings);
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
