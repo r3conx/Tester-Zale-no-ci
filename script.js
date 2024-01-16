@@ -11,6 +11,19 @@ function initializeDependencies() {
 }
 
 
+function updateDynamicDependencies() {
+    removeDynamicDependencies();
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+    if (currentStrings.length > 0 && currentStrings[0] !== "") {
+        const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
+
+        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+            dynamicDependencies[depName] = func;
+            addDependency(`Dynamiczna: ${depName}`, depName);
+        });
+    }
+}
+
 
 function runTest() {
     updateDynamicDependencies();
@@ -35,18 +48,7 @@ function runTest() {
 
 
 
-function updateDynamicDependencies() {
-    removeDynamicDependencies();
-    const currentStrings = document.getElementById('inputStrings').value.split(',');
-    if (currentStrings.length > 0 && currentStrings[0] !== "") {
-        const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
-        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            dynamicDependencies[depName] = func;
-            addDependency(`Dynamiczna: ${depName}`, depName);
-        });
-    }
-}
 
 function removeDynamicDependencies() {
     const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
