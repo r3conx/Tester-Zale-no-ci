@@ -133,14 +133,14 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
     });
-    dependencies.forEach(dynamicDepFunctions => {
-        if (typeof dynamicDepFunctions === 'function') {
-            const result2 = dynamicDepFunctions(strings);
+    dynamicDependencies.forEach(dependency => {
+        if (typeof dependency === 'function') {
+            const result2 = dependency(strings);
             resultsDiv.innerHTML += `<p>Zależność: ${result2}</p>`;
         }
     });
 }
-
+wypiszZaleznosci(["123", "456", "789"]);
 
 
 function generateRandomString(length) {
