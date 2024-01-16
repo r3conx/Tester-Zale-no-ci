@@ -43,7 +43,7 @@ function runTest() {
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-        resultsDiv.innerHTML += `<p>Zależność: ${depName} - ${resultText}</p>`;
+        resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}`;
     });
 }
 
