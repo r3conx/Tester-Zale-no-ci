@@ -39,13 +39,14 @@ function runTest() {
 
     selectedDependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
+            var a = dependency(strings);
+            console.log(a);
             const result = dependency(strings);
             if (result.every(res => res)) {
                 const resultText = 'Spełnia zależność';
                 
                 resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
             } else {
-                console.log(result);
                 const resultText = 'Nie spełnia zależności';
                 resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
             }
@@ -156,7 +157,7 @@ sum += parseInt(string[k], 10);
 }
 //console.log(parseInt(string[targetIndex], 10),"parseInt(string[targetIndex], 10)");
 //console.log(sum % 10,"sum % 10");
-//console.log(parseInt(string[targetIndex], 10) === sum % 10,"parseInt(string[targetIndex], 10) === sum % 10");
+console.log(parseInt(string[targetIndex], 10) === sum % 10,"parseInt(string[targetIndex], 10) === sum % 10");
 return parseInt(string[targetIndex], 10) === sum % 10;
 
 });
