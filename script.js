@@ -259,14 +259,12 @@ window.findSumDependencies = function(strings) {
 };
 
 
-
 function solveEquations(equations) {
     const n = equations.length;
     const augmentedMatrix = new Array(n);
 
     for (let i = 0; i < n; i++) {
         augmentedMatrix[i] = equations[i].slice();
-        augmentedMatrix[i].push(0);
     }
 
     for (let i = 0; i < n; i++) {
@@ -282,20 +280,21 @@ function solveEquations(equations) {
     for (let i = n - 1; i >= 0; i--) {
         let sum = 0;
         for (let j = i + 1; j < n; j++) {
-            sum += augmentedMatrix[i][j] * solutions[j][0];
+            sum += augmentedMatrix[i][j] * solutions[j];
         }
-        solutions[i] = [(augmentedMatrix[i][n] - sum) / augmentedMatrix[i][i]];
+        solutions[i] = (augmentedMatrix[i][n] - sum) / augmentedMatrix[i][i];
     }
 
     return solutions;
 }
 
+
 function createDynamicFunction(dep, length, sum) {
     let match = dep.match(/(\d+)(\d+)equals(\d+)/);
     if (match) {
-        let firstIndex = parseInt(match[1], 10);
-        let secondIndex = parseInt(match[2], 10);
-        let targetIndex = parseInt(match[3], 10);
+        let firstIndex = parseInt(match[1], 10) - 1;
+        let secondIndex = parseInt(match[2], 10) - 1;
+        let targetIndex = parseInt(match[3], 10) - 1;
 
         return function(testStrings) {
             return testStrings.map(string => {
@@ -305,6 +304,7 @@ function createDynamicFunction(dep, length, sum) {
         };
     }
 }
+
 
 
 
