@@ -84,7 +84,7 @@ function generateString() {
     let generatedString = '';
     let maxSatisfiedDependencies = 0;
     let attempts = 0;
-    const limit = 10000000;
+    const limit = 100000;
     const length = inputStrings[0].length;
 
     for (let i = 0; i < limit; i++) {
