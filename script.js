@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('inputStrings').value;
+    const strings = input.split(',');
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
     const inputStrings = document.getElementById('inputStrings');
@@ -97,8 +99,7 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
-    const input = document.getElementById('inputStrings').value;
-    const strings = input.split(',');
+
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
