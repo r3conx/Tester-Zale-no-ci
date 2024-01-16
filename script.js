@@ -128,6 +128,12 @@ function generateRandomString(length) {
     return dependencies.every(dep => dep([string])[0]);
     }
     
+
+
+
+
+
+
     // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
     function generateDynamicSumDependencies(strings) {
         let dynamicDependencies = {};
@@ -135,35 +141,33 @@ function generateRandomString(length) {
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
             for (let sumStartIndex = 0; sumStartIndex < strings[0].length; sumStartIndex++) {
                 for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
-                    if (!(sumStartIndex <= targetIndex && targetIndex <= sumEndIndex)) {
+                    if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
                         let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
-                        console.log("generated dependency: ",dependencyName);
+                        }
+                        }
+                        }
+                        }
+                        return dynamicDependencies;
                     }
-                }
-            }
-        }
-    
-        return dynamicDependencies;
-    }
+
+
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || string.length <= sumStartIndex || string.length <= sumEndIndex) {
-                    return false;
-                }
-                let sum = 0;
-                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                    if (i !== targetIndex) {
-                        sum += parseInt(string[i], 10);
+                    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
+                        return function(strings) {
+                            return strings.map(string => {
+                                if (string.length <= targetIndex || string.length <= sumStartIndex || string.length <= sumEndIndex) return false;
+                                let sum = 0;
+                                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                                    if (i !== targetIndex) {
+                                        sum += parseInt(string[i], 10);
+                                    }
+                                }
+                                return parseInt(string[targetIndex], 10) === sum % 10;
+                            });
+                        };
                     }
-                }
-                return parseInt(string[targetIndex], 10) === sum % 10;
-            });
-        };
-    }
     
 
 
