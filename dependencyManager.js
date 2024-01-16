@@ -58,12 +58,6 @@ function createDifferenceCheckFunction(targetIndex, diffIndexes) {
     };
 }
 
-// Rejestracja funkcji generujących zależności
-registerDependencyFunction('sum', generateDynamicSumDependencies);
-registerDependencyFunction('difference', generateDynamicDifferenceDependencies);
-
-
-export default {
-    generateDynamicSumDependencies,
-    generateDynamicDifferenceDependencies,
-};
+// Przypisz funkcje do globalnych zmiennych
+window.generateDynamicSumDependencies = generateDynamicSumDependencies;
+window.generateDynamicDifferenceDependencies = generateDynamicDifferenceDependencies;
