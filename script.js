@@ -100,6 +100,7 @@ function generateString() {
         document.getElementById('outputStrings').textContent = generatedString;
         console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
         console.log(`Wygenerowany string: ${generatedString}`);
+        console.log(`Wybrane zależności: ${selectedDependencies.map(dep => dep.name).join(', ')}`);
     } else {
         console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
         console.log(`Próbowano ${attempts} razy.`);
