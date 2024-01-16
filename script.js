@@ -65,7 +65,7 @@ function getDynamicDependencies() {
 
 
 function generateString() {
-    updateDynamicDependencies();
+    //updateDynamicDependencies();
     const inputStrings = document.getElementById('inputStrings').value.split(',');
 
     const selectedStaticDependencies = Array.from(document.querySelectorAll('.dependency:not(.dynamic-dependency) input:checked'))
