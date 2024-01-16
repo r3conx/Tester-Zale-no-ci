@@ -16,7 +16,6 @@ function updateDynamicDependencies() {
     const input = document.getElementById('inputStrings').value
     const strings = input.split(',');
     const currentStrings = document.getElementById('inputStrings').value.split(',');
-    if (currentStrings.length > 0 && currentStrings[0] !== "") {
         const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
@@ -26,7 +25,7 @@ function updateDynamicDependencies() {
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
         });
-    }
+    
 }
 
 
