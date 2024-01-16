@@ -230,15 +230,6 @@ window.findSumDependencies = function(strings) {
     let dynamicDepFunctions = {};
 
     // Przetwarzanie nowych dynamicznych zależności
-    for (let i = 0; i < length; i++) {
-        for (let j = 0; j < length; j++) {
-            if (i !== j) {
-                const sum = parseInt(strings[0][i], 10) + parseInt(strings[0][j], 10);
-                const sumString = `${i}${j}equals${j}`;
-                dynamicDepFunctions[`dynamicDep${sumString}`] = createDynamicFunction(sumString, length, sum);
-            }
-        }
-    }
 
     // Logi z osobnymi zależnościami dla każdego stringu
     for (let i = 0; i < strings.length; i++) {
