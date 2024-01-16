@@ -139,9 +139,22 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
     });
-    wypiszZaleznosci(strings);
 }
 
+
+function updateDynamicDependencies() {
+    removeDynamicDependencies();
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+    const newDynamicDependencies = window.findSumDependencies(currentStrings);
+    
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        dynamicDependencies[depName] = func;
+        addDependency(`Dynamiczna: ${depName}`, depName);
+    });
+
+    // Dodaj nowe dynamiczne zależności do listy dynamicznych zależności
+    selectedDynamicDependencies = getDynamicDependencies();
+}
 
 
 function generateRandomString(length) {
