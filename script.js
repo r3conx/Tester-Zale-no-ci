@@ -21,6 +21,7 @@ function updateDynamicDependencies() {
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(strings);
+            console.log(result);
             if (result.every(res => res)) {
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
