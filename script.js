@@ -40,8 +40,8 @@ function runTest() {
             const result = dependency(strings);
             const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
             resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
-            }
-            });
+        }
+    });
             }
 
 
