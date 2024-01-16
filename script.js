@@ -29,6 +29,7 @@ function runTest() {
             
             
             resultsDiv.innerHTML += `<p>Zależność ${dependency}: ${resultText}</p>`;
+            console.log(`Zależność ${dependency}: ${resultText}`);
         }
     });
 }
