@@ -18,8 +18,14 @@ function updateDynamicDependencies() {
         const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            dynamicDependencies[depName] = func;
-            addDependency(`Dynamiczna: ${depName}`, depName);
+            // Sprawdź, czy zależność jest spełniona dla wszystkich ciągów
+            const isDependencyMet = currentStrings.every(func);
+
+            if (isDependencyMet) {
+                // Jeśli zależność jest spełniona, dodaj ją
+                dynamicDependencies[depName] = func;
+                addDependency(`Dynamiczna: ${depName}`, depName);
+            }
         });
     }
 }
