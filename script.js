@@ -102,7 +102,7 @@ function generateString() {
 
     let generatedString = '';
     let attempts = 0;
-    const maxAttempts = 1000000;
+    const maxAttempts = 50000000;
 
     while(attempts < maxAttempts) {
         let candidate = generateRandomString(maxLength);
