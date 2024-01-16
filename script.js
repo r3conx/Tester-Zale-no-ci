@@ -135,7 +135,10 @@ function generateStringBasedOnSumDependencies() {
     document.getElementById('outputStrings').textContent = generatedString.join('');
 }
 
-function applyDependencyToGeneratedString(generatedString, targetIndex, sumIndexes) {
+function applyDependencyToGeneratedString(generatedString, dependency) {
+    const targetIndex = dependency.targetIndex;
+    const sumIndexes = dependency.sumIndexes;
+
     for (let i = 0; i <= 9; i++) {
         for (let j = 0; j <= 9; j++) {
             let sum = (i + j) % 10;
@@ -153,6 +156,7 @@ function applyDependencyToGeneratedString(generatedString, targetIndex, sumIndex
 }
 
 
+
 function getSelectedDependenciesFromUI() {
     let dependencies = [];
     document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
@@ -161,11 +165,15 @@ function getSelectedDependenciesFromUI() {
         if (matches && matches.length >= 2) {
             const targetIndex = parseInt(matches.pop(), 10);
             const sumIndexes = matches.map(Number);
-            dependencies.push(createSumCheckFunction(targetIndex, sumIndexes));
+            const dependencyFunc = createSumCheckFunction(targetIndex, sumIndexes);
+            dependencyFunc.targetIndex = targetIndex;
+            dependencyFunc.sumIndexes = sumIndexes;
+            dependencies.push(dependencyFunc);
         }
     });
     return dependencies;
 }
+
 
 
 function getMaxStringLength() {
