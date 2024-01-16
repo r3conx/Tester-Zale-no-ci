@@ -164,4 +164,4 @@ return parseInt(string[targetIndex], 10) === sum % 10;
 };
 }
 
-// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne
+// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne ber
