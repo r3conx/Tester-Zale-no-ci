@@ -133,12 +133,7 @@ function runTest() {
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
     });
-    dynamicDependencies.forEach(dependency => {
-        if (typeof dependency === 'function') {
-            const result2 = dependency(strings);
-            resultsDiv.innerHTML += `<p>Zależność: ${result2}</p>`;
-        }
-    });
+    wypiszZaleznosci(strings);
 }
 
 
