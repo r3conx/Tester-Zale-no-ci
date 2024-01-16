@@ -35,7 +35,7 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
-    Testy:
+    Testy: <br>
     `;
     updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
