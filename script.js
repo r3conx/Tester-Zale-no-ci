@@ -39,7 +39,8 @@ function runTest() {
             const result = dependency(strings);
             if (result.every(res => res)) {
                 const resultText = 'Spełnia zależność';
-                resultsDiv.innerHTML += `<p>Zależność ${dependency}: ${resultText}</p>`;
+                
+                resultsDiv.innerHTML += `<p>Zależność ${k}: ${resultText}</p>`;
             }
         }
     });
