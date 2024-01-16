@@ -156,8 +156,8 @@ sum += parseInt(string[k], 10);
 }
 }
 //console.log(parseInt(string[targetIndex], 10),"parseInt(string[targetIndex], 10)");
-//console.log(sum % 10,"sum % 10");
-console.log(parseInt(string[targetIndex], 10) === sum % 10,"parseInt(string[targetIndex], 10) === sum % 10");
+console.log(sum % 10,"sum % 10");
+//console.log(parseInt(string[targetIndex], 10) === sum % 10,"parseInt(string[targetIndex], 10) === sum % 10");
 return parseInt(string[targetIndex], 10) === sum % 10;
 
 });
