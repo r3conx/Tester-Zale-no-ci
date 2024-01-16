@@ -13,12 +13,13 @@ function initializeDependencies() {
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
+    const strings = input.split(',');
     const currentStrings = document.getElementById('inputStrings').value.split(',');
     if (currentStrings.length > 0 && currentStrings[0] !== "") {
-        const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
+        const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            const result = func(currentStrings);
+            const result = func(strings);
             if (result.every(res => res)) {
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
