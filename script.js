@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsDiv = document.getElementById('results');
     const outputStrings = document.getElementById('outputStrings');
     const dependencyManager = require('./dependencyManager');
-
+    const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
+    functionCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            updateDynamicDependencies();
+        });
+    });
     
     initializeDependencies();
     testButton.addEventListener('click', runTest);
@@ -78,10 +83,10 @@ function runTest() {
     `;
     updateDynamicDependencies();
 
+    const selectedFunctions = getSelectedFunctions();
+    const dynamicDependencies = generateDynamicDependencies(strings, selectedFunctions);
 
-    const newDynamicDependencies = generateDynamicSumDependencies(strings);
-
-    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+    Object.entries(dynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
         let calcDetails = '';
@@ -98,6 +103,20 @@ function runTest() {
         resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
     });
 }
+
+function getSelectedFunctions() {
+    const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
+    const selectedFunctions = [];
+
+    functionCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedFunctions.push(checkbox.value);
+        }
+    });
+
+    return selectedFunctions;
+}
+
 
 
 
