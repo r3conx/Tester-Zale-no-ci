@@ -121,6 +121,7 @@ function generateString() {
 
 function generateStringBasedOnSumDependencies() {
     const selectedDependencies = getSelectedDependenciesFromUI();
+    console.log(selectedDependencies);
     const maxLength = getMaxStringLength();
     let generatedString = Array(maxLength).fill('0');
 
