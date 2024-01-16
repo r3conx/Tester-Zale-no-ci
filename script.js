@@ -119,17 +119,17 @@ function generateString() {
 
 /////////////////////
 
-function generateStringBasedOnSumDependencies() {
-    const selectedDependencies = getSelectedDependencies();
+function generateStringBasedOnSelectedDependencies() {
+    let selectedDependencies = getSelectedDependenciesFromUI();
     let generatedString = '';
-    const maxLength = getMaxStringLength(); // Funkcja, która określa maksymalną długość stringu
+    const maxLength = getMaxStringLength();
 
     let attempts = 0;
-    const maxAttempts = 1000; // Ograniczenie liczby prób
+    const maxAttempts = 1000;
 
     while (attempts < maxAttempts) {
         let candidate = createRandomString(maxLength);
-        if (testStringWithSumDependencies(candidate, selectedDependencies)) {
+        if (testStringWithSelectedDependencies(candidate, selectedDependencies)) {
             generatedString = candidate;
             break;
         }
@@ -143,35 +143,19 @@ function generateStringBasedOnSumDependencies() {
     }
 }
 
-function createRandomString(length) {
-    const characters = '0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-}
-
-function testStringWithSumDependencies(string, dependencies) {
-    return dependencies.every(dependency => {
-        const [targetIndex, sumIndexes] = parseDependency(dependency.name);
-        let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
-        return parseInt(string[targetIndex], 10) === (sum % 10);
+function getSelectedDependenciesFromUI() {
+    let dependencies = [];
+    document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
+        let depName = checkbox.id.replace('check-', '');
+        dependencies.push(dynamicDependencies[depName]);
     });
+    return dependencies;
 }
 
-function parseDependency(depName) {
-    const matches = depName.match(/\d+/g);
-    console.log(matches);
-    console.log(depName);
-    if (!matches) {
-        console.error('Nieprawidłowy format nazwy zależności:', depName);
-        return [null, []];
-    }
-    const targetIndex = Number(matches[0]);
-    const sumIndexes = matches.slice(1).map(Number);
-    return [targetIndex, sumIndexes];
+function testStringWithSelectedDependencies(string, dependencies) {
+    return dependencies.every(dependency => dependency([string])[0]);
 }
+
 
 
 function getMaxStringLength() {
@@ -215,7 +199,6 @@ function generateRandomString(length) {
                 for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
                     if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
                         let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
-                        console.log(depName,"1");
                         dynamicDependencies[depName] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2]);
                     }
                 }
