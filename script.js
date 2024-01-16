@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
-    document.getElementById('generateStringButton').addEventListener('click', generateStringBasedOnSumDependencies);
+    document.getElementById('generateStringButton').addEventListener('click', generateStringBasedOnSelectedDependencies);
 });
 
 let dynamicDependencies = {};
