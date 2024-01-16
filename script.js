@@ -70,6 +70,7 @@ function addDependency(name, funcName, isFulfilled) {
     listItem.id = 'dep-' + funcName;
     listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" ${isFulfilled ? 'checked' : ''}><label for="check-${funcName}">${name}</label>`;
     list.appendChild(listItem);
+    console.log(`Dodano zależność: ${name}`);
 }
 
 
