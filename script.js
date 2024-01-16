@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let dynamicDependencies = {};
 
 function initializeDependencies() {
-    addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'thirdDigitIsSumOfFirstTwo');
+    addDependency('Trzecia Cyfra Sumy Dwóch Pierwszych', 'generateDynamicSumDependencies');
     addDependency('Suma Wszystkich Cyfr', 'sumOfAllDigits');
     addDependency('Cyfra Jedności Iloczynu Pierwszych Dwóch Cyfr', 'unitDigitOfFirstTwoMultiplication');
     addDependency('Różnica Między Pierwszą a Ostatnią Cyfrą', 'differenceBetweenFirstAndLastDigit');
@@ -333,6 +333,40 @@ function wypiszZaleznosci(strings) {
 
     document.getElementById('wyniki').innerHTML = resultsHtml;
 }
+
+
+window.generateDynamicSumDependencies = function(strings) {
+    let dynamicDependencies = {};
+
+    strings.forEach(string => {
+        for (let i = 0; i < string.length; i++) {
+            for (let j = 0; j < string.length; j++) {
+                if (i !== j) {
+                    let dependencyName = `sumOfDigitsAt${j}EqualsDigitAt${i}`;
+                    dynamicDependencies[dependencyName] = createSumCheckFunction(i, j);
+                }
+            }
+        }
+    });
+
+    return dynamicDependencies;
+};
+
+function createSumCheckFunction(targetIndex, sumStartIndex) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || string.length <= sumStartIndex) return false;
+            let sum = 0;
+            for (let k = sumStartIndex; k < string.length; k++) {
+                if (k !== targetIndex) {
+                    sum += parseInt(string[k], 10);
+                }
+            }
+            return parseInt(string[targetIndex], 10) === sum % 10;
+        });
+    };
+}
+
 
 
 //elassssssssss
