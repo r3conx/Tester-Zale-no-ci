@@ -130,6 +130,11 @@ function runTest() {
     dependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
             console.log(dependency);
+            console.log(dynamicDeps);
+
+            console.log(dependency(strings));
+            console.log(dependencies);
+            console.log(dynamicDependencies);
             const result = dependency(strings);
             resultsDiv.innerHTML += `<p>Zależność: ${result}</p>`;
         }
