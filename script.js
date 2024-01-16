@@ -260,53 +260,6 @@ window.findSumDependencies = function(strings) {
 };
 
 
-function solveEquations(equations) {
-    const n = equations.length;
-    const augmentedMatrix = new Array(n);
-
-    for (let i = 0; i < n; i++) {
-        augmentedMatrix[i] = equations[i].slice();
-    }
-
-    for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j < n; j++) {
-            const factor = augmentedMatrix[j][i] / augmentedMatrix[i][i];
-            for (let k = i; k <= n; k++) {
-                augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
-            }
-        }
-    }
-
-    const solutions = new Array(n);
-    for (let i = n - 1; i >= 0; i--) {
-        let sum = 0;
-        for (let j = i + 1; j < n; j++) {
-            sum += augmentedMatrix[i][j] * solutions[j];
-        }
-        solutions[i] = (augmentedMatrix[i][n] - sum) / augmentedMatrix[i][i];
-    }
-
-    return solutions;
-}
-
-
-function createDynamicFunction(dep, length, sum) {
-    let match = dep.match(/(\d+)(\d+)equals(\d+)/);
-    if (match) {
-        let firstIndex = parseInt(match[1], 10) - 1;
-        let secondIndex = parseInt(match[2], 10) - 1;
-        let targetIndex = parseInt(match[3], 10) - 1;
-
-        return function(testStrings) {
-            return testStrings.map(string => {
-                let calculatedSum = parseInt(string[firstIndex], 10) + parseInt(string[secondIndex], 10);
-                return calculatedSum % 10 === parseInt(string[targetIndex], 10) && calculatedSum === sum;
-            });
-        };
-    }
-}
-
-
 
 
 
