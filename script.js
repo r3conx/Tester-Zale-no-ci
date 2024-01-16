@@ -161,14 +161,13 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let sum = 0;
                 for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                    if (i !== targetIndex) {
-                        sum += parseInt(string[i], 10);
-                    }
+                    sum += parseInt(string[i], 10);
                 }
                 return parseInt(string[targetIndex], 10) === sum % 10;
             });
         };
     }
+    
     
     
 
