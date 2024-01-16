@@ -173,10 +173,11 @@ function generateRandomString(length) {
                 for (let i = sumStartIndex; i <= sumEndIndex; i++) {
                     sum += parseInt(string[i], 10);
                 }
-                return parseInt(string[targetIndex], 10) === sum % 10;
+                return parseInt(string[targetIndex], 10) === (sum % 10); // Uwzględnienie tylko cyfry jedności sumy
             });
         };
     }
+    
     
     
     
