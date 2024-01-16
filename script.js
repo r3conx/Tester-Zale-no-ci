@@ -141,7 +141,7 @@ function runTest() {
     selectedDynamicDependencies.forEach(dependency2 => {
         if (typeof dependency2 === 'function') {
             console.log(dependency2, "1");
-            console.log("2",dependency(strings));
+            console.log("2",dependency2(strings));
             console.log(dependencies,"3");
             console.log(selectedDynamicDependencies,"4");
             const result = dependency2(strings);
