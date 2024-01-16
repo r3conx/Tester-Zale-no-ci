@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputStrings = document.getElementById('inputStrings');
     const resultsDiv = document.getElementById('results');
     const outputStrings = document.getElementById('outputStrings');
+    const dependencyManager = require('./dependencyManager');
+
     
     initializeDependencies();
     testButton.addEventListener('click', runTest);
