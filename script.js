@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let dynamicDependencies = {};
 
-const dependencyManager = require('./dependencyManager').default;
-
 function initializeDependencies() {
     updateDynamicDependencies();
 
