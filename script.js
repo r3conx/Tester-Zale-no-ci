@@ -39,8 +39,6 @@ function runTest() {
 
     selectedDependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
-            var a = dependency(strings);
-            console.log(a);
             const result = dependency(strings);
             if (result.every(res => res)) {
                 const resultText = 'Spełnia zależność';
