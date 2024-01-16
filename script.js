@@ -13,23 +13,18 @@ function initializeDependencies() {
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
-    const input = document.getElementById('inputStrings').value
-    const strings = input.split(',');
     const currentStrings = document.getElementById('inputStrings').value.split(',');
-        const newDynamicDependencies = generateDynamicSumDependencies(strings);
-    console.log("aha");
+    if (currentStrings.length > 0 && currentStrings[0] !== "") {
+        const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
+
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            const result = func(strings);
-            console.log(result);
-            if (result.every(res => res)) {
+            const result = func(currentStrings);
+            if (result.every(res => res)) { // Dodaj tylko spełnione zależności
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
             }
         });
-    
+    }
 }
-
-
-
 
 
 
@@ -41,12 +36,14 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const newDynamicDependencies = generateDynamicSumDependencies(strings);
+    const selectedDependencies = getSelectedDependencies();
 
-    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-        const result = func(strings);
-        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-        resultsDiv.innerHTML += `<p>Zależność: ${depName} - ${resultText}</p>`;
+    selectedDependencies.forEach(dependency => {
+        if (typeof dependency === 'function') {
+            const result = dependency(strings);
+            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+            resultsDiv.innerHTML += `<p>Zależność: ${dependency.name} - ${resultText}</p>`;
+        }
     });
 }
 
@@ -55,9 +52,8 @@ function runTest() {
 
 
 
-
 function removeDynamicDependencies() {
-    const dynamicDeps = document.querySelectorAll('.dependency');
+    const dynamicDeps = document.querySelectorAll('.dynamic-dependency');
     dynamicDeps.forEach(dep => {
         const depName = dep.id.replace('dep-', '');
         delete window[depName];
@@ -66,16 +62,17 @@ function removeDynamicDependencies() {
     });
 }
 
-function addDependency(name, funcName, isFulfilled) {
+function addDependency(name, funcName) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
     listItem.classList.add('dependency');
+    if (funcName.startsWith('dynamicDep')) {
+        listItem.classList.add('dynamic-dependency');
+    }
     listItem.id = 'dep-' + funcName;
-    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" ${isFulfilled ? 'checked' : ''}><label for="check-${funcName}">${name}</label>`;
+    listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" checked><label for="check-${funcName}">${name}</label>`;
     list.appendChild(listItem);
-    console.log(`Dodano zależność: ${name}`);
 }
-
 
 function generateString() {
     //updateDynamicDependencies();
@@ -172,4 +169,4 @@ function generateRandomString(length) {
     
 
 
-// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beww
+// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne ber
