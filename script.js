@@ -20,8 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let dynamicDependencies = {};
 
+const dependencyManager = require('./dependencyManager');
+
 function initializeDependencies() {
     updateDynamicDependencies();
+
+    const selectedFunctions = getSelectedFunctions();
+
+    selectedFunctions.forEach(funcName => {
+        if (dependencyManager[funcName]) {
+            dynamicDependencies = {
+                ...dynamicDependencies,
+                ...dependencyManager[funcName](strings),
+            };
+        }
+    });
 }
 
 // Funkcja do generowania listy checkboxów
