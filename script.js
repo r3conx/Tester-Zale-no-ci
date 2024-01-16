@@ -125,7 +125,7 @@ function generateStringBasedOnSumDependencies() {
     let generatedString = Array(maxLength).fill('0');
 
     for (let dependency of selectedDependencies) {
-        const [targetIndex, sumIndexes] = parseDependency(dependency.name);
+        const [targetIndex, sumIndexes] = getSelectedDependenciesFromUI(dependency.name);
         if (!applyDependencyToGeneratedString(generatedString, targetIndex, sumIndexes)) {
             console.log("Nie udało się wygenerować stringu spełniającego zależności.");
             return;
@@ -152,16 +152,6 @@ function applyDependencyToGeneratedString(generatedString, targetIndex, sumIndex
     return false;
 }
 
-function parseDependency(depName) {
-    const matches = depName.match(/\d+/g);
-    if (!matches) {
-        console.error('Nieprawidłowy format nazwy zależności:', depName);
-        return [null, []];
-    }
-    const targetIndex = Number(matches.pop());
-    const sumIndexes = matches.map(Number);
-    return [targetIndex, sumIndexes];
-}
 
 function getSelectedDependenciesFromUI() {
     let dependencies = [];
