@@ -22,10 +22,13 @@ function updateDynamicDependencies() {
             if (result.every(res => res)) { // Dodaj do listy tylko te zależności, które są spełnione
                 dynamicDependencies[depName] = func;
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
+            } else {
+                dynamicDependencies[depName] = func; // Można również dodać niespełnione zależności
             }
         });
     }
 }
+
 
 
 
