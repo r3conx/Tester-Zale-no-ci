@@ -162,6 +162,8 @@ function testStringWithSumDependencies(string, dependencies) {
 
 function parseDependency(depName) {
     const matches = depName.match(/\d+/g);
+    console.log(matches);
+    console.log(depName);
     if (!matches) {
         console.error('Nieprawidłowy format nazwy zależności:', depName);
         return [null, []];
