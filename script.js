@@ -144,6 +144,7 @@ function generateRandomString(length) {
                     if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
                         let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
+                        console.log("Dodano zależność: ",dependencyName);
                         }
                         }
                         }
