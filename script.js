@@ -140,6 +140,9 @@ function generateRandomString(length) {
                         }
                         }
                         }
+                        Object.entries(dynamicDependencies).forEach(([depName, func]) => {
+                            func.name = depName; // Dodaj nazwę zależności jako właściwość funkcji
+                        });
                         return dynamicDependencies;
                     }
 
