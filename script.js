@@ -134,9 +134,8 @@ function generateRandomString(length) {
                 for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
                     if (!(sumStartIndex <= targetIndex && targetIndex <= sumEndIndex)) {
                         let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
-                        console.log(dependencyName);
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
-                        console.log(dynamicDependencies[dependencyName]);
+                        console.log("generated dependency: ",dependencyName);
                     }
                 }
             }
