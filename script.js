@@ -11,27 +11,6 @@ function initializeDependencies() {
 }
 
 
-function runTest() {
-    const input = document.getElementById('inputStrings').value;
-    const strings = input.split(',');
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
-
-    updateDynamicDependencies();
-
-    const selectedDependencies = getSelectedDependencies();
-
-    selectedDependencies.forEach(dependency => {
-        if (typeof dependency === 'function') {
-            const result = dependency(strings);
-            if (result.every(res => res)) {
-                const resultText = 'Spełnia zależność';
-                resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
-            }
-        }
-    });
-}
-
 function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
@@ -39,10 +18,37 @@ function updateDynamicDependencies() {
         const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            dynamicDependencies[depName] = func;
-            addDependency(`Dynamiczna: ${depName}`, depName);
+            const result = func(currentStrings);
+            if (result.every(res => res)) {
+                dynamicDependencies[depName] = func;
+                addDependency(`Dynamiczna: ${depName}`, depName);
+            }
         });
     }
+}
+
+
+function runTest() {
+    updateDynamicDependencies();
+    const input = document.getElementById('inputStrings').value;
+    const strings = input.split(',');
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    const selectedDependencies = getSelectedDependencies();
+
+    selectedDependencies.forEach(dependency => {
+        if (typeof dependency === 'function') {
+            var a = dependency(strings);
+            console.log(a);
+            const result = dependency(strings);
+            if (result.every(res => res)) {
+                const resultText = 'Spełnia zależność';
+                
+                resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
+            }
+        }
+    });
 }
 
 
