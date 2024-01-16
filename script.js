@@ -35,6 +35,7 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
+    removeDynamicDependencies();
     updateDynamicDependencies();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
