@@ -132,7 +132,7 @@ function generateRandomString(length) {
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
             for (let sumStartIndex = 0; sumStartIndex < strings[0].length; sumStartIndex++) {
                 for (let sumEndIndex = sumStartIndex; sumEndIndex < strings[0].length; sumEndIndex++) {
-                    if (targetIndex !== sumStartIndex && targetIndex !== sumEndIndex) {
+                    if (!(sumStartIndex <= targetIndex && targetIndex <= sumEndIndex)) {
                         let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
                     }
@@ -142,6 +142,7 @@ function generateRandomString(length) {
     
         return dynamicDependencies;
     }
+    
     
     function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
         return function(strings) {
