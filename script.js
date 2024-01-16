@@ -66,7 +66,7 @@ function removeDynamicDependencies() {
 function addDependency(name, funcName, isFulfilled) {
     const list = document.getElementById('dependenciesList');
     const listItem = document.createElement('div');
-    listItem.classList.add('dependency', 'dynamic-dependency');
+    listItem.classList.add('dependency');
     listItem.id = 'dep-' + funcName;
     listItem.innerHTML = `<input type="checkbox" id="check-${funcName}" ${isFulfilled ? 'checked' : ''}><label for="check-${funcName}">${name}</label>`;
     list.appendChild(listItem);
