@@ -19,16 +19,12 @@ function updateDynamicDependencies() {
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(currentStrings);
-            const isFulfilled = result.every(res => res); // Sprawdzenie, czy zależność jest spełniona
-            if (isFulfilled) {
+            if (result.every(res => res)) {
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
-                } else {
-                addDependency(`Dynamiczna: ${depName}`, depName, false);
-                }
-                });
-                }
-                }
-
+            }
+        });
+    }
+}
 
 
 
