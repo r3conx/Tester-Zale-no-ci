@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
-    document.getElementById('generateStringButton').addEventListener('click', generateString);
+    document.getElementById('generateStringButton').addEventListener('click', generateStringBasedOnSumDependencies);
 });
 
 let dynamicDependencies = {};
@@ -116,6 +116,62 @@ function generateString() {
         console.log(`Próbowano ${attempts} razy.`);
     }
 }
+
+/////////////////////
+
+function generateStringBasedOnSumDependencies() {
+    const selectedDependencies = getSelectedDependencies();
+    let generatedString = '';
+    const maxLength = getMaxStringLength(); // Funkcja, która określa maksymalną długość stringu
+
+    let attempts = 0;
+    const maxAttempts = 1000; // Ograniczenie liczby prób
+
+    while (attempts < maxAttempts) {
+        let candidate = createRandomString(maxLength);
+        if (testStringWithSumDependencies(candidate, selectedDependencies)) {
+            generatedString = candidate;
+            break;
+        }
+        attempts++;
+    }
+
+    if (generatedString) {
+        document.getElementById('outputStrings').textContent = generatedString;
+    } else {
+        console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
+    }
+}
+
+function createRandomString(length) {
+    const characters = '0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+function testStringWithSumDependencies(string, dependencies) {
+    return dependencies.every(dependency => {
+        const [targetIndex, sumIndexes] = parseDependency(dependency.name);
+        let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+        return parseInt(string[targetIndex], 10) === (sum % 10);
+    });
+}
+
+function parseDependency(depName) {
+    // Parsowanie nazwy zależności, aby uzyskać indeksy docelowe i sumowania
+    const [targetIndex, ...sumIndexes] = depName.match(/\d+/g).map(Number);
+    return [targetIndex, sumIndexes];
+}
+
+function getMaxStringLength() {
+    // Zwraca maksymalną długość stringu na podstawie aktualnych danych
+    return 5;
+}
+
+//////////////
 
 function getSelectedDependencies() {
     return Object.keys(dynamicDependencies)
