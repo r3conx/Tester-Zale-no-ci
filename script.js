@@ -155,20 +155,21 @@ function generateRandomString(length) {
 
     
     
-                    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
-                        return function(strings) {
-                            return strings.map(string => {
-                                if (string.length <= targetIndex || string.length <= sumStartIndex || string.length <= sumEndIndex) return false;
-                                let sum = 0;
-                                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                                    if (i !== targetIndex) {
-                                        sum += parseInt(string[i], 10);
-                                    }
-                                }
-                                return parseInt(string[targetIndex], 10) === sum % 10;
-                            });
-                        };
+    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex) return false;
+                let sum = 0;
+                for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                    if (i !== targetIndex) {
+                        sum += parseInt(string[i], 10);
                     }
+                }
+                return parseInt(string[targetIndex], 10) === sum % 10;
+            });
+        };
+    }
+    
     
 
 
