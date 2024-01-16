@@ -32,14 +32,15 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
+    const input = document.getElementById('inputStrings').value;
+    const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
-    Testy: <br>
+    Testy dla stringów: ${strings} <br>
     `;
     updateDynamicDependencies();
-    const input = document.getElementById('inputStrings').value;
-    const strings = input.split(',');
+
 
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
 
