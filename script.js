@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     script.onload = () => {
         // Po załadowaniu modułu, możesz korzystać z funkcji zależności
         initializeDependencies();
-        generateFunctionCheckboxes(); // Dodaj tę linię, jeśli potrzebujesz wywołać tę funkcję
     };
     document.head.appendChild(script);
 });
@@ -54,7 +53,6 @@ function initializeDependencies() {
 
 
 // Wywołaj funkcję do generowania checkboxów
-generateFunctionCheckboxes();
 
 
 
