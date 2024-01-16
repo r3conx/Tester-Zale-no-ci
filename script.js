@@ -1,8 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const testButton = document.getElementById('testButton');
+    const generateStringButton = document.getElementById('generateStringButton');
+    const inputStrings = document.getElementById('inputStrings');
+    const resultsDiv = document.getElementById('results');
+    const outputStrings = document.getElementById('outputStrings');
+    
     initializeDependencies();
-    document.getElementById('testButton').addEventListener('click', runTest);
-    document.getElementById('generateStringButton').addEventListener('click', generateString);
+    testButton.addEventListener('click', runTest);
+    generateStringButton.addEventListener('click', generateString);
 });
+
 
 let dynamicDependencies = {};
 
