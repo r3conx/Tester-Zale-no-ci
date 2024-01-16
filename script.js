@@ -40,7 +40,7 @@ function runTest() {
             if (result.every(res => res)) {
                 const resultText = 'Spełnia zależność';
                 
-                resultsDiv.innerHTML += `<p>Zależność ${k}: ${resultText}</p>`;
+                resultsDiv.innerHTML += `<p>Zależność ${i}: ${resultText}</p>`;
             }
         }
     });
