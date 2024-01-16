@@ -161,7 +161,6 @@ function testStringWithSumDependencies(string, dependencies) {
 }
 
 function parseDependency(depName) {
-    const depName = dep.id.replace('dep-', '');
     const matches = depName.match(/\d+/g);
     console.log(matches);
     console.log(depName);
@@ -216,6 +215,7 @@ function generateRandomString(length) {
                 for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
                     if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
                         let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
+                        console.log(depName,"1");
                         dynamicDependencies[depName] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2]);
                     }
                 }
