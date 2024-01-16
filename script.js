@@ -236,4 +236,4 @@ function createSumCheckFunction(targetIndex, sumStartIndex) {
 
 
 //elassssssssss
-console.log("elo"); //ahaaaasdasdefgaha
+console.log("elo"); //ver
