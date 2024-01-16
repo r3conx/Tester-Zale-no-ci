@@ -18,14 +18,8 @@ function updateDynamicDependencies() {
         const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            // Sprawdź, czy zależność jest spełniona dla wszystkich ciągów
-            const isDependencyMet = currentStrings.every(func);
-
-            if (isDependencyMet) {
-                // Jeśli zależność jest spełniona, dodaj ją
-                dynamicDependencies[depName] = func;
-                addDependency(`Dynamiczna: ${depName}`, depName);
-            }
+            dynamicDependencies[depName] = func;
+            addDependency(`Dynamiczna: ${depName}`, depName);
         });
     }
 }
@@ -42,13 +36,17 @@ function runTest() {
 
     selectedDependencies.forEach(dependency => {
         if (typeof dependency === 'function') {
+            var a = dependency(strings);
+            console.log(a);
             const result = dependency(strings);
             if (result.every(res => res)) {
                 const resultText = 'Spełnia zależność';
+                
                 resultsDiv.innerHTML += `<p>Zależność : ${resultText}</p>`;
             }
         }
     });
+}
 
 
 
