@@ -1,4 +1,3 @@
-const { removeDynamicDependencies, addDependency, generateDynamicSumDependencies } = require('./dependencies');
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
@@ -20,12 +19,16 @@ function updateDynamicDependencies() {
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(currentStrings);
-            if (result.every(res => res)) {
+            const isFulfilled = result.every(res => res); // Sprawdzenie, czy zależność jest spełniona
+            if (isFulfilled) {
                 addDependency(`Dynamiczna: ${depName}`, depName, true);
-            }
-        });
-    }
-}
+                } else {
+                addDependency(`Dynamiczna: ${depName}`, depName, false);
+                }
+                });
+                }
+                }
+
 
 
 
