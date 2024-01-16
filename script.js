@@ -134,7 +134,7 @@ function generateRandomString(length) {
                 for (let j = 0; j < string.length; j++) {
                     for (let k = j; k < string.length; k++) {
                         if (i !== j) {
-                            let dependencyName = `sumOfDigitsAt${j}to${k}EqualsDigitAt${i}`;
+                            let dependencyName = `${j+1}+${k+1}=${i+1}`;
                             dynamicDependencies[dependencyName] = createSumCheckFunction(i, j, k);
                         }
                     }
