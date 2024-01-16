@@ -136,6 +136,7 @@ function generateRandomString(length) {
                         let dependencyName = `sumOfDigitsAt${sumStartIndex}to${sumEndIndex}EqualsDigitAt${targetIndex}`;
                         console.log(dependencyName);
                         dynamicDependencies[dependencyName] = createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex);
+                        console.log(dynamicDependencies[dependencyName]);
                     }
                 }
             }
