@@ -139,31 +139,27 @@ function generateStringBasedOnSumDependencies() {
 function applyDependencyToGeneratedString(generatedString, dependency) {
     const targetIndex = dependency.targetIndex;
     const sumIndexes = dependency.sumIndexes;
-    console.log(`Zależność: targetIndex=${targetIndex}, sumIndexes=[${sumIndexes.join(', ')}]`);
 
     for (let i = 0; i <= 9; i++) {
         for (let j = 0; j <= 9; j++) {
             let sum = (i + j) % 10;
-            console.log(`Testowanie: i=${i}, j=${j}, sum=${sum}, generatedString przed aktualizacją: [${generatedString.join('')}]`);
-
-            if (sumIndexes.every((index, idx) => generatedString[index] === '0' || generatedString[index] === (idx === 0 ? i : j).toString())) {
-                if (generatedString[targetIndex] === '0' || generatedString[targetIndex] === sum.toString()) {
-                    generatedString[sumIndexes[0]] = i.toString();
-                    generatedString[sumIndexes[1]] = j.toString();
-                    generatedString[targetIndex] = sum.toString();
-                    console.log(`Znaleziono pasującą kombinację: generatedString po aktualizacji: [${generatedString.join('')}]`);
-
-                    return true;
-                }
+            if (canApplyCombination(generatedString, sumIndexes, i, j, targetIndex, sum)) {
+                generatedString[sumIndexes[0]] = i.toString();
+                generatedString[sumIndexes[1]] = j.toString();
+                generatedString[targetIndex] = sum.toString();
+                return true;
             }
         }
     }
-    console.log('Nie znaleziono pasującej kombinacji dla tej zależności.');
-
     return false;
 }
 
-
+function canApplyCombination(generatedString, sumIndexes, i, j, targetIndex, sum) {
+    return sumIndexes.every((index, idx) => {
+        const expectedDigit = idx === 0 ? i : j;
+        return generatedString[index] === '0' || parseInt(generatedString[index], 10) === expectedDigit;
+    }) && (generatedString[targetIndex] === '0' || parseInt(generatedString[targetIndex], 10) === sum);
+}
 
 function getSelectedDependenciesFromUI() {
     let dependencies = [];
