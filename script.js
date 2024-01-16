@@ -126,7 +126,7 @@ function generateRandomString(length) {
         for (let i = 0; i < string.length; i++) {
             for (let j = 0; j < string.length; j++) {
                 if (i !== j) {
-                    let dependencyName = `suma${j}równa${i}`;
+                    let dependencyName = `suma ${j}=${i}`;
                     dynamicDependencies[dependencyName] = createSumCheckFunction(i, j);
                 }
             }
