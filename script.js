@@ -119,48 +119,62 @@ function generateString() {
 
 /////////////////////
 
-function generateStringBasedOnSelectedDependencies() {
-    let selectedDependencies = getSelectedDependenciesFromUI();
-    let generatedString = '';
+function generateStringBasedOnSumDependencies() {
+    const selectedDependencies = getSelectedDependenciesFromUI();
     const maxLength = getMaxStringLength();
+    let generatedString = Array(maxLength).fill('0');
 
-    let attempts = 0;
-    const maxAttempts = 1000;
-
-    while (attempts < maxAttempts) {
-        let candidate = createRandomString(maxLength);
-        if (testStringWithSelectedDependencies(candidate, selectedDependencies)) {
-            generatedString = candidate;
-            break;
+    for (let dependency of selectedDependencies) {
+        const [targetIndex, sumIndexes] = parseDependency(dependency.name);
+        if (!applyDependencyToGeneratedString(generatedString, targetIndex, sumIndexes)) {
+            console.log("Nie udało się wygenerować stringu spełniającego zależności.");
+            return;
         }
-        attempts++;
     }
 
-    if (generatedString) {
-        document.getElementById('outputStrings').textContent = generatedString;
-    } else {
-        console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
+    document.getElementById('outputStrings').textContent = generatedString.join('');
+}
+
+function applyDependencyToGeneratedString(generatedString, targetIndex, sumIndexes) {
+    for (let i = 0; i <= 9; i++) {
+        for (let j = 0; j <= 9; j++) {
+            let sum = (i + j) % 10;
+            if (sumIndexes.every((index, idx) => generatedString[index] === '0' || generatedString[index] === (idx === 0 ? i : j).toString())) {
+                if (generatedString[targetIndex] === '0' || generatedString[targetIndex] === sum.toString()) {
+                    generatedString[sumIndexes[0]] = i.toString();
+                    generatedString[sumIndexes[1]] = j.toString();
+                    generatedString[targetIndex] = sum.toString();
+                    return true;
+                }
+            }
+        }
     }
+    return false;
+}
+
+function parseDependency(depName) {
+    const matches = depName.match(/\d+/g);
+    if (!matches) {
+        console.error('Nieprawidłowy format nazwy zależności:', depName);
+        return [null, []];
+    }
+    const targetIndex = Number(matches.pop());
+    const sumIndexes = matches.map(Number);
+    return [targetIndex, sumIndexes];
 }
 
 function getSelectedDependenciesFromUI() {
-    let dependencies = [];
-    document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
-        let depName = checkbox.id.replace('check-', '');
-        dependencies.push(dynamicDependencies[depName]);
-    });
-    return dependencies;
+let dependencies = [];
+document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
+let depName = checkbox.id.replace('check-', '');
+dependencies.push(dynamicDependencies[depName]);
+});
+return dependencies;
 }
-
-function testStringWithSelectedDependencies(string, dependencies) {
-    return dependencies.every(dependency => dependency([string])[0]);
-}
-
-
 
 function getMaxStringLength() {
-    // Zwraca maksymalną długość stringu na podstawie aktualnych danych
-    return 5;
+// Zwraca maksymalną długość stringu na podstawie aktualnych danych
+return 4; // Przykładowo ustawiona wartość
 }
 
 //////////////
