@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     document.getElementById('testButton').addEventListener('click', runTest);
-    document.getElementById('generateStringButton').addEventListener('click', generateStringBasedOnSumDependencies);
+    document.getElementById('generateStringButton').addEventListener('click', generateString);
 });
 
 let dynamicDependencies = {};
@@ -116,67 +116,6 @@ function generateString() {
         console.log(`Próbowano ${attempts} razy.`);
     }
 }
-
-/////////////////////
-
-function generateStringBasedOnSumDependencies() {
-    const selectedDependencies = getSelectedDependenciesFromUI();
-    const maxLength = getMaxStringLength();
-    let generatedString = Array(maxLength).fill('0');
-
-    if (generateStringRecursive(generatedString, selectedDependencies, 0)) {
-        document.getElementById('outputStrings').textContent = generatedString.join('');
-    } else {
-        console.log("Nie udało się wygenerować stringu spełniającego zależności.");
-    }
-}
-
-function generateStringRecursive(generatedString, dependencies, currentIndex) {
-    if (currentIndex === generatedString.length) {
-        return testStringWithDependencies(generatedString, dependencies);
-    }
-
-    for (let i = 0; i <= 9; i++) {
-        generatedString[currentIndex] = i.toString();
-        if (generateStringRecursive(generatedString, dependencies, currentIndex + 1)) {
-            return true;
-        }
-    }
-
-    generatedString[currentIndex] = '0'; // Resetowanie pozycji w przypadku niepowodzenia
-    return false;
-}
-
-function testStringWithDependencies(string, dependencies) {
-    return dependencies.every(dependency => dependency(string));
-}
-
-
-function getSelectedDependenciesFromUI() {
-    let dependencies = [];
-    document.querySelectorAll('#dependenciesList .dependency input:checked').forEach(checkbox => {
-        const depString = checkbox.id.replace('check-', '');
-        const matches = depString.match(/\d+/g);
-        if (matches && matches.length >= 2) {
-            const targetIndex = parseInt(matches.pop(), 10);
-            const sumIndexes = matches.map(Number);
-            const dependencyFunc = createSumCheckFunction(targetIndex, sumIndexes);
-            dependencyFunc.targetIndex = targetIndex;
-            dependencyFunc.sumIndexes = sumIndexes;
-            dependencies.push(dependencyFunc);
-        }
-    });
-    return dependencies;
-}
-
-
-
-function getMaxStringLength() {
-// Zwraca maksymalną długość stringu na podstawie aktualnych danych
-return 4; // Przykładowo ustawiona wartość
-}
-
-//////////////
 
 function getSelectedDependencies() {
     return Object.keys(dynamicDependencies)
