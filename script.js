@@ -31,6 +31,7 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
+    let zal = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
     const input = document.getElementById('inputStrings').value;
@@ -74,7 +75,7 @@ if (depName.startsWith('sumOfDigitsAt')) {
         return ` (${sumParts.join('+')}=${sumDigits % 10}, target: ${string[target]})`;
     }).join(' ');
 }
-const zal = 0;
+
 
 // Logika dla mnożenia
 else if (depName.startsWith('productOfDigitsAt')) {
