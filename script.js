@@ -220,7 +220,7 @@ function generateRandomString(length) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    product = sumIndexes.reduce((acc, index) => acc * parseInt(string[index], 10), 1);
+                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                 }
     
                 return parseInt(string[targetIndex], 10) === (product % 10);
