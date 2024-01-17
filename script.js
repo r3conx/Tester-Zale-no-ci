@@ -31,6 +31,7 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
+    //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
@@ -103,6 +104,10 @@ else if (depName.startsWith('productOfDigitsAt')) {
 
         resultsDiv.innerHTML += `Zależność: ${depName} ${resultText}${calcDetails}<br>`;
     });
+    //zapisz czas zakończenia testu
+    const endTime2 = performance.now();
+    //wyświetl czas testu
+    console.log(`Czas testu: ${endTime2 - startTime2}ms`);
 }
 
 
