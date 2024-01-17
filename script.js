@@ -357,11 +357,7 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
             
             const base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
             const power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
-            let powerResult = 1;
-            
-            for (let i = 0; i < power; i++) {
-                powerResult *= base;
-            }
+            const powerResult = Math.pow(base, power);
             
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
