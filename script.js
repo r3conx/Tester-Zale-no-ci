@@ -67,9 +67,8 @@ else if (depName.startsWith('productOfDigitsAt')) {
         let productDigits = 1;
         if (depName.includes('and')) {
             productDigits = parseInt(string[index1], 10) * parseInt(string[index2], 10);
-            ``;
-            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})<br>
-            Debug: productOfDigitsAt - and, indexes: ${index1}, ${index2}, product: ${productDigits}, target: ${string[target]}`;
+            `Debug: productOfDigitsAt - and, indexes: ${index1}, ${index2}, product: ${productDigits}, target: ${string[target]}`;
+            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})`;
         } else {
             for (let i = index1; i <= index2; i++) {
                 productDigits *= parseInt(string[i], 10);
