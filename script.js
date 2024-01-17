@@ -193,22 +193,30 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
                 let sum = 0;
+    
                 if (isRange) {
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                    // Sumowanie w zakresie
+                    const [startIndex, endIndex] = [Math.min(...sumIndexes), Math.max(...sumIndexes)];
+                    for (let i = startIndex; i <= endIndex; i++) {
                         sum += parseInt(string[i], 10);
                     }
                 } else {
-                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
+                    // Sumowanie na wybranych indeksach z przerwami
+                    for (const index of sumIndexes) {
+                        sum += parseInt(string[index], 10);
+                    }
                 }
+    
                 return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
+    
     
     function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
         return function(strings) {
