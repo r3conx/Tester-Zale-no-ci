@@ -224,7 +224,7 @@ function generateRandomString(length) {
                     // Dla konkretnych par cyfr
                     sumIndexes.forEach(index => {
                         if (index < string.length) {
-                            product *= parseInt(string[index], 10);
+                            product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                         }
                     });
                 }
