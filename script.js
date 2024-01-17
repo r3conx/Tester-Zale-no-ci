@@ -117,7 +117,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
     //niespełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
     `;
 
-
+    countDependencies();
 }
 
 
