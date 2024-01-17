@@ -211,13 +211,16 @@ function generateRandomString(length) {
                     }
                 } else {
                     sumIndexes.forEach(index => {
-                        product *= parseInt(string[index], 10);
+                        if (index < string.length) {
+                            product *= parseInt(string[index], 10);
+                        }
                     });
                 }
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
+    
     
     
     
