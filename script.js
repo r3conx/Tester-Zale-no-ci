@@ -164,19 +164,19 @@ function generateRandomString(length) {
                 for (let index2 = index1 + 1; index2 < strings[0].length; index2++) { // Zaczynamy od index1 + 1
                     if (targetIndex !== index1 && targetIndex !== index2) {
                         if (index1 + 1 !== index2) {
-                            let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            let sumDepNameRange = `${index1}++${index2}=${targetIndex}`;
                             dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
                         
-                            let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            let mulDepNameRange = `${index1}**${index2}=${targetIndex}`;
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
                         // Zależności dla sumowania
-                        let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                        let sumDepName = `${index1}+${index2}=${targetIndex}`;
                         dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, [index1, index2], false);
     
     
                         // Zależności dla mnożenia
-                        let mulDepName = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                        let mulDepName = `${index1}*${index2}=${targetIndex}`;
                         dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, [index1, index2], false);
     
                     }
