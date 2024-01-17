@@ -201,24 +201,27 @@ function generateRandomString(length) {
     }
     
     
-    function createProductCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
-                let product = 1; // Rozpoczynamy od 1, bo jest to element neutralny mnożenia
+                let product = 1;
                 if (isRange) {
-                    let startIndex = Math.min(sumStartIndex, sumEndIndex);
-                    let endIndex = Math.max(sumStartIndex, sumEndIndex);
-                    for (let i = startIndex; i <= endIndex; i++) {
+                    // Mnożenie w zakresie
+                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    product = parseInt(string[sumStartIndex], 10) * parseInt(string[sumEndIndex], 10);
+                    // Mnożenie konkretnych cyfr
+                    sumIndexes.forEach(index => {
+                        product *= parseInt(string[index], 10);
+                    });
                 }
-                return parseInt(string[targetIndex], 10) === (product % 10); // Porównujemy cyfrę jedności produktu z cyfrą na pozycji targetIndex
+                return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
+    
     
     
     
