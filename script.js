@@ -181,10 +181,13 @@ function generateRandomString(length) {
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
                         if (index2 - index1 > 1) {
-                            let sumDepNameWithGap = `sumWithGapOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                            let sumDepNameWithGap = `sumOfDigitsGapAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[sumDepNameWithGap] = createSumCheckFunctionWithGap(targetIndex, index1, index2);
                         }
-
+                        if (index2 - index1 > 1) {
+                            let mulDepNameWithGap = `productOfDigitsGapAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[mulDepNameWithGap] = createProductCheckFunctionWithGap(targetIndex, index1, index2);
+                        }
 
                     }
                 }
@@ -262,7 +265,15 @@ function generateRandomString(length) {
         };
     }
     
-    
+    function createProductCheckFunctionWithGap(targetIndex, productStartIndex, productEndIndex) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || productStartIndex >= string.length || productEndIndex >= string.length) return false;
+                let product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
+                return parseInt(string[targetIndex], 10) === (product % 10);
+            });
+        };
+    }
     
     
     
