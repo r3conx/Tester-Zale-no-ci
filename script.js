@@ -84,7 +84,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
 
 
 
-        resultsDiv.innerHTML += `Zależność: ${depName} </br> ${resultText}${calcDetails}<br>`;
+        resultsDiv.innerHTML += `Zależność: ${depName} ${resultText}${calcDetails}<br>`;
     });
 }
 
