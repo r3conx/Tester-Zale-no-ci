@@ -38,8 +38,7 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
-    <p>Czas generowania: ${performance.now() - startTime2}ms</p>
-    <p>Testy dla stringów: ${strings} </p>
+
     `;
     updateDynamicDependencies();
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
@@ -109,7 +108,10 @@ else if (depName.startsWith('productOfDigitsAt')) {
     //wyświetl czas testu
     console.log(`Czas testu: ${endTime2 - startTime2}ms`);
     //wyświetl wynik testu w div czas
-    document.getElementById('czas').innerHTML = `Czas testu: ${endTime2 - startTime2}ms`;
+    document.getElementById('czas').innerHTML = `
+    <p>Testy dla stringów: ${strings} </p>
+    Czas testu: ${endTime2 - startTime2}ms
+    `;
 
 
 }
