@@ -161,28 +161,25 @@ function generateRandomString(length) {
     
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
             for (let index1 = 0; index1 < strings[0].length; index1++) {
-                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) { // Zaczynamy od index1 + 1
+                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
                     if (targetIndex !== index1 && targetIndex !== index2) {
+                        // Zależności dla sumowania
+                        let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, index1, index2, false);
+    
                         if (index1 + 1 !== index2) {
                             let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
-                        
-                            let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
-                        // Zależności dla sumowania
-                        let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, [index1, index2], false);
-    
-                        let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
     
                         // Zależności dla mnożenia
                         let mulDepName = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, [index1, index2], false);
+                        dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, index1, index2, false);
     
-                        let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
+                        if (index1 + 1 !== index2) {
+                            let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
+                        }
                     }
                 }
             }
