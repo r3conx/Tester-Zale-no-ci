@@ -214,7 +214,7 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
     
-                if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
+                if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 5) {
                     // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
