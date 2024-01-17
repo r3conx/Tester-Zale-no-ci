@@ -181,25 +181,24 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                if (string.length <= targetIndex) return false;
                 let sum = 0;
                 if (isRange) {
-                    // Sumowanie w zakresie
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         sum += parseInt(string[i], 10);
                     }
                 } else {
-                    // Sumowanie na konkretnych indeksach
-                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
+                    sumIndexes.forEach(index => {
+                        sum += parseInt(string[index], 10);
+                    });
                 }
                 return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
-    
     
     function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
@@ -207,12 +206,10 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
                 if (isRange) {
-                    // Mnożenie w zakresie
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    // Mnożenie konkretnych cyfr
                     sumIndexes.forEach(index => {
                         product *= parseInt(string[index], 10);
                     });
@@ -221,6 +218,7 @@ function generateRandomString(length) {
             });
         };
     }
+    
     
     
     
