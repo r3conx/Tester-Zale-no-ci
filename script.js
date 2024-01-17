@@ -210,12 +210,13 @@ function generateRandomString(length) {
                 let product = 1;
     
                 if (isRange) {
+                    // Dla zakresu cyfr
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    // Obsługa przypadku pojedynczych indeksów
+                    // Dla konkretnych par cyfr
                     sumIndexes.forEach(index => {
                         if (index < string.length) {
                             product *= parseInt(string[index], 10);
@@ -227,6 +228,7 @@ function generateRandomString(length) {
             });
         };
     }
+    
     
     
     
