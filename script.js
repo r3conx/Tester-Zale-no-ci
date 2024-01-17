@@ -215,18 +215,14 @@ function generateRandomString(length) {
                 let product = 1;
     
                 if (isRange) {
-                    // Dla zakresu cyfr
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
-                        product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);                    }
+                        product *= parseInt(string[i], 10);
+                    }
                 } else {
-                    // Dla konkretnych par cyfr
-                    sumIndexes.forEach(index => {
-                        if (index < string.length) {
-                            product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
-                        }
-                    });
+                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                 }
+                
         
                 // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
                 return parseInt(string[targetIndex], 10) === (product % 10);
