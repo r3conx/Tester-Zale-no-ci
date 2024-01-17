@@ -132,7 +132,6 @@ select:active, select:hover {
   white-space: nowrap;
   cursor: pointer;
   position: relative;
-  left: 39.25%;
   margin-left: 10px;
 }
 
