@@ -66,21 +66,18 @@ else if (depName.startsWith('productOfDigitsAt')) {
     calcDetails = strings.map(string => {
         let productDigits = 1;
         if (depName.includes('and')) {
+            // Dla konkretnych par cyfr (np. productOfDigitsAt0and2)
             productDigits = parseInt(string[index1], 10) * parseInt(string[index2], 10);
-            ``;
-            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})<br>
-            Debug: productOfDigitsAt - and, indexes: ${index1}, ${index2}, product: ${productDigits}, target: ${string[target]}`;
+            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})`;
         } else {
+            // Dla zakresu cyfr (np. productOfDigitsAt0to2)
             for (let i = index1; i <= index2; i++) {
                 productDigits *= parseInt(string[i], 10);
             }
-            `Debug: productOfDigitsAt - to, indexes: ${index1}-${index2}, product: ${productDigits}, target: ${string[target]}`;
             return ` (${string.substring(index1, index2 + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
         }
     }).join(' ');
 }
-
-
 
 
 
@@ -190,25 +187,21 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                if (string.length <= targetIndex) return false;
                 let sum = 0;
-                if (isRange) {
-                    // Sumowanie w zakresie
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                        sum += parseInt(string[i], 10);
-                    }
-                } else {
-                    // Sumowanie na konkretnych indeksach
-                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
+    
+                for (let i = sumIndexes[0]; i <= (isRange ? sumIndexes[1] : sumIndexes[0]); i++) {
+                    if (i >= string.length) break;
+                    sum += parseInt(string[i], 10);
                 }
+    
                 return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
-    
     
     function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
@@ -222,18 +215,18 @@ function generateRandomString(length) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
+                    // Obsługa przypadku pojedynczych indeksów
+                    sumIndexes.forEach(index => {
+                        if (index < string.length) {
+                            product *= parseInt(string[index], 10);
+                        }
+                    });
                 }
-                
-        
-                // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
+    
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
-    
-    
-    
     
     
     
