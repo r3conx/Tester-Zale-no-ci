@@ -128,7 +128,8 @@ select:active, select:hover {
   white-space: nowrap;
   cursor: pointer;
   position: relative;
-  left: 50%;
+  left: 40%;
+  margin-left: 10px;
 }
 
 .button-64:active,
