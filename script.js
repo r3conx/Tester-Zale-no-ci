@@ -120,7 +120,7 @@ function generateString() {
     }
 
     if (generatedString) {
-        outputStrings.innerHTML = `<p>${generatedString}</p><br>`;
+        outputStrings.innerHTML = `</br><p>${generatedString}</p><br>`;
         document.getElementById('outputStrings').textContent = generatedString;
         console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
         console.log(`Wygenerowany string: ${generatedString}`);
