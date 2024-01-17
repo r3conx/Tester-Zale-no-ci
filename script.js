@@ -143,7 +143,6 @@ function generateRandomString(length) {
         return dynamicDependencies;
     }
     
-    
     function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
             return strings.map(string => {
@@ -153,3 +152,20 @@ function generateRandomString(length) {
             });
         };
     }
+    
+    // Nowa funkcja obsługująca wielokrotne sumy
+    function createMultipleSumCheckFunction(targetIndex, sumIndexesArray) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || sumIndexesArray.some(sumIndexes => sumIndexes.some(index => index >= string.length))) return false;
+                
+                let sumResult = sumIndexesArray.map(sumIndexes => {
+                    let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+                    return sum % 10;
+                });
+                
+                return sumResult.every(result => parseInt(string[targetIndex], 10) === result);
+            });
+        };
+    }
+    
