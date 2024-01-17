@@ -165,32 +165,33 @@ function generateRandomString(length) {
                     if (targetIndex !== index1 && targetIndex !== index2) {
                         // Zależności dla sumowania
                         let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, index1, index2, false);
+                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, [index1, index2], false);
     
                         if (index2 - index1 > 1) {
                             let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
+                            dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, [index1, index2], true);
                         }
-                    // Sumowanie z przerwą
-                    for (let skip = 1; skip < index2 - index1; skip++) {
-                        let sumIndexes = [];
-                        for (let i = index1; i <= index2; i++) {
-                            if (i !== index1 + skip) {
-                                sumIndexes.push(i);
+    
+                        // Sumowanie z przerwą
+                        for (let skip = 1; skip < index2 - index1; skip++) {
+                            let sumIndexes = [];
+                            for (let i = index1; i <= index2; i++) {
+                                if (i !== index1 + skip) {
+                                    sumIndexes.push(i);
+                                }
                             }
+                            let sumDepNameSkip = `sumOfDigitsAt${sumIndexes.join('and')}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[sumDepNameSkip] = createSumCheckFunction(targetIndex, sumIndexes);
                         }
-                        let sumDepNameSkip = `sumOfDigitsAt${sumIndexes.join('and')}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[sumDepNameSkip] = createSumCheckFunction(targetIndex, sumIndexes);
-                    }
+    
                         // Zależności dla mnożenia
                         let mulDepName = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, index1, index2, false);
+                        dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, [index1, index2], false);
     
                         if (index2 - index1 > 1) {
                             let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
+                            dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, [index1, index2], true);
                         }
-
                     }
                 }
             }
