@@ -57,7 +57,7 @@ details {
     }
     div#czas {
         display: block;
-        float: right;
+        float: left;
         background: #252525;
     }
   
