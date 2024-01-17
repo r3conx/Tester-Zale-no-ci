@@ -192,40 +192,32 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createSumCheckFunction(targetIndex, startIndices, endIndices) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex) return false;
                 let sum = 0;
-                if (isRange) {
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                        if (i >= string.length) return false;
-                        sum += parseInt(string[i], 10);
+                for (let i = 0; i < startIndices.length; i++) {
+                    for (let j = startIndices[i]; j <= endIndices[i]; j++) {
+                        if (j >= string.length) return false;
+                        sum += parseInt(string[j], 10);
                     }
-                } else {
-                    if (sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
-                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
                 }
-                return parseInt(string[targetIndex], 10) === (sum % 10); // Tylko cyfra jedności
+                return string.length > targetIndex && parseInt(string[targetIndex], 10) === sum;
             });
         };
     }
     
-    function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
+    function createProductCheckFunction(targetIndex, startIndices, endIndices) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex) return false;
                 let product = 1;
-                if (isRange) {
-                    for (let i = productStartIndex; i <= productEndIndex; i++) {
-                        if (i >= string.length) return false;
-                        product *= parseInt(string[i], 10);
+                for (let i = 0; i < startIndices.length; i++) {
+                    for (let j = startIndices[i]; j <= endIndices[i]; j++) {
+                        if (j >= string.length) return false;
+                        product *= parseInt(string[j], 10);
                     }
-                } else {
-                    if (productStartIndex >= string.length || productEndIndex >= string.length) return false;
-                    product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
                 }
-                return parseInt(string[targetIndex], 10) === (product % 10); // Tylko cyfra jedności
+                return string.length > targetIndex && parseInt(string[targetIndex], 10) === product;
             });
         };
     }
