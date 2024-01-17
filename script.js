@@ -375,7 +375,6 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
 
 
 
-
 // Funkcja do generowania zależności potęg
 function generateDynamicPowerDependencies(strings) {
     let dynamicDependencies = {};
