@@ -76,6 +76,7 @@ details {
     transform: rotate(0);
     transform-origin: .2rem 50%;
     transition: .25s transform ease;
+    position:fixed;
     float: right;
     
   }
