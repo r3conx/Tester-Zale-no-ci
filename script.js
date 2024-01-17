@@ -218,7 +218,8 @@ function generateRandomString(length) {
                     // Dla zakresu cyfr
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
-                        product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);                    }
+                        product *= parseInt(string[i], 10);
+                    }
                 } else {
                     // Dla konkretnych par cyfr
                     sumIndexes.forEach(index => {
