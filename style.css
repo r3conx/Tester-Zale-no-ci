@@ -47,6 +47,12 @@ details {
     color: white;
     
   }
+
+
+    div#results {
+        background: #444;
+    }
+  
   
   summary:before {
     content: '';
