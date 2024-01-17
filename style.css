@@ -116,6 +116,8 @@ select:active, select:hover {
   box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
   box-sizing: border-box;
   color: #FFFFFF;
+  display: flex;
+  float: left;
   font-family: Phantomsans, sans-serif;
   font-size: 20px;
   justify-content: center;
@@ -129,6 +131,7 @@ select:active, select:hover {
   touch-action: manipulation;
   white-space: nowrap;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .button-64:active,
