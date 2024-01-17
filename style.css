@@ -56,7 +56,7 @@ details {
         background: #252525;
     }
     div#czas, div#results {
-        display: flexbox;
+        display: flex;
         background: #252525;
     }
   
