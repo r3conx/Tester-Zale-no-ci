@@ -205,19 +205,22 @@ function generateRandomString(length) {
     function createProductCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                if (string.length <= targetIndex) return false;
                 let product = 1; // Rozpoczynamy od 1, bo jest to element neutralny mnożenia
                 if (isRange) {
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                    let startIndex = Math.min(sumStartIndex, sumEndIndex);
+                    let endIndex = Math.max(sumStartIndex, sumEndIndex);
+                    for (let i = startIndex; i <= endIndex; i++) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
                     product = parseInt(string[sumStartIndex], 10) * parseInt(string[sumEndIndex], 10);
                 }
-                return parseInt(string[targetIndex], 10) === (product % 10);
+                return parseInt(string[targetIndex], 10) === (product % 10); // Porównujemy cyfrę jedności produktu z cyfrą na pozycji targetIndex
             });
         };
     }
+    
     
     
     
