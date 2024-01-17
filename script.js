@@ -227,7 +227,7 @@ function generateRandomString(length) {
                 }
     
                 let targetValue = parseInt(string[targetIndex], 10);
-                console.log(`Debug: Calculated product: ${product}, target: ${targetValue}`);
+                resultsDiv.innerHTML += `Debug: Calculated product: ${product}, target: ${targetValue}<br>`;
                 
                 // Porównanie z wartością docelową
                 return targetValue === (product % 10);
