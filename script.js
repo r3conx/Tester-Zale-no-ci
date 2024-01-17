@@ -363,14 +363,23 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
 function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
-            if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            let base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
-            let power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
+            if (string.length <= targetIndex) return false;
+            if (powerIndexes.some(index => index >= string.length)) return false;
+
+            let base, power;
+            if (isRange) {
+                base = parseInt(string.slice(powerIndexes[0], powerIndexes[1] + 1), 10);
+                power = parseInt(string[powerIndexes[1]], 10);
+            } else {
+                base = parseInt(string[powerIndexes[0]], 10);
+                power = 1;
+            }
             let powerResult = Math.pow(base, power);
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
 
 
 
