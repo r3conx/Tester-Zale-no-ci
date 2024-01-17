@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateStringButton.addEventListener('click', generateString);
 });
 
-
+let results = [];
 let dynamicDependencies = {};
 
 function initializeDependencies() {
@@ -100,6 +100,8 @@ else if (depName.startsWith('productOfDigitsAt')) {
 
 
 
+results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
+
 
 
 
@@ -120,6 +122,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
     `;
 
     countDependencies();
+    resultsDiv.innerHTML = results.join('');
 }
 
 function countDependencies() {
