@@ -36,6 +36,7 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
+    <p>Czas generowania: ${performance.now()}ms</p>
     <p>Testy dla stringów: ${strings} </p>
     `;
     updateDynamicDependencies();
