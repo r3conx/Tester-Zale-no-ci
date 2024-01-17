@@ -148,9 +148,11 @@ function generateDynamicSumDependencies(strings) {
     for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
         for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
             for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
-                if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
-                    let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
-                    dynamicDependencies[depName] = createMultipleSumCheckFunction(targetIndex, [[sumIndex1, sumIndex2]]);
+                for (let i = 0; i < strings.length; i++) {
+                    for (let j = i + 1; j < strings.length; j++) {
+                        let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}inStrings${i}and${j}`;
+                        dynamicDependencies[depName] = createMultipleSumCheckFunction(targetIndex, [[sumIndex1, sumIndex2]]);
+                    }
                 }
             }
         }
@@ -158,6 +160,7 @@ function generateDynamicSumDependencies(strings) {
 
     return dynamicDependencies;
 }
+
 
 
     
