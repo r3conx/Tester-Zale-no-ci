@@ -215,6 +215,12 @@ function generateRandomString(length) {
                 let product = 1;
     
                 if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 5) {
+                    console.log('Zakres jest za duży!');
+                    console.log(sumIndexes);
+                    console.log(string);
+                    console.log(sumIndexes[0] - sumIndexes[1]);
+                    console.log(Math.abs(sumIndexes[0] - sumIndexes[1]));
+                    console.log(isRange);
                     // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
