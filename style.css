@@ -55,7 +55,7 @@ details {
     div#results {
         background: #252525;
     }
-    div#czas, div#results, div#dependenciesList, details {
+    div#czas, div#results {
         display: block;
         float: left;
         background: #252525;
