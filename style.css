@@ -57,6 +57,7 @@ details {
     }
     div#czas, div#results {
         display: flex;
+        float: right;
         background: #252525;
     }
   
