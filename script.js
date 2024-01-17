@@ -48,17 +48,31 @@ function runTest() {
 
 // Logika dla sumowania
 if (depName.startsWith('sumOfDigitsAt')) {
-    const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
+    const indexes = depName.match(/\d+/g).map(Number);
+    const target = indexes.pop(); // Ostatni element to target
+
     calcDetails = strings.map(string => {
         let sumDigits = 0;
-        let startIndex = Math.min(sumStart, sumEnd);
-        let endIndex = Math.max(sumStart, sumEnd);
-        for (let i = startIndex; i <= endIndex; i++) {
-            sumDigits += parseInt(string[i], 10);
+        let sumParts = [];
+
+        if (depName.includes('to')) {
+            // Sumowanie w zakresie
+            for (let i = indexes[0]; i <= indexes[1]; i++) {
+                sumDigits += parseInt(string[i], 10);
+                sumParts.push(string[i]);
+            }
+        } else {
+            // Sumowanie konkretnych indeksów
+            sumParts = indexes.map(index => {
+                sumDigits += parseInt(string[index], 10);
+                return string[index];
+            });
         }
-        return ` (${string.substring(startIndex, endIndex + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
+
+        return ` (${sumParts.join('+')}=${sumDigits % 10}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 // Logika dla mnożenia
 else if (depName.startsWith('productOfDigitsAt')) {
@@ -78,6 +92,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
         }
     }).join(' ');
 }
+
 
 
 
