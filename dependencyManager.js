@@ -2,7 +2,7 @@
 function registerDependencyFunction(name, func) {
     dependencyFunctions[name] = func;
 }
-function generateDynamicSumDependencies(strings) {
+function generateDynamicDependencies(strings) {
     let dynamicDependencies = {};
 
     for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
@@ -57,5 +57,5 @@ function createDifferenceCheckFunction(targetIndex, diffIndexes) {
 }
 
 // Przypisz funkcje do globalnych zmiennych
-window.generateDynamicSumDependencies = generateDynamicSumDependencies;
+window.generateDynamicDependencies = generateDynamicSumDependencies;
 window.generateDynamicDifferenceDependencies = generateDynamicDifferenceDependencies;
