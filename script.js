@@ -428,11 +428,15 @@ function generatePowerDependencies() {
 
 function calculatePower(base, exponent) {
     let result = 1;
+    base = base % 10; // ograniczamy bazę do ostatniej cyfry
+
     for (let i = 0; i < exponent; i++) {
-        result *= base;
+        result = (result * base) % 10; // mnożymy tylko ostatnie cyfry
     }
-    return result % 10; // Ograniczamy wynik do pojedynczej cyfry
+
+    return result;
 }
+
 
 
 
