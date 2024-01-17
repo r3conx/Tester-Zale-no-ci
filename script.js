@@ -29,11 +29,11 @@ function updateDynamicDependencies() {
         });
     }
 }
+const resultsDiv = document.getElementById('results');
 
 function runTest() {
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
-    const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
     Testy dla stringów: ${strings} <br>
