@@ -79,7 +79,8 @@ function updateDynamicDependencies() {
 
 
 function runTest() {
-
+    const input = document.getElementById('inputStrings').value;
+    const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
@@ -120,6 +121,7 @@ function getSelectedFunctions() {
 
     return selectedFunctions;
 }
+
 
 
 
