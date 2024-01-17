@@ -147,10 +147,11 @@ function generateRandomString(length) {
     function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex) return false;
+                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
                 let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
-                return parseInt(string[targetIndex], 10) === (sum % 10); // Porównanie tylko cyfry jedności sumy
+                return parseInt(string[targetIndex], 10) === (sum % 10); // Porównujemy cyfrę jedności sumy z cyfrą na pozycji targetIndex
             });
         };
     }
+    
     
