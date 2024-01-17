@@ -111,6 +111,8 @@ else if (depName.startsWith('productOfDigitsAt')) {
     Testy dla stringów: ${strings}<br>
     Czas testu: ${endTime2 - startTime2}ms
     </br>
+    //spełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
+    //niespełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
     `;
 
 
