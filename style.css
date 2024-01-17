@@ -114,6 +114,7 @@ select:active, select:hover {
   color: #FFFFFF;
   display: flex;
   float: left;
+  text-align: center;
   font-family: Phantomsans, sans-serif;
   font-size: 20px;
   justify-content: center;
