@@ -46,21 +46,25 @@ function runTest() {
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
         let calcDetails = '';
 
-        // Logika dla sumowania
-        if (depName.startsWith('sumOfDigitsAt')) {
-            const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
-            calcDetails = strings.map(string => {
-                const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
-                return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
-            }).join(' ');
+// Logika dla sumowania
+if (depName.startsWith('sumOfDigitsAt')) {
+    const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
+    calcDetails = strings.map(string => {
+        let sumDigits = 0;
+        let startIndex = Math.min(sumStart, sumEnd);
+        let endIndex = Math.max(sumStart, sumEnd);
+        for (let i = startIndex; i <= endIndex; i++) {
+            sumDigits += parseInt(string[i], 10);
         }
+        return ` (${string.substring(startIndex, endIndex + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
+    }).join(' ');
+}
 
 // Logika dla mnożenia
 else if (depName.startsWith('productOfDigitsAt')) {
     const [prodStart, prodEnd, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
         let productDigits = 1;
-        // Uwzględnienie odwrotnej kolejności indeksów
         let startIndex = Math.min(prodStart, prodEnd);
         let endIndex = Math.max(prodStart, prodEnd);
         for (let i = startIndex; i <= endIndex; i++) {
@@ -69,6 +73,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
         return ` (${string.substring(startIndex, endIndex + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
         resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
