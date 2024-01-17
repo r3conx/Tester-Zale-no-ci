@@ -26,7 +26,7 @@
 details {
     padding-top: 4rem;
     /* odstęp od góry */
-    display: flex;
+
     width: 80%;
     margin: 0 auto ;
     background: #222;
@@ -53,6 +53,10 @@ details {
 
 
     div#results {
+        background: #252525;
+    }
+    div#czas {
+        display: flex;
         background: #252525;
     }
   
