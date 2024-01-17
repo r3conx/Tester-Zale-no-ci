@@ -323,20 +323,21 @@ function generateRandomString(length) {
     function generateDynamicPowerDependencies(strings) {
         let dynamicDependencies = {};
     
-        if (strings && strings[0]) { // Sprawdzamy, czy strings istnieje i ma co najmniej jedną wartość.
-            for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-                for (let index1 = 0; index1 < strings[0].length; index1++) {
-                    for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
-                        if (targetIndex !== index1 && targetIndex !== index2) {
-                            // Zależności dla potęg
-                            let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
+        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+            for (let index1 = 0; index1 < strings[0].length; index1++) {
+                if (index1 === targetIndex) continue; // pominięcie, jeśli indeksy są takie same
     
-                            if (index2 - index1 > 1) {
-                                let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                                dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
-                            }
-                        }
+                for (let index2 = 0; index2 < strings[0].length; index2++) {
+                    if (index2 === targetIndex || index2 === index1) continue; // pominięcie, jeśli indeksy są takie same
+    
+                    // Zależności dla potęg
+                    let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                    dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
+    
+                    if (index2 > index1 + 1) {
+                        // Tworzenie zależności dla zakresu
+                        let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
                     }
                 }
             }
