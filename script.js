@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeDependencies() {
     updateDynamicDependencies();
-    generatePowerDependencies(); // Dodaj tę linijkę
 }
 
 
@@ -46,7 +45,6 @@ function runTest() {
     resultsDiv.innerHTML = ``;
 
     // Dodaj wywołanie funkcji do generowania zależności opartych na potęgach
-    generatePowerDependencies();
 
     const newDynamicDependenciesSum = generateDynamicSumDependencies(strings);
     const newDynamicDependenciesPower = generateDynamicPowerDependencies(strings);
