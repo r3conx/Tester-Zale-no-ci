@@ -355,11 +355,11 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
             return strings.map(string => {
                 if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-                let powerResult = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
+                let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
                 for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
-                    powerResult *= parseInt(string[i], 10);
+                    base *= parseInt(string[i], 10);
                 }
-                return parseInt(string[targetIndex], 10) === (powerResult % 10);
+                return parseInt(string[targetIndex], 10) === (base % 10);
             });
         };
     }
@@ -376,6 +376,7 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
             }
         });
     }
+    
     
 
 //aha
