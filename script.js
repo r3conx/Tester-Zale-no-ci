@@ -55,14 +55,21 @@ function runTest() {
             }).join(' ');
         }
 
-        // Logika dla mnożenia
-        else if (depName.startsWith('productOfDigitsAt')) {
-            const [prodStart, prodEnd, target] = depName.match(/\d+/g).map(Number);
-            calcDetails = strings.map(string => {
-                const productDigits = string.substring(prodStart, prodEnd + 1).split('').reduce((acc, curr) => acc * parseInt(curr, 10), 1);
-                return ` (${string.substring(prodStart, prodEnd + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
-            }).join(' ');
+// Logika dla mnożenia
+else if (depName.startsWith('productOfDigitsAt')) {
+    const [prodStart, prodEnd, target] = depName.match(/\d+/g).map(Number);
+    calcDetails = strings.map(string => {
+        let productDigits = 1;
+        // Uwzględnienie odwrotnej kolejności indeksów
+        let startIndex = Math.min(prodStart, prodEnd);
+        let endIndex = Math.max(prodStart, prodEnd);
+        for (let i = startIndex; i <= endIndex; i++) {
+            productDigits *= parseInt(string[i], 10);
         }
+        return ` (${string.substring(startIndex, endIndex + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
+    }).join(' ');
+}
+
 
         resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
     });
