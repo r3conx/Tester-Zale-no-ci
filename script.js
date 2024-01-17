@@ -354,12 +354,20 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            let base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
-            let powerResult = parseInt(string[powerIndexes[0]], 10) ** parseInt(string[powerIndexes[1]], 10);
+            
+            const base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
+            const power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
+            let powerResult = 1;
+            
+            for (let i = 0; i < power; i++) {
+                powerResult *= base;
+            }
+            
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
 
 
 
