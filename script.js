@@ -128,11 +128,12 @@ else if (depName.startsWith('powerOfDigitsAt')) {
 
         let base = isRange ? 1 : parseInt(string[indexes[0]], 10);
         for (let i = indexes[0] + 1; i <= indexes[1]; i++) {
-            base = math.multiply(base, parseInt(string[i], 10));
+            base = calculatePower(base, parseInt(string[i], 10));
         }
-        return ` (${base}^${power}=${math.mod(math.pow(base, power), 10)}, target: ${string[target]})`;
+        return ` (${base}^${power}=${calculatePower(base, power)}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
@@ -381,6 +382,21 @@ function generatePowerDependencies() {
         }
     });
 }
+
+
+
+function calculatePower(base, exponent) {
+    let result = 1;
+    for (let i = 0; i < exponent; i++) {
+        result *= base;
+    }
+    return result % 10; // Ograniczamy wynik do pojedynczej cyfry
+}
+
+
+
+
+
 
     
     
