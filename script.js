@@ -50,7 +50,7 @@ function runTest() {
 
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
-        const resultText = result.some(res => res) ? '✅' : '❌'; // Zmiana z every na some
+        const resultText = result.every(res => res) ? '✅' : '❌'; // Zmiana z every na some
         let calcDetails = '';
 // Po wywołaniu generateDynamicSumDependencies
 
