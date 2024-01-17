@@ -24,7 +24,10 @@
 }
 
 details {
-    padding-top: 25px;
+    margin-top: 1rem;
+    /* odstęp od góry */
+    text-align: left;
+
     width: 80%;
     margin: 0 auto ;
     background: #282828;
