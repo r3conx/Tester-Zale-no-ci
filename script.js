@@ -109,6 +109,33 @@ else if (depName.startsWith('productOfDigitsAt')) {
 }
 
 
+// Logika dla potęg
+else if (depName.startsWith('powerOfDigitsAt')) {
+    const indexes = depName.match(/\d+/g).map(Number);
+    const target = indexes.pop(); // Ostatni element to target
+
+    calcDetails = strings.map(string => {
+        let powerResult = 1;
+        let powerParts = [];
+
+        if (depName.includes('to')) {
+            // Potęgowanie w zakresie
+            for (let i = indexes[0]; i <= indexes[1]; i++) {
+                powerResult *= parseInt(string[i], 10);
+                powerParts.push(string[i]);
+            }
+        } else {
+            // Potęgowanie konkretnych indeksów
+            powerParts = indexes.map(index => {
+                powerResult *= parseInt(string[index], 10);
+                return string[index];
+            });
+        }
+
+        return ` (${powerParts.join('^')}=${powerResult % 10}, target: ${string[target]})`;
+    }).join(' ');
+}
+
 
 results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
 
