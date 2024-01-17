@@ -44,7 +44,7 @@ details {
     box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
     border-radius: 5px;
     overflow: hidden;
-    color: rgba(255, 255, 255, 0.527);
+    color: white;
     text-align: center;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
