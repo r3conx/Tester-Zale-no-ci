@@ -227,11 +227,11 @@ function generateRandomString(length) {
                 }
     
                 let targetValue = parseInt(string[targetIndex], 10);
-                let lastDigitOfProduct = product % 10;
-                console.log(`Debug: Calculated product: ${product}, last digit: ${lastDigitOfProduct}, target: ${targetValue}`);
+                let productValue = product % 10;
+                console.log(`Debug: Calculated product: ${product}, productValue: ${productValue}, target: ${targetValue}`);
     
-                // Porównanie ostatniej cyfry wyniku mnożenia z cyfrą docelową
-                return targetValue === lastDigitOfProduct;
+                // Porównanie pełnej wartości produktu z wartością docelową
+                return targetValue === productValue;
             });
         };
     }
