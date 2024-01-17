@@ -42,6 +42,7 @@ details {
     padding-left: 2.2rem;
     position: relative;
     cursor: pointer;
+    padding-top: 25px;
   }
   
   summary:before {
@@ -55,7 +56,7 @@ details {
     transform: rotate(0);
     transform-origin: .2rem 50%;
     transition: .25s transform ease;
-    padding-top: 25px;
+    
   }
   
   /* THE MAGIC 🧙‍♀️ */
