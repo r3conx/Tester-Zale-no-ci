@@ -43,7 +43,7 @@ function runTest() {
 
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
-        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+        const resultText = result.every(res => res) ? '✅' : '❌';
         let calcDetails = '';
 
 // Logika dla sumowania
