@@ -361,12 +361,14 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
             let powerResult = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
             for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
-                powerResult = math.pow(powerResult, parseInt(string[i], 10));
+                powerResult *= parseInt(string[i], 10);
             }
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
+
 
 function generatePowerDependencies() {
     const selectedDependencies = getSelectedDependencies();
