@@ -366,55 +366,6 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
 }
 
 
-
-
-
-
-
-// Funkcja do generowania zależności potęg
-function generateDynamicPowerDependencies(strings) {
-    let dynamicDependencies = {};
-
-    for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-        for (let index1 = 0; index1 < strings[0].length; index1++) {
-            for (let index2 = 0; index2 < strings[0].length; index2++) {
-                if (targetIndex !== index1 && targetIndex !== index2 && index1 !== index2) {
-                    // Zależności dla potęg
-                    let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                    dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
-
-                    if (index2 > index1 + 1) {
-                        let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
-                    }
-                }
-            }
-        }
-    }
-
-    return dynamicDependencies;
-}
-
-
-
-
-
-function generatePowerDependencies() {
-    const selectedDependencies = getSelectedDependencies();
-    const currentStrings = document.getElementById('inputStrings').value.split(',');
-
-    const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
-
-    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-        if (selectedDependencies.includes(func)) {
-            addDependency(`Dynamiczna: ${depName}`, depName, true);
-        }
-    });
-}
-
-
-
-
 function calculatePower(base, exponent) {
     let result = 1;
     base = base % 10; // ograniczamy bazę do ostatniej cyfry
