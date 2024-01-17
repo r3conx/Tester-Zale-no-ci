@@ -31,12 +31,13 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
+    const startTime2 = performance.now();
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
-    <p>Czas generowania: ${performance.now()}ms</p>
+    <p>Czas generowania: ${performance.now() - startTime2}ms</p>
     <p>Testy dla stringów: ${strings} </p>
     `;
     updateDynamicDependencies();
