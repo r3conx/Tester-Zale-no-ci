@@ -139,7 +139,7 @@ function countDependencies() {
     });
 
     //wyświetl wynik testu w div zależności
-    document.getElementById('czas').innerHTML = `
+    document.getElementById('czas').innerHTML += `
     Spełnione zależności: ${fulfilled}<br>
     Niespełnione zależności: ${notFulfilled}<br>
     `;
