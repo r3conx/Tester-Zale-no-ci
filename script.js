@@ -196,6 +196,11 @@ function generateRandomString(length) {
     function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
+                // Upewnij się, że sumIndexes jest tablicą
+                if (!Array.isArray(sumIndexes)) {
+                    sumIndexes = [sumIndexes];
+                }
+    
                 if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
                 let sum = 0;
     
