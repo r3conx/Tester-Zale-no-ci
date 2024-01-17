@@ -108,6 +108,8 @@ else if (depName.startsWith('productOfDigitsAt')) {
     const endTime2 = performance.now();
     //wyświetl czas testu
     console.log(`Czas testu: ${endTime2 - startTime2}ms`);
+    //wyświetl wynik testu na początku <div id="results">
+    resultsDiv.innerHTML += `<p>Czas testu: ${endTime2 - startTime2}ms</p>`;
 }
 
 
