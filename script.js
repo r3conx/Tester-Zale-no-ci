@@ -44,15 +44,13 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
 
-    // Dodaj wywołanie funkcji do generowania zależności opartych na potęgach
-
     const newDynamicDependenciesSum = generateDynamicSumDependencies(strings);
     const newDynamicDependenciesPower = generateDynamicPowerDependencies(strings);
     const newDynamicDependencies = { ...newDynamicDependenciesSum, ...newDynamicDependenciesPower };
 
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
-        const resultText = result.every(res => res) ? '✅' : '❌';
+        const resultText = result.some(res => res) ? '✅' : '❌'; // Zmiana z every na some
         let calcDetails = '';
 // Po wywołaniu generateDynamicSumDependencies
 
