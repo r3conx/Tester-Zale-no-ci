@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     script.onload = () => {
         // Po załadowaniu modułu, możesz korzystać z funkcji zależności
         initializeDependencies();
-
+    };
         // Reszta kodu po załadowaniu modułu
         const testButton = document.getElementById('testButton');
         const generateStringButton = document.getElementById('generateStringButton');
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeDependencies();
         testButton.addEventListener('click', runTest);
         generateStringButton.addEventListener('click', generateString);
-    };
+
     document.head.appendChild(script);
 });
 
