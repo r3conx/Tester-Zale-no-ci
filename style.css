@@ -131,7 +131,7 @@ select:active, select:hover {
   touch-action: manipulation;
   white-space: nowrap;
   cursor: pointer;
-  position: relative;
+  position: static;
   margin-left: 10px;
 }
 
