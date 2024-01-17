@@ -57,5 +57,5 @@ function createDifferenceCheckFunction(targetIndex, diffIndexes) {
 }
 
 // Przypisz funkcje do globalnych zmiennych
-window.generateDynamicDependencies = generateDynamicSumDependencies;
+window.generateDynamicDependencies = generateDynamicDependencies;
 window.generateDynamicDifferenceDependencies = generateDynamicDifferenceDependencies;
