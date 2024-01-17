@@ -55,7 +55,7 @@ function runTest() {
         const resultText = result.every(res => res) ? '✅' : '❌';
         let calcDetails = '';
 // Po wywołaniu generateDynamicSumDependencies
-generatePowerDependencies();
+generateDynamicPowerDependencies();
 
 
 
