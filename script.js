@@ -192,20 +192,20 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, startIndices, endIndices) {
+    function createSumCheckFunction(targetIndex, indices) {
         return function(strings) {
             return strings.map(string => {
                 let sum = 0;
-                for (let i = 0; i < startIndices.length; i++) {
-                    for (let j = startIndices[i]; j <= endIndices[i]; j++) {
-                        if (j >= string.length) return false;
-                        sum += parseInt(string[j], 10);
-                    }
+                for (let i = 0; i < indices.length; i++) {
+                    const index = indices[i];
+                    if (index >= string.length) return false;
+                    sum += parseInt(string[index], 10);
                 }
                 return string.length > targetIndex && parseInt(string[targetIndex], 10) === sum;
             });
         };
     }
+    
     
     function createProductCheckFunction(targetIndex, startIndices, endIndices) {
         return function(strings) {
