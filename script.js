@@ -228,13 +228,12 @@ function generateRandomString(length) {
     
                 let targetValue = parseInt(string[targetIndex], 10);
                 let productValue = product % 10;
-                console.log(`Debug: Calculated product: ${product}, productValue: ${productValue}, target: ${targetValue}`);
-    
-                // Porównanie pełnej wartości produktu z wartością docelową
+                // Porównanie wartości produktu z wartością docelową
                 return targetValue === productValue;
             });
         };
     }
+    
     
     
     
