@@ -207,16 +207,12 @@ function generateRandomString(length) {
                 let product = 1;
     
                 if (isRange) {
-                    // Mnożenie w zakresie od sumIndexes[0] do sumIndexes[1]
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    // Mnożenie tylko wybranych indeksów
                     sumIndexes.forEach(index => {
-                        if (index < string.length) {
-                            product *= parseInt(string[index], 10);
-                        }
+                        product *= parseInt(string[index], 10);
                     });
                 }
     
