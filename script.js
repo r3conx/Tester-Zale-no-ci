@@ -222,8 +222,9 @@ function generateRandomString(length) {
                 } else {
                     product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                 }
-    
-                return parseInt(string[targetIndex], 10) === (product % 10);
+                
+                // Zmiana w tej linii: Sprawdź, czy wynik iloczynu jest równy cyfrze docelowej na pozycji 0
+                return parseInt(string[targetIndex], 10) === parseInt(product.toString()[0], 10);
             });
         };
     }
