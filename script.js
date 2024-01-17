@@ -419,11 +419,12 @@ function generatePowerDependencies() {
     const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
 
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-        if (selectedDependencies.includes(func)) {
+        if (!selectedDependencies.includes(func)) {
             addDependency(`Dynamiczna: ${depName}`, depName, true);
         }
     });
 }
+
 
 
 
