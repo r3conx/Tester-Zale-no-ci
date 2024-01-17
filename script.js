@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
-    const inputStrings = document.getElementById('inputStrings');
-    const resultsDiv = document.getElementById('results');
-    const outputStrings = document.getElementById('outputStrings');
-    
     initializeDependencies();
     testButton.addEventListener('click', runTest);
     generateStringButton.addEventListener('click', generateString);
@@ -34,10 +30,6 @@ function updateDynamicDependencies() {
     }
 }
 
-
-
-
-
 function runTest() {
     const input = document.getElementById('inputStrings').value;
     const strings = input.split(',');
@@ -47,10 +39,7 @@ function runTest() {
     Testy dla stringów: ${strings} <br>
     `;
     updateDynamicDependencies();
-
-
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
-
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
@@ -68,10 +57,6 @@ function runTest() {
         resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
     });
 }
-
-
-
-
 
 
 function removeDynamicDependencies() {
@@ -96,7 +81,6 @@ function addDependency(name, funcName, isFulfilled) {
 
 function generateString() {
     const startTime = performance.now();
-    //updateDynamicDependencies();
     const selectedDependencies = getSelectedDependencies();
     const maxLength = Math.max(...(document.getElementById('inputStrings').value.split(',').map(s => s.length)));
 
@@ -141,11 +125,6 @@ function generateRandomString(length) {
     }
     
 
-
-
-
-
-
     // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
     function generateDynamicSumDependencies(strings) {
         let dynamicDependencies = {};
@@ -165,10 +144,6 @@ function generateRandomString(length) {
     }
     
     
-
-
-    
-    
     function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
             return strings.map(string => {
@@ -178,11 +153,3 @@ function generateRandomString(length) {
             });
         };
     }
-    
-    
-    
-    
-    
-
-
-// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beraas
