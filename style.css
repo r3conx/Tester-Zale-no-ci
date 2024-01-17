@@ -114,7 +114,6 @@ select:active, select:hover {
   color: #FFFFFF;
   display: flex;
   float: left;
-  text-align: center;
   font-family: Phantomsans, sans-serif;
   font-size: 20px;
   justify-content: center;
@@ -128,6 +127,8 @@ select:active, select:hover {
   touch-action: manipulation;
   white-space: nowrap;
   cursor: pointer;
+  position: relative;
+  left: 50%;
 }
 
 .button-64:active,
