@@ -74,7 +74,7 @@ details {
     transform: rotate(90deg);
   }
 
-  select summary {
+  select summary, select summary:before, select summary:after, select details, select details summary, select details summary:before, select details summary:after {
     margin: 40px;
     background: rgba(0, 0, 0, 0.3);
     color: #fff;
