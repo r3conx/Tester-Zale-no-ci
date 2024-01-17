@@ -220,7 +220,7 @@ function generateRandomString(length) {
                 console.log(Math.abs(sumIndexes[0] - sumIndexes[1]));
                 console.log(isRange);
     
-                if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 5) {
+                if (isRange) {
                     console.log('Zakres jest za duży!');
                     console.log(sumIndexes);
                     console.log(string);
