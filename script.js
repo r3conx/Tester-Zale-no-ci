@@ -126,43 +126,23 @@ function generateRandomString(length) {
     
 
     // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
-function generateDynamicSumDependencies(strings) {
-    let dynamicDependencies = {};
-
-    for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-        for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
-            for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
-                if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
-                    let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
-                    dynamicDependencies[depName] = createMultipleSumCheckFunction(targetIndex, [[sumIndex1, sumIndex2]]);
-                }
-            }
-        }
-    }
-
-    return dynamicDependencies;
-}
-function generateDynamicSumDependencies(strings) {
-    let dynamicDependencies = {};
-
-    for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-        for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
-            for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
-                for (let i = 0; i < strings.length; i++) {
-                    for (let j = i + 1; j < strings.length; j++) {
-                        let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}inStrings${i}and${j}`;
-                        dynamicDependencies[depName] = createMultipleSumCheckFunction(targetIndex, [[sumIndex1, sumIndex2]]);
+    function generateDynamicSumDependencies(strings) {
+        let dynamicDependencies = {};
+    
+        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+            for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
+                for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
+                    if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
+                        let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[depName] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2]);
                     }
                 }
             }
         }
+    
+        return dynamicDependencies;
     }
-
-    return dynamicDependencies;
-}
-
-
-
+    
     
     function createSumCheckFunction(targetIndex, sumIndexes) {
         return function(strings) {
@@ -173,21 +153,3 @@ function generateDynamicSumDependencies(strings) {
             });
         };
     }
-    
-    // Nowa funkcja obsługująca wielokrotne sumy
-    function createMultipleSumCheckFunction(targetIndex, sumIndexesArray) {
-        return function(strings) {
-            return strings.map((string, stringIndex) => {
-                if (string.length <= targetIndex || sumIndexesArray.some(sumIndexes => sumIndexes.some(index => index >= string.length))) return false;
-                
-                let sumResult = sumIndexesArray.map(sumIndexes => {
-                    let sum = sumIndexes.reduce((acc, index) => acc + parseInt(strings[stringIndex][index], 10), 0);
-                    return sum % 10;
-                });
-                
-                return sumResult.every(result => parseInt(string[targetIndex], 10) === result);
-            });
-        };
-    }
-    
-    
