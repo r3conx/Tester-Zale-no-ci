@@ -365,11 +365,13 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
             let base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
-            let powerResult = math.evaluate(`(${base})^1`);
+            let power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
+            let powerResult = Math.pow(base, power);
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
 
 
 
