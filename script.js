@@ -1,6 +1,5 @@
 // script.js
 let dynamicDependencies = {};
-let generateDynamicDependencies; // Przeniesiona deklaracja
 const input = document.getElementById('inputStrings').value;
 const strings = input.split(',');
 document.addEventListener('DOMContentLoaded', () => {
