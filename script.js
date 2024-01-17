@@ -1,5 +1,5 @@
 
-
+let results = [];
 let dynamicDependencies = {};
 
 document.addEventListener('DOMContentLoaded', () => {
