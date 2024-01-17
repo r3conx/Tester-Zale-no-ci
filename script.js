@@ -353,7 +353,6 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
     }
     
 // Importuj bibliotekę Math.js
-const math = require('mathjs');
 
 function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
