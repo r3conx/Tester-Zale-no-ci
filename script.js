@@ -299,30 +299,23 @@ function generateRandomString(length) {
     
 
     
-function createSumCheckFunction(targetIndex, sumIndexes) {
-    return function(strings) {
-        return strings.map(string => {
-            if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
-            let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
-            return parseInt(string[targetIndex], 10) === (sum % 10);
-        });
-    };
-}
+    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
+                let sum = isRange ? sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0) : parseInt(string[sumIndexes[0]], 10);
+                return parseInt(string[targetIndex], 10) === (sum % 10);
+            });
+        };
+    }
 
     
     
-    function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
+    function createProductCheckFunction(targetIndex, productIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || productStartIndex >= string.length || productEndIndex >= string.length) return false;
-                let product = 1;
-                if (isRange) {
-                    for (let i = productStartIndex; i <= productEndIndex; i++) {
-                        product *= parseInt(string[i], 10);
-                    }
-                } else {
-                    product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
-                }
+                if (string.length <= targetIndex || productIndexes.some(index => index >= string.length)) return false;
+                let product = isRange ? productIndexes.reduce((acc, index) => acc * parseInt(string[index], 10), 1) : parseInt(string[productIndexes[0]], 10);
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
