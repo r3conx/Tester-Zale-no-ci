@@ -216,15 +216,17 @@ function generateRandomString(length) {
                 
                 if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
                     // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
-                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
+                    const startIndex = Math.min(sumIndexes[0], sumIndexes[1]);
+                    const endIndex = Math.max(sumIndexes[0], sumIndexes[1]);
+                    for (let i = startIndex; i <= endIndex; i++) {
                         if (i >= string.length) return false;
                         product *= parseInt(string[i], 10);
                     }
                 } else {
                     // Dla pojedynczych indeksów lub krótkich zakresów
-                    for (let i = 0; i < sumIndexes.length; i++) {
-                        if (sumIndexes[i] >= string.length) return false;
-                        product *= parseInt(string[sumIndexes[i]], 10);
+                    for (const index of sumIndexes) {
+                        if (index >= string.length) return false;
+                        product *= parseInt(string[index], 10);
                     }
                 }
                 
