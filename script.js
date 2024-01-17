@@ -359,17 +359,15 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
+            let powerResult = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
             for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
-                base = base * parseInt(string[i], 10);
+                powerResult = math.pow(powerResult, parseInt(string[i], 10));
             }
-            return parseInt(string[targetIndex], 10) === (base % 10);
+            return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
 
-
-    
 function generatePowerDependencies() {
     const selectedDependencies = getSelectedDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
@@ -382,6 +380,7 @@ function generatePowerDependencies() {
         }
     });
 }
+
 
 
 
