@@ -214,20 +214,27 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
     
-                if (isRange) {
+                if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
+                    // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
+                    // Dla pojedynczych indeksów lub krótkich zakresów
+                    for (let i = 0; i < sumIndexes.length; i++) {
+                        if (sumIndexes[i] >= string.length) return false;
+                        product *= parseInt(string[sumIndexes[i]], 10);
+                    }
                 }
                 
-                // Zmiana w tej linii: Sprawdź, czy wynik iloczynu jest równy cyfrze docelowej na pozycji 0
+                // Sprawdź, czy wynik iloczynu jest równy cyfrze docelowej na pozycji 0
                 return parseInt(string[targetIndex], 10) === parseInt(product.toString()[0], 10);
             });
         };
     }
+    
+    
     
     
     
