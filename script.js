@@ -228,11 +228,14 @@ function generateRandomString(length) {
                         }
                     });
                 }
-    
+        
+                // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
+    
+    
     
     
     
