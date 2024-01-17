@@ -66,18 +66,19 @@ else if (depName.startsWith('productOfDigitsAt')) {
     calcDetails = strings.map(string => {
         let productDigits = 1;
         if (depName.includes('and')) {
-            // Dla konkretnych par cyfr (np. productOfDigitsAt0and2)
             productDigits = parseInt(string[index1], 10) * parseInt(string[index2], 10);
+            console.log(`Debug: productOfDigitsAt - and, indexes: ${index1}, ${index2}, product: ${productDigits}, target: ${string[target]}`);
             return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})`;
         } else {
-            // Dla zakresu cyfr (np. productOfDigitsAt0to2)
             for (let i = index1; i <= index2; i++) {
                 productDigits *= parseInt(string[i], 10);
             }
+            console.log(`Debug: productOfDigitsAt - to, indexes: ${index1}-${index2}, product: ${productDigits}, target: ${string[target]}`);
             return ` (${string.substring(index1, index2 + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
         }
     }).join(' ');
 }
+
 
 
 
@@ -215,18 +216,14 @@ function generateRandomString(length) {
                 let product = 1;
     
                 if (isRange) {
-                    // Dla zakresu cyfr
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         if (i >= string.length) break;
-                        product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);                    }
+                        product *= parseInt(string[i], 10);
+                    }
                 } else {
-                    // Dla konkretnych par cyfr
-                    sumIndexes.forEach(index => {
-                        if (index < string.length) {
-                            product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
-                        }
-                    });
+                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                 }
+                
         
                 // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
                 return parseInt(string[targetIndex], 10) === (product % 10);
