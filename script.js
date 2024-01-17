@@ -361,15 +361,23 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            let base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
-            let power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
-            let powerResult = Math.pow(base, power);
-            return parseInt(string[targetIndex], 10) === (powerResult % 10);
+
+            let base, power;
+            if (isRange) {
+                // Jeśli isRange jest prawdziwe, bierzemy zakres indeksów
+                base = parseInt(string.slice(powerIndexes[0], powerIndexes[1] + 1), 10);
+                power = parseInt(string[powerIndexes[1]], 10);
+            } else {
+                // W przeciwnym wypadku bierzemy jedną bazę i jedną potęgę
+                base = parseInt(string[powerIndexes[0]], 10);
+                power = parseInt(string[powerIndexes[1]], 10);
+            }
+
+            let powerResult = calculatePower(base, power);
+            return parseInt(string[targetIndex], 10) === powerResult;
         });
     };
 }
-
-
 
 function calculatePower(base, exponent) {
     let result = 1;
@@ -381,6 +389,7 @@ function calculatePower(base, exponent) {
 
     return result;
 }
+
 
 
 
