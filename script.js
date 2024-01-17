@@ -352,31 +352,36 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
         return dynamicDependencies;
     }
     
-    function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-                let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
-                for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
-                    base *= parseInt(string[i], 10);
-                }
-                return parseInt(string[targetIndex], 10) === (base % 10);
-            });
-        };
-    }
-    
-    function generatePowerDependencies() {
-        const selectedDependencies = getSelectedDependencies();
-        const currentStrings = document.getElementById('inputStrings').value.split(',');
-    
-        const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
-    
-        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-            if (selectedDependencies.includes(func)) {
-                addDependency(`Dynamiczna: ${depName}`, depName, true);
+// Importuj bibliotekę Math.js
+const math = require('mathjs');
+
+function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
+            let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
+            for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
+                base = math.multiply(base, parseInt(string[i], 10));
             }
+            return parseInt(string[targetIndex], 10) === (math.mod(base, 10));
         });
-    }
+    };
+}
+
+    
+function generatePowerDependencies() {
+    const selectedDependencies = getSelectedDependencies();
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+
+    const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
+
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        if (selectedDependencies.includes(func)) {
+            addDependency(`Dynamiczna: ${depName}`, depName, true);
+        }
+    });
+}
+
     
     
 
