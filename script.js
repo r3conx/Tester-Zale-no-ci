@@ -113,11 +113,28 @@ else if (depName.startsWith('productOfDigitsAt')) {
     Testy dla stringów: ${strings}<br>
     Czas testu: ${endTime2 - startTime2}ms
     </br>
-    //spełnione zależności: ${zal}<br>
-    //niespełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
+    Zależności: ${zal}<br>
+
     `;
 
     countDependencies();
+}
+
+function countDependencies() {
+    let spełnione = 0;
+    let niespełnione = 0;
+    let lines = document.getElementById('results').innerHTML.split('<br>');
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].includes('❌')) {
+            niespełnione++;
+        } else if (lines[i].includes('✅')) {
+            spełnione++;
+        }
+    }
+    document.getElementById('czas').innerHTML += `
+    ✅: ${spełnione}<br>
+    ❌: ${niespełnione}<br>
+    `;
 }
 
 
@@ -234,23 +251,6 @@ function generateRandomString(length) {
     
     
     
-    //funkcja do liczenia ilości spełnionych i niespełnionych zależności na podstawie ilości linii w div id results ❌= nie spełniona ✅= spełniona
-    function countDependencies() {
-        let spełnione = 0;
-        let niespełnione = 0;
-        let lines = document.getElementById('results').innerHTML.split('<br>');
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].includes('❌')) {
-                niespełnione++;
-            } else if (lines[i].includes('✅')) {
-                spełnione++;
-            }
-        }
-        document.getElementById('czas').innerHTML += `
-        Spełnione zależności: ${spełnione}<br>
-        Niespełnione zależności: ${niespełnione}<br>
-        `;
-    }
 
     
 function createSumCheckFunction(targetIndex, sumIndexes) {
