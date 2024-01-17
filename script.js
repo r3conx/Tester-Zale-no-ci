@@ -1,3 +1,7 @@
+
+
+let dynamicDependencies = {};
+
 document.addEventListener('DOMContentLoaded', () => {
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
@@ -6,8 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateStringButton.addEventListener('click', generateString);
 });
 
-let results = [];
-let dynamicDependencies = {};
+
 
 function initializeDependencies() {
     updateDynamicDependencies();
@@ -33,6 +36,7 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
+    let results = [];
     let zal = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
