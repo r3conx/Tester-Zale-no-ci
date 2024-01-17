@@ -1,8 +1,7 @@
-// script.js
-let dynamicDependencies = {};
-let generateDynamicDependencies; // Przeniesiona deklaracja
-const input = document.getElementById('inputStrings').value;
-const strings = input.split(',');
+let dynamicDependencies = {}; // Globalna zmienna na zależności
+let generateDynamicDependencies; // Deklaracja funkcji generateDynamicDependencies
+const inputStrings = document.getElementById('inputStrings'); // Przeniesione do zadeklarowanych zmiennych
+
 document.addEventListener('DOMContentLoaded', () => {
     // Import modułu dependencyManager.js jako skrypt
     const script = document.createElement('script');
@@ -10,26 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
     script.onload = () => {
         // Po załadowaniu modułu, możesz korzystać z funkcji zależności
         initializeDependencies();
+
+        // Reszta kodu po załadowaniu modułu
+        const testButton = document.getElementById('testButton');
+        const generateStringButton = document.getElementById('generateStringButton');
+        const resultsDiv = document.getElementById('results');
+        const outputStrings = document.getElementById('outputStrings');
+        const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
+        functionCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                updateDynamicDependencies();
+            });
+        });
+
+        initializeDependencies();
+        testButton.addEventListener('click', runTest);
+        generateStringButton.addEventListener('click', generateString);
     };
     document.head.appendChild(script);
-
-    const testButton = document.getElementById('testButton');
-    const generateStringButton = document.getElementById('generateStringButton');
-    const inputStrings = document.getElementById('inputStrings');
-    const resultsDiv = document.getElementById('results');
-    const outputStrings = document.getElementById('outputStrings');
-    const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
-    functionCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            updateDynamicDependencies();
-        });
-    });
-    
-    initializeDependencies();
-    testButton.addEventListener('click', runTest);
-    generateStringButton.addEventListener('click', generateString);
-
 });
+
+// Reszta kodu
+
 
 
 
