@@ -171,7 +171,18 @@ function generateRandomString(length) {
                             let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
                         }
-    
+                        // Sumowanie z przerwą
+                        for (let skip = 1; skip < index2 - index1; skip++) {
+                            let sumIndexes = [];
+                            for (let i = index1; i <= index2; i++) {
+                                if (i !== index1 + skip) {
+                                    sumIndexes.push(i);
+                                }
+                            }
+                        }
+                            let sumDepNameSkip = `sumOfDigitsAt${sumIndexes.join('and')}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[sumDepNameSkip] = createSumCheckFunction(targetIndex, sumIndexes);
+
                         // Zależności dla mnożenia
                         let mulDepName = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, index1, index2, false);
@@ -193,34 +204,16 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
-        return function(strings) {
-            return strings.map(string => {
-                // Upewnij się, że sumIndexes jest tablicą
-                if (!Array.isArray(sumIndexes)) {
-                    sumIndexes = [sumIndexes];
-                }
-    
-                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
-                let sum = 0;
-    
-                if (isRange) {
-                    // Sumowanie w zakresie
-                    const [startIndex, endIndex] = [Math.min(...sumIndexes), Math.max(...sumIndexes)];
-                    for (let i = startIndex; i <= endIndex; i++) {
-                        sum += parseInt(string[i], 10);
-                    }
-                } else {
-                    // Sumowanie na wybranych indeksach z przerwami
-                    for (const index of sumIndexes) {
-                        sum += parseInt(string[index], 10);
-                    }
-                }
-    
-                return parseInt(string[targetIndex], 10) === (sum % 10);
-            });
-        };
-    }
+function createSumCheckFunction(targetIndex, sumIndexes) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
+            let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+            return parseInt(string[targetIndex], 10) === (sum % 10);
+        });
+    };
+}
+
     
     
     function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
