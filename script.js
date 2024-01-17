@@ -220,15 +220,14 @@ function generateRandomString(length) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
-                    product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
+                    product = sumIndexes.reduce((acc, index) => acc * parseInt(string[index], 10), 1);
                 }
-                
-        
-                // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
+    
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
+    
     
     
     
