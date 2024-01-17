@@ -27,6 +27,75 @@ document.addEventListener('DOMContentLoaded', () => {
         generateStringButton.addEventListener('click', generateString);
     };
     document.head.appendChild(script);
+
+
+
+
+    function runTest() {
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = ``;
+        resultsDiv.innerHTML += `
+        Testy dla stringów: ${strings} <br>
+        `;
+        updateDynamicDependencies();
+    
+        const selectedFunctions = getSelectedFunctions();
+        const dynamicDependencies = generateDynamicDependencies(strings, selectedFunctions);
+    
+        Object.entries(dynamicDependencies).forEach(([depName, func]) => {
+            const result = func(strings);
+            const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
+            let calcDetails = '';
+    
+            // Przykładowa logika do wyświetlania obliczeń dla każdej zależności
+            if (depName.startsWith('sumOfDigitsAt')) {
+                const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
+                calcDetails = strings.map(string => {
+                    const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
+                    return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
+                }).join(' ');
+            }
+    
+            resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
+        });
+    }
+    
+    function generateString() {
+        const startTime = performance.now();
+        //updateDynamicDependencies();
+        const selectedDependencies = getSelectedDependencies();
+        const maxLength = Math.max(...(document.getElementById('inputStrings').value.split(',').map(s => s.length)));
+    
+        let generatedString = '';
+        let attempts = 0;
+        const maxAttempts = 50000000;
+    
+        while(attempts < maxAttempts) {
+            let candidate = generateRandomString(maxLength);
+            if (testStringWithDependencies(candidate, selectedDependencies)) {
+                generatedString = candidate;
+                break;
+            }
+            attempts++;
+        }
+    
+        if (generatedString) {
+            document.getElementById('outputStrings').textContent = generatedString;
+            console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
+            console.log(`Wygenerowany string: ${generatedString}`);
+            console.log('Czas generowania: ' + (performance.now() - startTime) + 'ms');
+        } else {
+            console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
+            console.log(`Próbowano ${attempts} razy.`);
+        }
+    }
+
+
+
+
+
+
 });
 
 // Reszta kodu
@@ -68,35 +137,10 @@ function updateDynamicDependencies() {
 
 
 
-function runTest() {
 
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = ``;
-    resultsDiv.innerHTML += `
-    Testy dla stringów: ${strings} <br>
-    `;
-    updateDynamicDependencies();
 
-    const selectedFunctions = getSelectedFunctions();
-    const dynamicDependencies = generateDynamicDependencies(strings, selectedFunctions);
 
-    Object.entries(dynamicDependencies).forEach(([depName, func]) => {
-        const result = func(strings);
-        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-        let calcDetails = '';
 
-        // Przykładowa logika do wyświetlania obliczeń dla każdej zależności
-        if (depName.startsWith('sumOfDigitsAt')) {
-            const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
-            calcDetails = strings.map(string => {
-                const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
-                return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
-            }).join(' ');
-        }
-
-        resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
-    });
-}
 
 function getSelectedFunctions() {
     const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
@@ -137,35 +181,7 @@ function addDependency(name, funcName, isFulfilled) {
 }
 
 
-function generateString() {
-    const startTime = performance.now();
-    //updateDynamicDependencies();
-    const selectedDependencies = getSelectedDependencies();
-    const maxLength = Math.max(...(document.getElementById('inputStrings').value.split(',').map(s => s.length)));
 
-    let generatedString = '';
-    let attempts = 0;
-    const maxAttempts = 50000000;
-
-    while(attempts < maxAttempts) {
-        let candidate = generateRandomString(maxLength);
-        if (testStringWithDependencies(candidate, selectedDependencies)) {
-            generatedString = candidate;
-            break;
-        }
-        attempts++;
-    }
-
-    if (generatedString) {
-        document.getElementById('outputStrings').textContent = generatedString;
-        console.log(`Udało się wygenerować string spełniający wybrane zależności po ${attempts} próbach.`);
-        console.log(`Wygenerowany string: ${generatedString}`);
-        console.log('Czas generowania: ' + (performance.now() - startTime) + 'ms');
-    } else {
-        console.log("Nie udało się wygenerować stringu spełniającego wybrane zależności.");
-        console.log(`Próbowano ${attempts} razy.`);
-    }
-}
 
 function getSelectedDependencies() {
     return Object.keys(dynamicDependencies)
