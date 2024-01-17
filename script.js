@@ -206,7 +206,7 @@ function generateRandomString(length) {
                     if (sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
                     sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
                 }
-                return parseInt(string[targetIndex], 10) === sum;
+                return parseInt(string[targetIndex], 10) === (sum % 10); // Tylko cyfra jedności
             });
         };
     }
@@ -225,7 +225,7 @@ function generateRandomString(length) {
                     if (productStartIndex >= string.length || productEndIndex >= string.length) return false;
                     product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
                 }
-                return parseInt(string[targetIndex], 10) === product;
+                return parseInt(string[targetIndex], 10) === (product % 10); // Tylko cyfra jedności
             });
         };
     }
