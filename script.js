@@ -50,11 +50,6 @@ function runTest() {
         let calcDetails = '';
 
 
-
-
-
-
-        resultsDiv.innerHTML += `Zależność: ${depName} ${resultText}${calcDetails}<br>`;
     zal++;
     });
     //zapisz czas zakończenia testu
