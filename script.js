@@ -187,14 +187,8 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let sum = 0;
     
-                if (isRange) {
-                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
-                        sum += parseInt(string[i], 10);
-                    }
-                } else {
-                    sumIndexes.forEach(index => {
-                        sum += parseInt(string[index], 10);
-                    });
+                for (let i = sumIndexes[0]; i <= (isRange ? sumIndexes[1] : sumIndexes[0]); i++) {
+                    sum += parseInt(string[i], 10);
                 }
     
                 return parseInt(string[targetIndex], 10) === (sum % 10);
@@ -202,27 +196,21 @@ function generateRandomString(length) {
         };
     }
     
-    
     function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
     
-                if (isRange) {
-                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
-                        product *= parseInt(string[i], 10);
-                    }
-                } else {
-                    sumIndexes.forEach(index => {
-                        product *= parseInt(string[index], 10);
-                    });
+                for (let i = sumIndexes[0]; i <= (isRange ? sumIndexes[1] : sumIndexes[0]); i++) {
+                    product *= parseInt(string[i], 10);
                 }
     
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
+    
     
     
     
