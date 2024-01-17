@@ -331,27 +331,15 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
     }
 
     function generateDynamicPowerDependencies(strings) {
-        let dynamicDependencies = {};
+        const dynamicPowerDependencies = {};
+        const targetIndex = 2; // Indeks docelowy
+        const powerIndexes = [0, 1]; // Indeksy używane do potęgowania
     
-        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-            for (let index1 = 0; index1 < strings[0].length; index1++) {
-                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
-                    if (targetIndex !== index1 && targetIndex !== index2) {
-                        // Zależności dla potęg
-                        let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
+        dynamicPowerDependencies[`powerOfDigitsAt${powerIndexes[0]}and${powerIndexes[1]}EqualsDigitAt${targetIndex}`] = createPowerCheckFunction(targetIndex, powerIndexes, false);
     
-                        if (index2 - index1 > 1) {
-                            let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
-                        }
-                    }
-                }
-            }
-        }
-    
-        return dynamicDependencies;
+        return dynamicPowerDependencies;
     }
+    
     
 // Importuj bibliotekę Math.js
 
