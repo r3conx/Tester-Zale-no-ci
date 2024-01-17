@@ -1,7 +1,3 @@
-
-let results = [];
-let dynamicDependencies = {};
-
 document.addEventListener('DOMContentLoaded', () => {
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
@@ -10,10 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     generateStringButton.addEventListener('click', generateString);
 });
 
-
+let results = [];
+let dynamicDependencies = {};
 
 function initializeDependencies() {
     updateDynamicDependencies();
+    generatePowerDependencies(); // Dodaj tę linijkę
 }
 
 
@@ -35,7 +33,6 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
-    let results = [];
     let zal = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
@@ -43,6 +40,9 @@ function runTest() {
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
+
+    // Dodaj wywołanie funkcji do generowania zależności opartych na potęgach
+    generatePowerDependencies();
 
     const newDynamicDependenciesSum = generateDynamicSumDependencies(strings);
     const newDynamicDependenciesPower = generateDynamicPowerDependencies(strings);
@@ -53,6 +53,7 @@ function runTest() {
         const resultText = result.every(res => res) ? '✅' : '❌';
         let calcDetails = '';
 // Po wywołaniu generateDynamicSumDependencies
+generatePowerDependencies();
 
 
 
@@ -102,35 +103,6 @@ else if (depName.startsWith('productOfDigitsAt')) {
         }
     }).join(' ');
 }
-
-
-// Logika dla potęg
-else if (depName.startsWith('powerOfDigitsAt')) {
-    const indexes = depName.match(/\d+/g).map(Number);
-    const target = indexes.pop(); // Ostatni element to target
-    const isRange = depName.includes('to'); // Sprawdzamy, czy to jest zakres
-
-    calcDetails = strings.map(string => {
-        let base, power;
-        if (isRange) {
-            // Jeśli to jest zakres, baza to pierwsza cyfra, a potęga to druga
-            base = parseInt(string[indexes[0]], 10);
-            power = parseInt(string[indexes[1]], 10);
-        } else {
-            // W przeciwnym wypadku bierzemy bazę i potęgę z podanych indeksów
-            base = parseInt(string[indexes[0]], 10);
-            power = parseInt(string[indexes[1]], 10);
-        }
-
-        let powerResult = calculatePower(base, power);
-        return ` (${base}^${power}=${powerResult}, target: ${string[target]})`;
-    }).join(' ');
-}
-
-
-
-
-
 
 
 
@@ -295,47 +267,50 @@ function generateRandomString(length) {
     
 
     
-    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
-                let sum = isRange ? sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0) : parseInt(string[sumIndexes[0]], 10);
-                return parseInt(string[targetIndex], 10) === (sum % 10);
-            });
-        };
-    }
+function createSumCheckFunction(targetIndex, sumIndexes) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
+            let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+            return parseInt(string[targetIndex], 10) === (sum % 10);
+        });
+    };
+}
+
     
-    function createProductCheckFunction(targetIndex, productIndexes, isRange) {
+    
+    function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || productIndexes.some(index => index >= string.length)) return false;
-                let product = isRange ? productIndexes.reduce((acc, index) => acc * parseInt(string[index], 10), 1) : parseInt(string[productIndexes[0]], 10);
+                if (string.length <= targetIndex || productStartIndex >= string.length || productEndIndex >= string.length) return false;
+                let product = 1;
+                if (isRange) {
+                    for (let i = productStartIndex; i <= productEndIndex; i++) {
+                        product *= parseInt(string[i], 10);
+                    }
+                } else {
+                    product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
+                }
                 return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
     }
-    
 
     function generateDynamicPowerDependencies(strings) {
         let dynamicDependencies = {};
     
-        if (!strings || strings.length === 0 || !strings[0]) {
-            return dynamicDependencies; // zwraca pustą listę zależności, jeśli nie ma ciągów znaków
-        }
-    
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
             for (let index1 = 0; index1 < strings[0].length; index1++) {
-                if (index1 === targetIndex) continue;
+                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
+                    if (targetIndex !== index1 && targetIndex !== index2) {
+                        // Zależności dla potęg
+                        let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
     
-                for (let index2 = 0; index2 < strings[0].length; index2++) {
-                    if (index2 === targetIndex || index2 === index1) continue;
-    
-                    let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                    dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
-    
-                    if (index2 > index1 + 1) {
-                        let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
+                        if (index2 - index1 > 1) {
+                            let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
+                        }
                     }
                 }
             }
@@ -344,57 +319,31 @@ function generateRandomString(length) {
         return dynamicDependencies;
     }
     
-    
-    
-    
-    
-// Importuj bibliotekę Math.js
-
-// Dodaj do sekcji head w HTML:
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.10.0/math.js"></script>
-
-// Funkcja do tworzenia zależności potęg
-function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
-    return function(strings) {
-        return strings.map(string => {
-            if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-
-            let base, power;
-            if (isRange) {
-                // Jeśli isRange jest prawdziwe, bierzemy zakres indeksów
-                base = parseInt(string.slice(powerIndexes[0], powerIndexes[1] + 1), 10);
-                power = parseInt(string[powerIndexes[1]], 10);
-            } else {
-                // W przeciwnym wypadku bierzemy jedną bazę i jedną potęgę
-                base = parseInt(string[powerIndexes[0]], 10);
-                power = parseInt(string[powerIndexes[1]], 10);
-            }
-
-            let powerResult = calculatePower(base, power);
-            return parseInt(string[targetIndex], 10) === powerResult;
-        });
-    };
-}
-
-function calculatePower(base, exponent) {
-    let result = 1;
-    base = base % 10; // ograniczamy bazę do ostatniej cyfry
-
-    for (let i = 0; i < exponent; i++) {
-        result = (result * base) % 10; // mnożymy tylko ostatnie cyfry
+    function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
+                let powerResult = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
+                for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
+                    powerResult *= parseInt(string[i], 10);
+                }
+                return parseInt(string[targetIndex], 10) === (powerResult % 10);
+            });
+        };
     }
-
-    return result;
-}
-
-
-
-
-
-
-
-
     
+    function generatePowerDependencies() {
+        const selectedDependencies = getSelectedDependencies();
+        const currentStrings = document.getElementById('inputStrings').value.split(',');
+    
+        const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
+    
+        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+            if (selectedDependencies.includes(func)) {
+                addDependency(`Dynamiczna: ${depName}`, depName, true);
+            }
+        });
+    }
     
 
 //aha
