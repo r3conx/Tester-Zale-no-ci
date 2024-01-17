@@ -364,11 +364,12 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            let powerResult = isRange ? math.evaluate(`(${string.slice(powerIndexes[0], powerIndexes[1] + 1).join('')})^1`) : math.evaluate(`(${string[powerIndexes[0]]})^1`);
+            let powerResult = isRange ? math.evaluate(`(${powerIndexes.map(index => string[index]).join('')})^1`) : math.evaluate(`(${string[powerIndexes[0]]})^1`);
             return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
 
 // Funkcja do generowania zależności potęg
 function generateDynamicPowerDependencies(strings) {
