@@ -180,6 +180,12 @@ function generateRandomString(length) {
                             let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
+                        if (index2 - index1 > 1) {
+                            let sumDepNameWithGap = `sumWithGapOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[sumDepNameWithGap] = createSumCheckFunctionWithGap(targetIndex, index1, index2);
+                        }
+
+
                     }
                 }
             }
@@ -246,7 +252,15 @@ function generateRandomString(length) {
     }
     
     
-    
+    function createSumCheckFunctionWithGap(targetIndex, sumStartIndex, sumEndIndex) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                let sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
+                return parseInt(string[targetIndex], 10) === sum;
+            });
+        };
+    }
     
     
     
