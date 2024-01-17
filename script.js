@@ -187,21 +187,25 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumIndexes, isRange) {
+    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex) return false;
+                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
                 let sum = 0;
-    
-                for (let i = sumIndexes[0]; i <= (isRange ? sumIndexes[1] : sumIndexes[0]); i++) {
-                    if (i >= string.length) break;
-                    sum += parseInt(string[i], 10);
+                if (isRange) {
+                    // Sumowanie w zakresie
+                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                        sum += parseInt(string[i], 10);
+                    }
+                } else {
+                    // Sumowanie na konkretnych indeksach
+                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
                 }
-    
                 return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
+    
     
     function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
