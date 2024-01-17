@@ -246,7 +246,7 @@ function generateRandomString(length) {
                 spełnione++;
             }
         }
-        document.getElementById('czas').innerHTML = `
+        document.getElementById('czas').innerHTML += `
         Spełnione zależności: ${spełnione}<br>
         Niespełnione zależności: ${niespełnione}<br>
         `;
