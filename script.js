@@ -192,50 +192,55 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+    function createSumCheckFunction(targetIndex, sumStartIndexes, sumEndIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                if (string.length <= targetIndex) return false;
                 let sum = 0;
-                if (isRange) {
-                    // Sumowanie w zakresie
-                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
-                        sum += parseInt(string[i], 10);
+    
+                if (Array.isArray(sumStartIndexes) && Array.isArray(sumEndIndexes) && sumStartIndexes.length === sumEndIndexes.length) {
+                    for (let i = 0; i < sumStartIndexes.length; i++) {
+                        if (sumStartIndexes[i] >= string.length || sumEndIndexes[i] >= string.length) return false;
+                        if (isRange) {
+                            // Sumowanie w zakresie
+                            for (let j = sumStartIndexes[i]; j <= sumEndIndexes[i]; j++) {
+                                sum += parseInt(string[j], 10);
+                            }
+                        } else {
+                            // Sumowanie na konkretnych indeksach
+                            sum += parseInt(string[sumStartIndexes[i]], 10) + parseInt(string[sumEndIndexes[i]], 10);
+                        }
                     }
                 } else {
-                    // Sumowanie na konkretnych indeksach
-                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
+                    // Nieprawidłowe dane wejściowe
+                    return false;
                 }
-                return parseInt(string[targetIndex], 10) === (sum % 10);
+    
+                // Sprawdź, czy cyfra jedności wyniku sumy jest równa cyfrze docelowej na pozycji 0
+                return parseInt(string[targetIndex], 10) === parseInt(sum.toString()[0], 10);
             });
         };
     }
     
-    
-    function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
+    function createProductCheckFunction(targetIndex, productStartIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
     
-                if (Array.isArray(sumIndexes)) {
-                    if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
-                        // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
-                        const startIndex = Math.min(sumIndexes[0], sumIndexes[1]);
-                        const endIndex = Math.max(sumIndexes[0], sumIndexes[1]);
-                        for (let i = startIndex; i <= endIndex; i++) {
-                            if (i >= string.length) return false;
-                            product *= parseInt(string[i], 10);
-                        }
-                    } else {
-                        // Dla pojedynczych indeksów lub krótkich zakresów
-                        for (const index of sumIndexes) {
-                            if (index >= string.length) return false;
+                if (Array.isArray(productStartIndexes)) {
+                    for (const index of productStartIndexes) {
+                        if (index >= string.length) return false;
+                        if (isRange) {
+                            // Iloczyn w zakresie
                             product *= parseInt(string[index], 10);
+                        } else {
+                            // Iloczyn na konkretnych indeksach
+                            product *= parseInt(string[productStartIndexes[i]], 10);
                         }
                     }
                 } else {
-                    // W przypadku braku tablicy sumIndexes, nie ma zależności
+                    // Nieprawidłowe dane wejściowe
                     return false;
                 }
     
@@ -244,6 +249,7 @@ function generateRandomString(length) {
             });
         };
     }
+    
     
     
     
