@@ -186,6 +186,7 @@ function generateRandomString(length) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let sum = 0;
+    
                 if (isRange) {
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
                         sum += parseInt(string[i], 10);
@@ -195,10 +196,12 @@ function generateRandomString(length) {
                         sum += parseInt(string[index], 10);
                     });
                 }
+    
                 return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
+    
     
     function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
