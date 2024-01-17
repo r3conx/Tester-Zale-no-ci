@@ -54,13 +54,7 @@ details {
         background: #252525;
     }
   
-    details > summary {
-        list-style: none;
-      }
-      details > summary::-webkit-details-marker {
-        display: none;
-      }
-
+  
   summary:before {
     content: '';
     border-width: .4rem;
@@ -80,14 +74,7 @@ details {
     transform: rotate(90deg);
   }
   
-  details summary {
-    list-style-type: ' ';
-}
-
-details[open] summary {
-    list-style-type: '👇 ';
-}
-
+  
   details summary::-webkit-details-marker {
     display:none;
   }
