@@ -213,6 +213,12 @@ function generateRandomString(length) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
+                console.log('Zakres jest za duży!');
+                console.log(sumIndexes);
+                console.log(string);
+                console.log(sumIndexes[0] - sumIndexes[1]);
+                console.log(Math.abs(sumIndexes[0] - sumIndexes[1]));
+                console.log(isRange);
     
                 if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 5) {
                     console.log('Zakres jest za duży!');
