@@ -209,6 +209,7 @@ function generateRandomString(length) {
                         product *= parseInt(string[i], 10);
                     }
                 } else {
+                    // Obsługa przypadku pojedynczych indeksów
                     sumIndexes.forEach(index => {
                         if (index < string.length) {
                             product *= parseInt(string[index], 10);
