@@ -36,7 +36,7 @@ function runTest() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
     resultsDiv.innerHTML += `
-    Testy dla stringów: ${strings} <br>
+    <p>Testy dla stringów: ${strings} </p>
     `;
     updateDynamicDependencies();
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
