@@ -227,13 +227,15 @@ function generateRandomString(length) {
                 }
     
                 let targetValue = parseInt(string[targetIndex], 10);
-                resultsDiv.innerHTML += `Debug: Calculated product: ${product}, target: ${targetValue}<br>`;
-                
-                // Porównanie z wartością docelową
-                return targetValue === (product % 10);
+                let lastDigitOfProduct = product % 10;
+                console.log(`Debug: Calculated product: ${product}, last digit: ${lastDigitOfProduct}, target: ${targetValue}`);
+    
+                // Porównanie ostatniej cyfry wyniku mnożenia z cyfrą docelową
+                return targetValue === lastDigitOfProduct;
             });
         };
     }
+    
     
     
     
