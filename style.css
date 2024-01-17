@@ -54,7 +54,13 @@ details {
         background: #252525;
     }
   
-  
+    details > summary {
+        list-style: none;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+
   summary:before {
     content: '';
     border-width: .4rem;
