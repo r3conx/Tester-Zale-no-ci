@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Import modułu dependencyManager.js jako skrypt
     const script = document.createElement('script');
     script.src = 'dependencyManager.js';
-    script.onload = () => {
         // Po załadowaniu modułu, możesz korzystać z funkcji zależności
         initializeDependencies();
-    };
         // Reszta kodu po załadowaniu modułu
         const testButton = document.getElementById('testButton');
         const generateStringButton = document.getElementById('generateStringButton');
