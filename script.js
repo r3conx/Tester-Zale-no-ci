@@ -1,32 +1,9 @@
-// script.js
-let dynamicDependencies = {};
-const input = document.getElementById('inputStrings').value;
-const strings = input.split(',');
 document.addEventListener('DOMContentLoaded', () => {
-    // Import modułu dependencyManager.js jako skrypt
-    const script = document.createElement('script');
-    script.src = 'dependencyManager.js';
-    script.onload = () => {
-        // Po załadowaniu modułu, możesz korzystać z funkcji zależności
-        initializeDependencies();
-    };
-    document.head.appendChild(script);
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
     const inputStrings = document.getElementById('inputStrings');
     const resultsDiv = document.getElementById('results');
     const outputStrings = document.getElementById('outputStrings');
-    const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
-    functionCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            updateDynamicDependencies();
-        });
-    });
     
     initializeDependencies();
     testButton.addEventListener('click', runTest);
@@ -34,35 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
+let dynamicDependencies = {};
 
 function initializeDependencies() {
     updateDynamicDependencies();
-    const selectedFunctions = getSelectedFunctions();
-
-    selectedFunctions.forEach(funcName => {
-        if (window[funcName]) { // Użyj window[funcName] zamiast dependencyManager[funcName]
-            dynamicDependencies = {
-                ...dynamicDependencies,
-                ...window[funcName](strings), // Użyj window[funcName]
-            };
-        }
-    });
 }
-
-// Funkcja do generowania listy checkboxów
-
-
-// Wywołaj funkcję do generowania checkboxów
-
-
 
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
     const currentStrings = document.getElementById('inputStrings').value.split(',');
     if (currentStrings.length > 0 && currentStrings[0] !== "") {
-        const newDynamicDependencies = generateDynamicDependencies(currentStrings);
+        const newDynamicDependencies = generateDynamicSumDependencies(currentStrings);
 
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(currentStrings);
@@ -88,10 +48,10 @@ function runTest() {
     `;
     updateDynamicDependencies();
 
-    const selectedFunctions = getSelectedFunctions();
-    const dynamicDependencies = generateDynamicDependencies(strings, selectedFunctions);
 
-    Object.entries(dynamicDependencies).forEach(([depName, func]) => {
+    const newDynamicDependencies = generateDynamicSumDependencies(strings);
+
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
         let calcDetails = '';
@@ -108,43 +68,6 @@ function runTest() {
         resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
     });
 }
-
-function getSelectedFunctions() {
-    const functionCheckboxes = document.querySelectorAll('#functionSelection input[type="checkbox"]');
-    const selectedFunctions = [];
-
-    functionCheckboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            selectedFunctions.push(checkbox.value);
-        }
-    });
-
-    return selectedFunctions;
-}
-
-// Dodaj funkcję, która będzie generować wyniki dla innych funkcji zależności
-function generateDependencyResults(strings, dynamicDependencies) {
-    const resultsDiv = document.getElementById('results');
-    
-    Object.entries(dynamicDependencies).forEach(([depName, func]) => {
-        const result = func(strings);
-        const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
-        let calcDetails = '';
-
-        // Przykładowa logika do wyświetlania obliczeń dla każdej zależności
-        if (depName.startsWith('sumOfDigitsAt')) {
-            const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
-            calcDetails = strings.map(string => {
-                const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
-                return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
-            }).join(' ');
-        }
-
-        resultsDiv.innerHTML += `Zależność: ${depName} - ${resultText}${calcDetails}<br>`;
-    });
-}
-
-
 
 
 
@@ -179,7 +102,7 @@ function generateString() {
 
     let generatedString = '';
     let attempts = 0;
-    const maxAttempts = 50000000;
+    const maxAttempts = 1000000;
 
     while(attempts < maxAttempts) {
         let candidate = generateRandomString(maxLength);
@@ -217,5 +140,49 @@ function generateRandomString(length) {
     return dependencies.every(dep => dep([string])[0]);
     }
     
+
+
+
+
+
+
+    // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
+    function generateDynamicSumDependencies(strings) {
+        let dynamicDependencies = {};
+    
+        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+            for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
+                for (let sumIndex2 = sumIndex1 + 1; sumIndex2 < strings[0].length; sumIndex2++) {
+                    if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
+                        let depName = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[depName] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2]);
+                    }
+                }
+            }
+        }
+    
+        return dynamicDependencies;
+    }
+    
+    
+
+
+    
+    
+    function createSumCheckFunction(targetIndex, sumIndexes) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || sumIndexes.some(index => index >= string.length)) return false;
+                let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
+                return parseInt(string[targetIndex], 10) === (sum % 10);
+            });
+        };
+    }
+    
+    
+    
+    
+    
+
 
 // Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beraas
