@@ -361,12 +361,13 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
             let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
             for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
-                base = math.multiply(base, parseInt(string[i], 10));
+                base = base * parseInt(string[i], 10);
             }
-            return parseInt(string[targetIndex], 10) === (math.mod(base, 10));
+            return parseInt(string[targetIndex], 10) === (base % 10);
         });
     };
 }
+
 
     
 function generatePowerDependencies() {
