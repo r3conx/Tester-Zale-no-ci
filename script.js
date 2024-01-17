@@ -12,11 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeDependencies();
     };
     document.head.appendChild(script);
-});
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    
     const testButton = document.getElementById('testButton');
     const generateStringButton = document.getElementById('generateStringButton');
     const inputStrings = document.getElementById('inputStrings');
@@ -32,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeDependencies();
     testButton.addEventListener('click', runTest);
     generateStringButton.addEventListener('click', generateString);
+
 });
 
 
@@ -49,15 +46,6 @@ function initializeDependencies() {
             };
         }
     });
-}
-
-// Funkcja do generowania listy checkboxów
-
-
-// Wywołaj funkcję do generowania checkboxów
-
-
-
 
 function updateDynamicDependencies() {
     removeDynamicDependencies();
@@ -193,6 +181,6 @@ function generateRandomString(length) {
     function testStringWithDependencies(string, dependencies) {
     return dependencies.every(dep => dep([string])[0]);
     }
-    
+}
 
-// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne beraas
+// Dodaj inne wymagane funkcje i zależności, jeśli są potrzebne
