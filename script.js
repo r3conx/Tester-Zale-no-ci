@@ -354,6 +354,8 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
     }
     
     
+// Importuj bibliotekę Math.js
+
 // Dodaj do sekcji head w HTML:
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.10.0/math.js"></script>
 
@@ -392,6 +394,21 @@ function generateDynamicPowerDependencies(strings) {
     return dynamicDependencies;
 }
 
+
+
+
+function generatePowerDependencies() {
+    const selectedDependencies = getSelectedDependencies();
+    const currentStrings = document.getElementById('inputStrings').value.split(',');
+
+    const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
+
+    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+        if (selectedDependencies.includes(func)) {
+            addDependency(`Dynamiczna: ${depName}`, depName, true);
+        }
+    });
+}
 
 
 
