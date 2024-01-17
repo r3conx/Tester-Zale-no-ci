@@ -192,36 +192,58 @@ function generateRandomString(length) {
     
     
     
-    function createSumCheckFunction(targetIndex, indices) {
+    function createSumCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
         return function(strings) {
             return strings.map(string => {
+                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
                 let sum = 0;
-                for (let i = 0; i < indices.length; i++) {
-                    const index = indices[i];
-                    if (index >= string.length) return false;
-                    sum += parseInt(string[index], 10);
+                if (isRange) {
+                    // Sumowanie w zakresie
+                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                        sum += parseInt(string[i], 10);
+                    }
+                } else {
+                    // Sumowanie na konkretnych indeksach
+                    sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
                 }
-                return string.length > targetIndex && parseInt(string[targetIndex], 10) === sum;
+                return parseInt(string[targetIndex], 10) === (sum % 10);
             });
         };
     }
     
     
-    function createProductCheckFunction(targetIndex, startIndices, endIndices) {
+    function createProductCheckFunction(targetIndex, sumIndexes, isRange) {
         return function(strings) {
             return strings.map(string => {
+                if (string.length <= targetIndex) return false;
                 let product = 1;
-                for (let i = 0; i < startIndices.length; i++) {
-                    for (let j = startIndices[i]; j <= endIndices[i]; j++) {
-                        if (j >= string.length) return false;
-                        product *= parseInt(string[j], 10);
+    
+                if (Array.isArray(sumIndexes)) {
+                    if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
+                        // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
+                        const startIndex = Math.min(sumIndexes[0], sumIndexes[1]);
+                        const endIndex = Math.max(sumIndexes[0], sumIndexes[1]);
+                        for (let i = startIndex; i <= endIndex; i++) {
+                            if (i >= string.length) return false;
+                            product *= parseInt(string[i], 10);
+                        }
+                    } else {
+                        // Dla pojedynczych indeksów lub krótkich zakresów
+                        for (const index of sumIndexes) {
+                            if (index >= string.length) return false;
+                            product *= parseInt(string[index], 10);
+                        }
                     }
+                } else {
+                    // W przypadku braku tablicy sumIndexes, nie ma zależności
+                    return false;
                 }
-                return string.length > targetIndex && parseInt(string[targetIndex], 10) === product;
+    
+                // Sprawdź, czy cyfra jedności wyniku iloczynu jest równa cyfrze docelowej na pozycji 0
+                return parseInt(string[targetIndex], 10) === parseInt(product.toString()[0], 10);
             });
         };
     }
-    
     
     
     
