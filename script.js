@@ -113,15 +113,17 @@ else if (depName.startsWith('productOfDigitsAt')) {
 else if (depName.startsWith('powerOfDigitsAt')) {
     const indexes = depName.match(/\d+/g).map(Number);
     const target = indexes.pop(); // Ostatni element to target
+    const isRange = depName.includes('to'); // Sprawdzamy, czy to jest zakres
 
     calcDetails = strings.map(string => {
-        let base = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
-        for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
+        let base = isRange ? 1 : parseInt(string[indexes[0]], 10);
+        for (let i = indexes[0] + 1; i <= indexes[1]; i++) {
             base = math.multiply(base, parseInt(string[i], 10));
         }
         return ` (${base}^${power}=${math.mod(base, 10)}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
