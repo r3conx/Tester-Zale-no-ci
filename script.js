@@ -115,26 +115,27 @@ else if (depName.startsWith('powerOfDigitsAt')) {
     const target = indexes.pop(); // Ostatni element to target
 
     calcDetails = strings.map(string => {
-        let base = 0;
-        let power = 1;
+        let powerResult = 1;
+        let powerParts = [];
 
         if (depName.includes('to')) {
             // Potęgowanie w zakresie
             for (let i = indexes[0]; i <= indexes[1]; i++) {
-                base = parseInt(string[i], 10);
-                power *= base;
+                powerResult *= parseInt(string[i], 10);
+                powerParts.push(string[i]);
             }
         } else {
             // Potęgowanie konkretnych indeksów
-            indexes.forEach(index => {
-                base = parseInt(string[index], 10);
-                power *= base;
+            powerParts = indexes.map(index => {
+                powerResult *= parseInt(string[index], 10);
+                return string[index];
             });
         }
 
-        return ` (${base}^${power}=${power % 10}, target: ${string[target]})`;
+        return ` (${powerParts.join('^')}=${powerResult % 10}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
