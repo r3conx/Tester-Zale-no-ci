@@ -308,8 +308,6 @@ function generateRandomString(length) {
             });
         };
     }
-
-    
     
     function createProductCheckFunction(targetIndex, productIndexes, isRange) {
         return function(strings) {
@@ -320,6 +318,7 @@ function generateRandomString(length) {
             });
         };
     }
+    
 
     function generateDynamicPowerDependencies(strings) {
         let dynamicDependencies = {};
