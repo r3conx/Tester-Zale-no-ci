@@ -49,54 +49,6 @@ function runTest() {
         const resultText = result.every(res => res) ? '✅' : '❌';
         let calcDetails = '';
 
-// Logika dla sumowania
-if (depName.startsWith('sumOfDigitsAt')) {
-    const indexes = depName.match(/\d+/g).map(Number);
-    const target = indexes.pop(); // Ostatni element to target
-
-    calcDetails = strings.map(string => {
-        let sumDigits = 0;
-        let sumParts = [];
-
-        if (depName.includes('to')) {
-            // Sumowanie w zakresie
-            for (let i = indexes[0]; i <= indexes[1]; i++) {
-                sumDigits += parseInt(string[i], 10);
-                sumParts.push(string[i]);
-            }
-        } else {
-            // Sumowanie konkretnych indeksów
-            sumParts = indexes.map(index => {
-                sumDigits += parseInt(string[index], 10);
-                return string[index];
-            });
-        }
-
-        return ` (${sumParts.join('+')}=${sumDigits % 10}, target: ${string[target]})`;
-    }).join(' ');
-}
-
-
-// Logika dla mnożenia
-else if (depName.startsWith('productOfDigitsAt')) {
-    const [index1, index2, target] = depName.match(/\d+/g).map(Number);
-    calcDetails = strings.map(string => {
-        let productDigits = 1;
-        if (depName.includes('and')) {
-            // Dla konkretnych par cyfr (np. productOfDigitsAt0and2)
-            productDigits = parseInt(string[index1], 10) * parseInt(string[index2], 10);
-            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})`;
-        } else {
-            // Dla zakresu cyfr (np. productOfDigitsAt0to2)
-            for (let i = index1; i <= index2; i++) {
-                productDigits *= parseInt(string[i], 10);
-            }
-            return ` (${string.substring(index1, index2 + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
-        }
-    }).join(' ');
-}
-
-
 
 
 
