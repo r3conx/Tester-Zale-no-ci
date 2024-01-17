@@ -11,7 +11,9 @@ let dynamicDependencies = {};
 
 function initializeDependencies() {
     updateDynamicDependencies();
+    generatePowerDependencies(); // Dodaj tę linijkę
 }
+
 
 
 function updateDynamicDependencies() {
@@ -38,16 +40,20 @@ function runTest() {
     const strings = input.split(',');
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ``;
-    resultsDiv.innerHTML += `
 
-    `;
-    updateDynamicDependencies();
-    const newDynamicDependencies = generateDynamicSumDependencies(strings);
+    // Dodaj wywołanie funkcji do generowania zależności opartych na potęgach
+    generatePowerDependencies();
+
+    const newDynamicDependenciesSum = generateDynamicSumDependencies(strings);
+    const newDynamicDependenciesPower = generateDynamicPowerDependencies(strings);
+    const newDynamicDependencies = { ...newDynamicDependenciesSum, ...newDynamicDependenciesPower };
 
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? '✅' : '❌';
         let calcDetails = '';
+// Po wywołaniu generateDynamicSumDependencies
+generatePowerDependencies();
 
 
 
@@ -289,3 +295,55 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
             });
         };
     }
+
+    function generateDynamicPowerDependencies(strings) {
+        let dynamicDependencies = {};
+    
+        for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+            for (let index1 = 0; index1 < strings[0].length; index1++) {
+                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
+                    if (targetIndex !== index1 && targetIndex !== index2) {
+                        // Zależności dla potęg
+                        let powerDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
+    
+                        if (index2 - index1 > 1) {
+                            let powerDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[powerDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
+                        }
+                    }
+                }
+            }
+        }
+    
+        return dynamicDependencies;
+    }
+    
+    function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
+                let powerResult = isRange ? 1 : parseInt(string[powerIndexes[0]], 10);
+                for (let i = powerIndexes[0] + 1; i <= powerIndexes[1]; i++) {
+                    powerResult *= parseInt(string[i], 10);
+                }
+                return parseInt(string[targetIndex], 10) === (powerResult % 10);
+            });
+        };
+    }
+    
+    function generatePowerDependencies() {
+        const selectedDependencies = getSelectedDependencies();
+        const currentStrings = document.getElementById('inputStrings').value.split(',');
+    
+        const newDynamicDependencies = generateDynamicPowerDependencies(currentStrings);
+    
+        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+            if (selectedDependencies.includes(func)) {
+                addDependency(`Dynamiczna: ${depName}`, depName, true);
+            }
+        });
+    }
+    
+
+//aha
