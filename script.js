@@ -40,17 +40,27 @@ function runTest() {
     `;
     updateDynamicDependencies();
     const newDynamicDependencies = generateDynamicSumDependencies(strings);
+
     Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
         const result = func(strings);
         const resultText = result.every(res => res) ? 'Spełnia zależność' : 'Nie spełnia zależności';
         let calcDetails = '';
 
-        // Przykładowa logika do wyświetlania obliczeń dla każdej zależności
+        // Logika dla sumowania
         if (depName.startsWith('sumOfDigitsAt')) {
             const [sumStart, sumEnd, target] = depName.match(/\d+/g).map(Number);
             calcDetails = strings.map(string => {
                 const sumDigits = string.substring(sumStart, sumEnd + 1).split('').reduce((acc, curr) => acc + parseInt(curr, 10), 0);
                 return ` (${string.substring(sumStart, sumEnd + 1).split('').join('+')}=${sumDigits % 10}, target: ${string[target]})`;
+            }).join(' ');
+        }
+
+        // Logika dla mnożenia
+        else if (depName.startsWith('productOfDigitsAt')) {
+            const [prodStart, prodEnd, target] = depName.match(/\d+/g).map(Number);
+            calcDetails = strings.map(string => {
+                const productDigits = string.substring(prodStart, prodEnd + 1).split('').reduce((acc, curr) => acc * parseInt(curr, 10), 1);
+                return ` (${string.substring(prodStart, prodEnd + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
             }).join(' ');
         }
 
