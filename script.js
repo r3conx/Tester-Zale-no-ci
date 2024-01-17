@@ -109,7 +109,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
     //wyświetl wynik testu w div czas
     document.getElementById('czas').innerHTML = `
     Testy dla stringów: ${strings}
-    <p> Czas testu: ${endTime2 - startTime2}ms </p>
+    Czas testu: ${endTime2 - startTime2}ms
     </br>
     `;
 
