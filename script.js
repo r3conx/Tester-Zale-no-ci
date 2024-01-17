@@ -225,13 +225,16 @@ function generateRandomString(length) {
                 } else {
                     product = parseInt(string[sumIndexes[0]], 10) * parseInt(string[sumIndexes[1]], 10);
                 }
+    
+                let targetValue = parseInt(string[targetIndex], 10);
+                console.log(`Debug: Calculated product: ${product}, target: ${targetValue}`);
                 
-        
-                // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
-                return parseInt(string[targetIndex], 10) === (product % 10);
+                // Porównanie z wartością docelową
+                return targetValue === (product % 10);
             });
         };
     }
+    
     
     
     
