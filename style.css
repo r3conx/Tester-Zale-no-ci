@@ -106,7 +106,6 @@ select:active, select:hover {
     letter-spacing: 1px;
     margin-top: 2rem;
     display: flex;
-    float: left;
   }
 
 
