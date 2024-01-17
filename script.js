@@ -180,14 +180,6 @@ function generateRandomString(length) {
                             let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
-                        if (index2 - index1 > 1) {
-                            let sumDepNameWithGap = `sumOfDigitsGapAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[sumDepNameWithGap] = createSumCheckFunctionWithGap(targetIndex, index1, index2);
-                        }
-                        if (index2 - index1 > 1) {
-                            let mulDepNameWithGap = `productOfDigitsGapAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[mulDepNameWithGap] = createProductCheckFunctionWithGap(targetIndex, index1, index2);
-                        }
 
                     }
                 }
@@ -234,36 +226,3 @@ function generateRandomString(length) {
             });
         };
     }
-    
-    
-    
-    function createSumCheckFunctionWithGap(targetIndex, sumStartIndex, sumEndIndex) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
-                let sum = parseInt(string[sumStartIndex], 10) + parseInt(string[sumEndIndex], 10);
-                return parseInt(string[targetIndex], 10) === sum;
-            });
-        };
-    }
-    
-    function createProductCheckFunctionWithGap(targetIndex, productStartIndex, productEndIndex) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || productStartIndex >= string.length || productEndIndex >= string.length) return false;
-                let product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
-                return parseInt(string[targetIndex], 10) === (product % 10);
-            });
-        };
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
