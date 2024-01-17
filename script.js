@@ -112,24 +112,23 @@ else if (depName.startsWith('powerOfDigitsAt')) {
     const target = indexes.pop(); // Ostatni element to target
     const isRange = depName.includes('to'); // Sprawdzamy, czy to jest zakres
 
-    let power = 0;
-    
     calcDetails = strings.map(string => {
+        let base, power;
         if (isRange) {
-            // Jeśli to jest zakres (np. powerOfDigitsAt0to2EqualsDigitAt1), to potęga to iloczyn cyfr w zakresie
-            power = indexes.reduce((acc, index) => acc * parseInt(string[index], 10), 1);
+            // Jeśli to jest zakres, baza to pierwsza cyfra, a potęga to druga
+            base = parseInt(string[indexes[0]], 10);
+            power = parseInt(string[indexes[1]], 10);
         } else {
-            // Jeśli to nie jest zakres (np. powerOfDigitsAt0and1EqualsDigitAt2), to potęga to po prostu druga cyfra
+            // W przeciwnym wypadku bierzemy bazę i potęgę z podanych indeksów
+            base = parseInt(string[indexes[0]], 10);
             power = parseInt(string[indexes[1]], 10);
         }
 
-        let base = isRange ? 1 : parseInt(string[indexes[0]], 10);
-        for (let i = indexes[0] + 1; i <= indexes[1]; i++) {
-            base = calculatePower(base, parseInt(string[i], 10));
-        }
-        return ` (${base}^${power}=${calculatePower(base, power)}, target: ${string[target]})`;
+        let powerResult = calculatePower(base, power);
+        return ` (${base}^${power}=${powerResult}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
