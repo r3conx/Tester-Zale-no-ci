@@ -344,6 +344,7 @@ function generateRandomString(length) {
     }
     
     
+    
 // Importuj bibliotekę Math.js
 
 // Dodaj do sekcji head w HTML:
@@ -354,16 +355,14 @@ function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
     return function(strings) {
         return strings.map(string => {
             if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-            
-            const base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
-            const power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
-            const powerResult = Math.pow(base, power);
-            
-            const targetDigit = parseInt(string[targetIndex], 10);
-            return targetDigit >= 0 && targetDigit <= 9 && targetDigit === (powerResult % 10);
+            let base = isRange ? powerIndexes.map(index => parseInt(string[index], 10)).join('') : parseInt(string[powerIndexes[0]], 10);
+            let power = isRange ? parseInt(string[powerIndexes[1]], 10) : 1;
+            let powerResult = Math.pow(base, power);
+            return parseInt(string[targetIndex], 10) === (powerResult % 10);
         });
     };
 }
+
 
 
 function calculatePower(base, exponent) {
