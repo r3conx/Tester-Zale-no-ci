@@ -203,9 +203,17 @@ function generateRandomString(length) {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
     
-                for (let i = sumIndexes[0]; i <= (isRange ? sumIndexes[1] : sumIndexes[0]); i++) {
-                    if (i >= string.length) break;
-                    product *= parseInt(string[i], 10);
+                if (isRange) {
+                    for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
+                        if (i >= string.length) break;
+                        product *= parseInt(string[i], 10);
+                    }
+                } else {
+                    sumIndexes.forEach(index => {
+                        if (index < string.length) {
+                            product *= parseInt(string[index], 10);
+                        }
+                    });
                 }
     
                 return parseInt(string[targetIndex], 10) === (product % 10);
