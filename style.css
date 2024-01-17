@@ -65,6 +65,9 @@ details {
         float: left;
         background: #252525;
         padding-left: 10%;
+        position:sticky;
+        float: left;
+        margin-left: 40px;
     }
   
   
