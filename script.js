@@ -74,7 +74,7 @@ if (depName.startsWith('sumOfDigitsAt')) {
         return ` (${sumParts.join('+')}=${sumDigits % 10}, target: ${string[target]})`;
     }).join(' ');
 }
-
+const zal = 0;
 
 // Logika dla mnożenia
 else if (depName.startsWith('productOfDigitsAt')) {
@@ -102,6 +102,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
 
 
         resultsDiv.innerHTML += `Zależność: ${depName} ${resultText}${calcDetails}<br>`;
+    zal++;
     });
     //zapisz czas zakończenia testu
     const endTime2 = performance.now();
@@ -111,7 +112,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
     Testy dla stringów: ${strings}<br>
     Czas testu: ${endTime2 - startTime2}ms
     </br>
-    //spełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
+    //spełnione zależności: ${zal}<br>
     //niespełnione zależności: ${Object.keys(dynamicDependencies).length}<br>
     `;
 
