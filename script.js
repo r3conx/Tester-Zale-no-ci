@@ -130,17 +130,24 @@ function generateRandomString(length) {
         let dynamicDependencies = {};
     
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-            for (let sumIndex1 = 0; sumIndex1 < strings[0].length; sumIndex1++) {
-                for (let sumIndex2 = 0; sumIndex2 < strings[0].length; sumIndex2++) {
-                    if (targetIndex !== sumIndex1 && targetIndex !== sumIndex2) {
-                        if (sumIndex1 !== sumIndex2) {
-                            // Zależność dla konkretnych indeksów
-                            let depNameSpecific = `sumOfDigitsAt${sumIndex1}and${sumIndex2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[depNameSpecific] = createSumCheckFunction(targetIndex, [sumIndex1, sumIndex2], false);
+            for (let index1 = 0; index1 < strings[0].length; index1++) {
+                for (let index2 = 0; index2 < strings[0].length; index2++) {
+                    if (targetIndex !== index1 && targetIndex !== index2) {
+                        if (index1 !== index2) {
+                            // Zależności dla sumowania
+                            let sumDepNameSpecific = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[sumDepNameSpecific] = createSumCheckFunction(targetIndex, [index1, index2], false);
+    
+                            let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[sumDepNameRange] = createSumCheckFunction(targetIndex, index1, index2, true);
+    
+                            // Zależności dla mnożenia
+                            let mulDepNameSpecific = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[mulDepNameSpecific] = createProductCheckFunction(targetIndex, [index1, index2], false);
+    
+                            let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
                         }
-                        // Zależność dla zakresu
-                        let depNameRange = `sumOfDigitsAt${sumIndex1}to${sumIndex2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[depNameRange] = createSumCheckFunction(targetIndex, sumIndex1, sumIndex2, true);
                     }
                 }
             }
@@ -148,6 +155,7 @@ function generateRandomString(length) {
     
         return dynamicDependencies;
     }
+    
     
     
     
@@ -171,6 +179,22 @@ function generateRandomString(length) {
     }
     
     
+    function createProductCheckFunction(targetIndex, sumStartIndex, sumEndIndex, isRange) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || sumStartIndex >= string.length || sumEndIndex >= string.length) return false;
+                let product = 1; // Rozpoczynamy od 1, bo jest to element neutralny mnożenia
+                if (isRange) {
+                    for (let i = sumStartIndex; i <= sumEndIndex; i++) {
+                        product *= parseInt(string[i], 10);
+                    }
+                } else {
+                    product = parseInt(string[sumStartIndex], 10) * parseInt(string[sumEndIndex], 10);
+                }
+                return parseInt(string[targetIndex], 10) === (product % 10);
+            });
+        };
+    }
     
     
     
