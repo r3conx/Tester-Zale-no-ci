@@ -181,7 +181,7 @@ function generateDynamicSumDependencies(strings) {
                 if (string.length <= targetIndex || sumIndexesArray.some(sumIndexes => sumIndexes.some(index => index >= string.length))) return false;
     
                 let sumResult = sumIndexesArray.map(sumIndexes => {
-                    let sum = sumIndexes.reduce((acc, index) => acc + parseInt(strings[stringIndex][index], 10), 0);
+                    let sum = sumIndexes.reduce((acc, index) => acc + parseInt(string[index], 10), 0);
                     return sum % 10;
                 });
     
@@ -189,6 +189,7 @@ function generateDynamicSumDependencies(strings) {
             });
         };
     }
+    
     
     
     
