@@ -74,7 +74,14 @@ details {
     transform: rotate(90deg);
   }
   
-  
+  details summary {
+    list-style-type: ' ';
+}
+
+details[open] summary {
+    list-style-type: '👇 ';
+}
+
   details summary::-webkit-details-marker {
     display:none;
   }
