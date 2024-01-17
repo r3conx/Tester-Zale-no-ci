@@ -125,20 +125,23 @@ results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
     resultsDiv.innerHTML = results.join('');
 }
 
+
+//na podstawie tablicy results zlicz spełnione i niespełnione zależności
 function countDependencies() {
-    let spełnione = 0;
-    let niespełnione = 0;
-    let lines = document.getElementById('results').innerHTML.split('<br>');
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].includes('❌')) {
-            niespełnione++;
-        } else if (lines[i].includes('✅')) {
-            spełnione++;
+    let fulfilled = 0;
+    let notFulfilled = 0;
+    results.forEach(result => {
+        if (result.includes('✅')) {
+            fulfilled++;
+        } else {
+            notFulfilled++;
         }
-    }
-    document.getElementById('czas').innerHTML += `
-    ✅: ${spełnione}<br>
-    ❌: ${niespełnione}<br>
+    });
+
+    //wyświetl wynik testu w div zależności
+    document.getElementById('zaleznosci').innerHTML = `
+    Spełnione zależności: ${fulfilled}<br>
+    Niespełnione zależności: ${notFulfilled}<br>
     `;
 }
 
