@@ -160,12 +160,12 @@ function generateRandomString(length) {
         let dynamicDependencies = {};
     
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-            for (let index1 = 0; index1 < strings[0].length; index1++) {
-                for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
-                    if (targetIndex !== index1 && targetIndex !== index2) {
+            for (let startIndex = 0; startIndex < strings[0].length; startIndex++) {
+                for (let endIndex = startIndex + 1; endIndex <= strings[0].length; endIndex++) {
+                    if (targetIndex !== startIndex && targetIndex !== endIndex) {
                         // Zależności dla sumowania
-                        let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, index1, index2, false);
+                        let sumDepName = `sumOfDigitsAt${startIndex}to${endIndex}EqualsDigitAt${targetIndex}`;
+                        dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, startIndex, endIndex, true);
     
                         if (index1 + 1 !== index2) {
                             let sumDepNameRange = `sumOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
