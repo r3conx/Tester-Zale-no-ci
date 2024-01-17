@@ -213,6 +213,7 @@ function generateRandomString(length) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
+    
                 if (isRange) {
                     // Dla zakresu cyfr
                     for (let i = sumIndexes[0]; i <= sumIndexes[1]; i++) {
@@ -228,10 +229,12 @@ function generateRandomString(length) {
                     });
                 }
         
-                return product === parseInt(string[targetIndex], 10);
+                // Porównanie cyfry jedności wyniku mnożenia z cyfrą docelową
+                return parseInt(string[targetIndex], 10) === (product % 10);
             });
         };
-    }  
+    }
+    
     
     
     
