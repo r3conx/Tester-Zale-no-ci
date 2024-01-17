@@ -62,17 +62,23 @@ if (depName.startsWith('sumOfDigitsAt')) {
 
 // Logika dla mnożenia
 else if (depName.startsWith('productOfDigitsAt')) {
-    const [prodStart, prodEnd, target] = depName.match(/\d+/g).map(Number);
+    const [index1, index2, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
         let productDigits = 1;
-        let startIndex = Math.min(prodStart, prodEnd);
-        let endIndex = Math.max(prodStart, prodEnd);
-        for (let i = startIndex; i <= endIndex; i++) {
-            productDigits *= parseInt(string[i], 10);
+        if (depName.includes('and')) {
+            // Dla konkretnych par cyfr (np. productOfDigitsAt0and2)
+            productDigits = parseInt(string[index1], 10) * parseInt(string[index2], 10);
+            return ` (${string[index1]}*${string[index2]}=${productDigits % 10}, target: ${string[target]})`;
+        } else {
+            // Dla zakresu cyfr (np. productOfDigitsAt0to2)
+            for (let i = index1; i <= index2; i++) {
+                productDigits *= parseInt(string[i], 10);
+            }
+            return ` (${string.substring(index1, index2 + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
         }
-        return ` (${string.substring(startIndex, endIndex + 1).split('').join('*')}=${productDigits % 10}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
