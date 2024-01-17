@@ -213,23 +213,28 @@ function generateRandomString(length) {
             return strings.map(string => {
                 if (string.length <= targetIndex) return false;
                 let product = 1;
-                
-                if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
-                    // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
-                    const startIndex = Math.min(sumIndexes[0], sumIndexes[1]);
-                    const endIndex = Math.max(sumIndexes[0], sumIndexes[1]);
-                    for (let i = startIndex; i <= endIndex; i++) {
-                        if (i >= string.length) return false;
-                        product *= parseInt(string[i], 10);
+    
+                if (Array.isArray(sumIndexes)) {
+                    if (isRange && Math.abs(sumIndexes[0] - sumIndexes[1]) > 1) {
+                        // Dla zakresu, jeśli różnica między indeksami jest większa niż 1
+                        const startIndex = Math.min(sumIndexes[0], sumIndexes[1]);
+                        const endIndex = Math.max(sumIndexes[0], sumIndexes[1]);
+                        for (let i = startIndex; i <= endIndex; i++) {
+                            if (i >= string.length) return false;
+                            product *= parseInt(string[i], 10);
+                        }
+                    } else {
+                        // Dla pojedynczych indeksów lub krótkich zakresów
+                        for (const index of sumIndexes) {
+                            if (index >= string.length) return false;
+                            product *= parseInt(string[index], 10);
+                        }
                     }
                 } else {
-                    // Dla pojedynczych indeksów lub krótkich zakresów
-                    for (const index of sumIndexes) {
-                        if (index >= string.length) return false;
-                        product *= parseInt(string[index], 10);
-                    }
+                    // W przypadku braku tablicy sumIndexes, nie ma zależności
+                    return false;
                 }
-                
+    
                 // Sprawdź, czy cyfra jedności wyniku iloczynu jest równa cyfrze docelowej na pozycji 0
                 return parseInt(string[targetIndex], 10) === parseInt(product.toString()[0], 10);
             });
