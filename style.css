@@ -71,7 +71,7 @@ details {
   
   /* THE MAGIC 🧙‍♀️ */
   details[open] > summary:before {
-    transform: rotate(90deg);
+    transform: (90deg);
   }
   
   
