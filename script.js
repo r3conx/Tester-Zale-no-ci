@@ -169,7 +169,7 @@ function generateRandomString(length) {
                         
                             let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, index1, index2, true);
-                        }
+                        } else {
                         // Zależności dla sumowania
                         let sumDepName = `sumOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[sumDepName] = createSumCheckFunction(targetIndex, [index1, index2], false);
@@ -178,7 +178,7 @@ function generateRandomString(length) {
                         // Zależności dla mnożenia
                         let mulDepName = `productOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
                         dynamicDependencies[mulDepName] = createProductCheckFunction(targetIndex, [index1, index2], false);
-    
+                        }
                     }
                 }
             }
