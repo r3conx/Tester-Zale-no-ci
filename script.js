@@ -234,7 +234,24 @@ function generateRandomString(length) {
     
     
     
-    
+    //funkcja do liczenia ilości spełnionych i niespełnionych zależności na podstawie ilości linii w div id results ❌= nie spełniona ✅= spełniona
+    function countDependencies() {
+        let spełnione = 0;
+        let niespełnione = 0;
+        let lines = document.getElementById('results').innerHTML.split('<br>');
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].includes('❌')) {
+                niespełnione++;
+            } else if (lines[i].includes('✅')) {
+                spełnione++;
+            }
+        }
+        document.getElementById('count').innerHTML = `
+        Spełnione zależności: ${spełnione}<br>
+        Niespełnione zależności: ${niespełnione}<br>
+        `;
+    }
+
     
 function createSumCheckFunction(targetIndex, sumIndexes) {
     return function(strings) {
