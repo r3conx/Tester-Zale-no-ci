@@ -56,7 +56,7 @@ summary {
     color: white;
     text-align: center;
     user-select: none;
-    marker: none;
+    marker: aha;
 }
 
 div#results {
