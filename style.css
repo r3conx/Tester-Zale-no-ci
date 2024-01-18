@@ -25,7 +25,8 @@
 .dependency {
     padding: 10px; /* Increased padding for better touch targets */
     margin-bottom: 10px; /* Increased margin for better separation */
-    border: 1px solid Rounded#ddd;
+    border: 1px solid roun#ddd;
+    border-radius: 5px;
     cursor: move;
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     background-color: #303030; /* Slight background color for contrast */
