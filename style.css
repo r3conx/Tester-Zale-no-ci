@@ -40,7 +40,7 @@
 
 details {
     padding-top: 1rem; /* Reduced padding for a more compact look */
-    width: 80%;
+    width: 40%;
     margin: 1rem auto;
     background: #222;
     position: sticky; /* Removed float for better positioning */
