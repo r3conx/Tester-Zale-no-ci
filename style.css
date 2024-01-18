@@ -28,7 +28,7 @@
     border: 1px solid #ddd;
     cursor: move;
     transition: background-color 0.3s; /* Smooth transition for hover effect */
-    background-color: #474747; /* Slight background color for contrast */
+    background-color: #303030; /* Slight background color for contrast */
 }
 
 .dependency:hover {
