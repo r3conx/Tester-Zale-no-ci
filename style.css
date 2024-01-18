@@ -125,6 +125,7 @@ body {
     white-space: nowrap;
     cursor: pointer;
     margin: 20px 10px; /* Added top margin for better spacing */
+    width: auto;
 }
 
 .button-64:active,
@@ -153,7 +154,8 @@ body {
 }
 
 .button-container {
-
+    display: flex;
     justify-content: center; /* Wyśrodkowuje przyciski w poziomie */
     gap: 10px; /* Dodaje odstęp między przyciskami */
+    align-items: center; /* Zapobiega rozciąganiu elementów w kontenerze */
 }
