@@ -121,7 +121,7 @@ body {
     font-family: Phantomsans, sans-serif;
     justify-content: center;
     line-height: 1em;
-    max-width: 50%;
+    max-width: 100%;
     padding: 3px;
     text-decoration: none;
     user-select: none;
