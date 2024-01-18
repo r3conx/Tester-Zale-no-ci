@@ -63,22 +63,9 @@ summary::marker {
     content: '🔒';
 }
 
-summary::after::marker {
-    display: none;
-    content: 's';
-}
-summary::-webkit-details-marker {
-    display: none
-}
+
 
 details[open] > summary:after {
-    content: "-";
-}
-details[close] summary:before {
-    content: "-";
-}
-
-details[open] summary:after {
     content: "-";
 }
 
