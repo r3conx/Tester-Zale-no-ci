@@ -60,6 +60,7 @@ summary {
 
 summary::marker {
     display: none;
+    content: 'a';
 }
 
 div#results {
