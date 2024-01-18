@@ -67,6 +67,9 @@ summary::after::marker {
     display: none;
     content: 's';
 }
+summary::-webkit-details-marker {
+    display: none
+}
 
 details[close] summary:before {
     content: "-";
