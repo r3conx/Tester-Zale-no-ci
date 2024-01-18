@@ -68,6 +68,10 @@ summary::after::marker {
     content: 's';
 }
 
+details[open] summary:after {
+    content: "-";
+}
+
 div#results {
     background: #252525;
     padding: 1rem; /* Added padding for content separation */
