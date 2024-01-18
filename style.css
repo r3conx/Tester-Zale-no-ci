@@ -71,6 +71,9 @@ summary::-webkit-details-marker {
     display: none
 }
 
+details[open] > summary:after {
+    content: "-";
+}
 details[close] summary:before {
     content: "-";
 }
