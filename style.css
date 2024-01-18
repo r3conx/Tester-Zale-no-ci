@@ -92,9 +92,7 @@ select:active, select:hover {
     outline-color: red;
 }
 
-details summary::-webkit-details-marker {
-    display: none;
-}
+
 
 details > ul {
     padding-bottom: 1rem;
