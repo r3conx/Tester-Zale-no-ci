@@ -27,6 +27,8 @@
     margin-bottom: 10px; /* Increased margin for better separation */
     border: 1px solid #000000;
     border-radius: 5px;
+    box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+
     cursor: move;
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     background-color: #303030; /* Slight background color for contrast */
