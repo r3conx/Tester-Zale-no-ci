@@ -68,6 +68,10 @@ summary::after::marker {
     content: 's';
 }
 
+details[open] summary::before {
+    content: "-";
+}
+
 details[open] summary:after {
     content: "-";
 }
