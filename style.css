@@ -68,7 +68,7 @@ summary::after::marker {
     content: 's';
 }
 
-details[open] summary::before {
+details[open] summary:before {
     content: "-";
 }
 
