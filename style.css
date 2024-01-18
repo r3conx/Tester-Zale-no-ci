@@ -65,7 +65,7 @@ summary::marker {
 
 
 
-details[open] > summary:after {
+details[open] > summary::marker {
     content: "-";
 }
 
