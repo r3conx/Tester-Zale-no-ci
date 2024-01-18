@@ -1,0 +1,153 @@
+
+#container {
+    width: 80%;
+    max-width: 1200px; /* Prevents the container from being too wide */
+    min-width: 300px; /* Ensures usability on smaller screens */
+    margin: auto;
+    text-align: center;
+}
+
+#inputStrings {
+    width: 50%; /* Adjusted for better visibility */
+    padding: 10px;
+    margin: 20px 0; /* Increased margin for better spacing */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1.2rem; /* Slightly larger font size for readability */
+    border: 1px solid #ddd; /* Subtle border for definition */
+}
+
+#dependenciesList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px; /* Added margin for better spacing */
+}
+
+.dependency {
+    padding: 10px; /* Increased padding for better touch targets */
+    margin-bottom: 10px; /* Increased margin for better separation */
+    border: 1px solid #ddd;
+    cursor: move;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    background-color: #f9f9f9; /* Slight background color for contrast */
+}
+
+.dependency:hover {
+    background-color: #e9e9e9; /* Subtle hover effect */
+}
+
+details {
+    padding-top: 1rem; /* Reduced padding for a more compact look */
+    width: 80%;
+    margin: 1rem auto;
+    background: #222;
+    position: sticky; /* Removed float for better positioning */
+    top: 0; /* Stick to the top */
+}
+
+summary {
+    padding: 1rem;
+    background: #333;
+    cursor: pointer;
+    box-shadow: 0 .1rem 1rem -.5rem rgba(0,0,0,.4);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+div#results {
+    background: #252525;
+    padding: 1rem; /* Added padding for content separation */
+}
+
+div#czas, div#results {
+    display: flex;
+    background: #252525;
+    padding-left: 10%;
+    position: sticky; /* Removed float for better positioning */
+    top: 0; /* Stick to the top */
+}
+
+summary:before {
+    content: '';
+    border-width: .4rem;
+    border-style: solid;
+    border-color: transparent transparent transparent #fff;
+    position: absolute;
+    top: 1.3rem;
+    left: 1rem;
+    transform: rotate(0);
+    transform-origin: .2rem 50%;
+    transition: .25s transform ease;
+}
+
+details[open] > summary:before {
+    transform: rotate(90deg);
+}
+
+select:active, select:hover {
+    outline-color: red;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details > ul {
+    padding-bottom: 1rem;
+}
+
+body {
+    background: #222;
+    height: 100vh;
+    font-family: sans-serif;
+    color: rgba(255, 255, 255, 0.863);
+    line-height: 1.5;
+    letter-spacing: 1px;
+    margin-top: 2rem;
+}
+
+.button-64 {
+    align-items: center;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+    margin: 20px 10px; /* Added top margin for better spacing */
+}
+
+.button-64:active,
+.button-64:hover {
+    outline: 0;
+}
+
+.button-64 span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.button-64:hover span {
+    background: none;
+}
+
+@media (min-width: 768px) {
+    .button-64 {
+        font-size: 24px;
+        min-width: 196px;
+    }
+}
