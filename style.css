@@ -66,7 +66,7 @@ summary::marker {
 
 
 details[open] > summary::marker {
-    content: "-";
+    content: "🔓";
 }
 
 div#results {
