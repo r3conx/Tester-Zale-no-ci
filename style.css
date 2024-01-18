@@ -151,3 +151,9 @@ body {
         min-width: 196px;
     }
 }
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Wyśrodkowuje przyciski w poziomie */
+    gap: 10px; /* Dodaje odstęp między przyciskami */
+}
