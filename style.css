@@ -56,7 +56,10 @@ summary {
     color: white;
     text-align: center;
     user-select: none;
-    marker: 'x';
+}
+
+summary::marker {
+    display: none;
 }
 
 div#results {
