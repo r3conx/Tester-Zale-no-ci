@@ -124,8 +124,8 @@ function generateString() {
                     sum += parseInt(candidate[i], 10);
                     console.log(sum);
                 }
-                if (sum !== 60 && sum !== 66) {
-                    continue;
+                if (sum !== 5 && sum !== 8) {
+                    break;
                 }
 
 
