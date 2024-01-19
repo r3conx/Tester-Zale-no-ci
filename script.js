@@ -262,6 +262,24 @@ function generateRandomString(length) {
                             let mulDepNameSkip = `productOfDigitsAt${mulIndexes.join('and')}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameSkip] = createProductCheckFunction(targetIndex, mulIndexes);
                         }
+
+                        // Potęgowanie
+for (let skip = 1; skip < powerIndexes.length; skip++) {
+    let powerIndexesSubset = powerIndexes.slice(skip);
+
+    let powerDepName = `powerOfDigitsAt${powerIndexes.join('and')}EqualsDigitAt${targetIndex}`;
+    dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, powerIndexesSubset, false);
+}
+
+// Potęgowanie z przerwą
+for (let skip = 1; skip < powerIndexes.length; skip++) {
+    let powerIndexesSubset = powerIndexes.slice(skip);
+
+    let powerDepNameSkip = `powerOfDigitsAt${powerIndexesSubset.join('and')}EqualsDigitAt${targetIndex}`;
+    dynamicDependencies[powerDepNameSkip] = createPowerCheckFunction(targetIndex, powerIndexesSubset, true);
+}
+
+
                     }
                 }
             }
@@ -304,23 +322,25 @@ function createProductCheckFunction(targetIndex, mulIndexes, isRange) {
 }
 
 
-    function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-    
-                let powerResult = 1;
-                if (isRange) {
-                    for (let i = powerIndexes[0]; i <= powerIndexes[1]; i++) {
-                        powerResult *= Math.pow(parseInt(string[i], 10), i - powerIndexes[0] + 1);
-                    }
-                } else {
-                    powerIndexes.forEach(index => {
-                        powerResult *= Math.pow(parseInt(string[index], 10), index - powerIndexes[0] + 1);
-                    });
+function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
+
+            let powerResult = 1;
+            if (isRange) {
+                for (let i = powerIndexes[0]; i <= powerIndexes[1]; i++) {
+                    powerResult *= Math.pow(parseInt(string[i], 10), i - powerIndexes[0] + 1);
                 }
-                return parseInt(string[targetIndex], 10) === (powerResult % 10);
-            });
-        };
-    }
+            } else {
+                powerIndexes.forEach(index => {
+                    powerResult *= Math.pow(parseInt(string[index], 10), index - powerIndexes[0] + 1);
+                });
+            }
+            return parseInt(string[targetIndex], 10) === (powerResult % 10);
+        });
+    };
+}
+
+
     
