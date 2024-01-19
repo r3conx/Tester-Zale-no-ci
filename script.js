@@ -165,7 +165,7 @@ function generateRandomString(length) {
             const result = func(strings);
             const resultText = result.every(res => res) ? '✅' : '❌';
             let calcDetails = '';  
-        });
+
             
             
         // Logika dla sumowania
@@ -227,7 +227,7 @@ else if (depName.startsWith('powerOfDigit')) {
 
 
 
-
+});
 results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
 
 
