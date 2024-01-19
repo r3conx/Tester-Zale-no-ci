@@ -100,14 +100,14 @@ else if (depName.startsWith('productOfDigitsAt')) {
 }
 
 // Logika dla potęgowania
-else if (depName.startsWith('power')) {
-    const [baseIndex, exponent, target] = depName.match(/\d+/g).map(Number);
+else if (depName.startsWith('powerOfDigitsAt')) {
+    const [baseIndex, power, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
-        const base = parseInt(string[baseIndex], 10);
-        const expectedValue = Math.pow(base, exponent);
-        return ` (${base}^${exponent}=${expectedValue % 10}, target: ${string[target]})`;
+        let poweredResult = Math.pow(parseInt(string[baseIndex], 10), power);
+        return ` (${string[baseIndex]}^${power}=${poweredResult % 10}, target: ${string[target]})`;
     }).join(' ');
 }
+
 
 
 
