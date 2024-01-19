@@ -225,15 +225,6 @@ else if (depName.startsWith('powerOfDigit')) {
 results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
 });
 
-    //wyświetl wynik testu w div czas
-    document.getElementById('czas').innerHTML = `
-    Testy dla stringów: ${strings}<br>
-    Czas testu: ${(endTime2 - startTime2).toFixed(1)}ms
-
-    </br>
-    Zależności: ${zal}<br>
-
-    `;
 
     };
         
