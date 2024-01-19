@@ -125,6 +125,7 @@ function generateString() {
                     while (sum !== 68 && sum !== 66 && sum !== 80 && sum !== 73 && sum !== 78 && sum !== 71 && sum !== 63 && sum !== 70 && sum !== 55 && attempts < maxAttempts) {
                         candidate = generateRandomString(maxLength);
                         sum = 0;
+                        attempts++;
                         for (let i = 0; i < candidate.length; i++) {
                             sum += parseInt(candidate[i], 10);
                         }
