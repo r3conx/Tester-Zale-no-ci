@@ -99,6 +99,16 @@ else if (depName.startsWith('productOfDigitsAt')) {
     }).join(' ');
 }
 
+// Logika dla potęgowania
+else if (depName.startsWith('power')) {
+    const [baseIndex, exponent, target] = depName.match(/\d+/g).map(Number);
+    calcDetails = strings.map(string => {
+        let base = parseInt(string[baseIndex], 10);
+        let expectedValue = Math.pow(base, exponent);
+        return ` (${base}^${exponent}=${expectedValue % 10}, target: ${string[target]})`;
+    }).join(' ');
+}
+
 
 
 results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
