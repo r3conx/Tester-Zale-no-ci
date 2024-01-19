@@ -161,6 +161,7 @@ function generateRandomString(length) {
         const input = document.getElementById('inputStrings').value;
         const strings = input.split(',');
         const newDynamicDependencies = generateDynamicSumDependencies(strings);
+        let zal = 0;
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(strings);
             const resultText = result.every(res => res) ? '✅' : '❌';
