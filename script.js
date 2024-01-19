@@ -100,7 +100,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
 }
 
 // Logika dla potęgowania
-else if (depName.startsWith('powerOfDigits')) {
+else if (depName.startsWith('powerOfDigit')) {
     const [baseIndex, power, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
         let poweredResult = Math.pow(parseInt(string[baseIndex], 10), power);
