@@ -263,10 +263,9 @@ function generateRandomString(length) {
                             dynamicDependencies[mulDepNameSkip] = createProductCheckFunction(targetIndex, mulIndexes);
                         }
 
-                        // Potęgowanie
+// Potęgowanie
 for (let skip = 1; skip < powerIndexes.length; skip++) {
     let powerIndexesSubset = powerIndexes.slice(skip);
-
     let powerDepName = `powerOfDigitsAt${powerIndexes.join('and')}EqualsDigitAt${targetIndex}`;
     dynamicDependencies[powerDepName] = createPowerCheckFunction(targetIndex, powerIndexesSubset, false);
 }
@@ -274,10 +273,10 @@ for (let skip = 1; skip < powerIndexes.length; skip++) {
 // Potęgowanie z przerwą
 for (let skip = 1; skip < powerIndexes.length; skip++) {
     let powerIndexesSubset = powerIndexes.slice(skip);
-
     let powerDepNameSkip = `powerOfDigitsAt${powerIndexesSubset.join('and')}EqualsDigitAt${targetIndex}`;
     dynamicDependencies[powerDepNameSkip] = createPowerCheckFunction(targetIndex, powerIndexesSubset, true);
 }
+
 
 
                     }
