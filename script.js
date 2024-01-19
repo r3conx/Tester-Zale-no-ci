@@ -31,7 +31,7 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
-    countDependencies();
+    results.length = 0;
     let zal = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
