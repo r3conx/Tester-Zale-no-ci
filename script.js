@@ -115,19 +115,19 @@ function generateString() {
 
     while(attempts < maxAttempts) {
 
-
-
         let candidate = generateRandomString(maxLength);
-                //suma cyfr wygenerowanego stringa musi być równa 60 lub 66
-                let sum = 0;
-                for (let i = 0; i < candidate.length; i++) {
-                    sum += parseInt(candidate[i], 10);
-                    console.log(sum);
-                }
-                if (sum !== 5 && sum !== 8) {
-                    continue;
-                } else {
-
+                    //suma cyfr wygenerowanego stringa musi być równa 60 lub 66
+                    let sum = 0;
+                    for (let i = 0; i < candidate.length; i++) {
+                        sum += parseInt(candidate[i], 10);
+                    }
+                    while (sum !== 8 && sum !== 10) {
+                        candidate = generateRandomString(maxLength);
+                        sum = 0;
+                        for (let i = 0; i < candidate.length; i++) {
+                            sum += parseInt(candidate[i], 10);
+                        }
+                    }
 
         if (testStringWithDependencies(candidate, selectedDependencies)) {
             generatedString = candidate;
@@ -146,7 +146,7 @@ function generateString() {
         console.log(`Próbowano ${attempts} razy.`);
     }
 }
-}
+
 function getSelectedDependencies() {
     return Object.keys(dynamicDependencies)
         .filter(key => document.getElementById(`check-${key}`).checked)
