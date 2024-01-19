@@ -223,10 +223,12 @@ function generateRandomString(length) {
                 // Dodaj zależności oparte na potęgach
         for (let baseIndex = 0; baseIndex < strings[0].length; baseIndex++) {
             if (targetIndex !== baseIndex) {
-                let powerDepName = `powerOfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `power2OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 2, targetIndex);
+            }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power3OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 3, targetIndex);
-
             }
         }
 
