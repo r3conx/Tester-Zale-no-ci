@@ -158,6 +158,8 @@ function generateRandomString(length) {
 
 
     function translate() {
+        const input = document.getElementById('inputStrings').value;
+        const strings = input.split(',');
         const newDynamicDependencies = generateDynamicSumDependencies(strings);
         Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
             const result = func(strings);
