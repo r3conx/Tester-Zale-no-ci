@@ -43,15 +43,6 @@ function runTest() {
 
     `;
     updateDynamicDependencies();
-    const newDynamicDependencies = generateDynamicSumDependencies(strings);
-
-    Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
-        const result = func(strings);
-        const resultText = result.every(res => res) ? '✅' : '❌';
-        let calcDetails = '';
-    
-
-
     translate();
 
 
@@ -59,7 +50,7 @@ function runTest() {
 
 
     zal++;
-    });
+
     //zapisz czas zakończenia testu
     const endTime2 = performance.now();
 
@@ -167,6 +158,14 @@ function generateRandomString(length) {
 
 
     function translate() {
+        const newDynamicDependencies = generateDynamicSumDependencies(strings);
+        Object.entries(newDynamicDependencies).forEach(([depName, func]) => {
+            const result = func(strings);
+            const resultText = result.every(res => res) ? '✅' : '❌';
+            let calcDetails = '';  
+        });
+            
+            
         // Logika dla sumowania
 if (depName.startsWith('sumOfDigitsAt')) {
     const indexes = depName.match(/\d+/g).map(Number);
