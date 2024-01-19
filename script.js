@@ -216,6 +216,14 @@ function generateRandomString(length) {
     // Tutaj dodaj funkcję generateDynamicSumDependencies i inne funkcje pomocnicze
     function generateDynamicSumDependencies(strings) {
         let dynamicDependencies = {};
+
+            // Przykład: Dodaj zależność sumy dla każdej pary indeksów
+    for (let i = 0; i < strings[0].length - 1; i++) {
+        for (let j = i + 1; j < strings[0].length; j++) {
+            let sumCheckFunction = createSumCheckFunction(j, [i, j - 1]);
+            addDependency(sumCheckFunction);
+        }
+    }
     
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
             for (let index1 = 0; index1 < strings[0].length; index1++) {
