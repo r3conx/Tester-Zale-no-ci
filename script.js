@@ -125,8 +125,8 @@ function generateString() {
                     console.log(sum);
                 }
                 if (sum !== 5 && sum !== 8) {
-                    break;
-                }
+                    continue;
+                } else {
 
 
         if (testStringWithDependencies(candidate, selectedDependencies)) {
@@ -146,7 +146,7 @@ function generateString() {
         console.log(`Próbowano ${attempts} razy.`);
     }
 }
-
+}
 function getSelectedDependencies() {
     return Object.keys(dynamicDependencies)
         .filter(key => document.getElementById(`check-${key}`).checked)
