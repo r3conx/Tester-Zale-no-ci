@@ -283,7 +283,7 @@ function generateRandomString(length) {
                             dynamicDependencies[powDepNameSkip] = createPowerCheckFunction(targetIndex, powIndexes);
                         }
 
-                        
+
 
 
 
@@ -329,25 +329,17 @@ function createProductCheckFunction(targetIndex, mulIndexes, isRange) {
 }
 
 
-function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+function createPowerCheckFunction(baseIndex, exponent, targetIndex) {
     return function(strings) {
         return strings.map(string => {
-            if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
-
-            let powerResult = 1;
-            if (isRange) {
-                for (let i = powerIndexes[0]; i <= powerIndexes[1]; i++) {
-                    powerResult *= Math.pow(parseInt(string[i], 10), i - powerIndexes[0] + 1);
-                }
-            } else {
-                powerIndexes.forEach(index => {
-                    powerResult *= Math.pow(parseInt(string[index], 10), index - powerIndexes[0] + 1);
-                });
-            }
-            return parseInt(string[targetIndex], 10) === (powerResult % 10);
+            if (string.length <= Math.max(baseIndex, targetIndex)) return false;
+            let base = parseInt(string[baseIndex], 10);
+            let expectedValue = Math.pow(base, exponent);
+            return parseInt(string[targetIndex], 10) === expectedValue % 10;
         });
     };
 }
+
 
 
     
