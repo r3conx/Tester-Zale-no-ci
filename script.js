@@ -32,7 +32,6 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
-
     results.length = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
