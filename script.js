@@ -100,7 +100,7 @@ else if (depName.startsWith('productOfDigitsAt')) {
 }
 
 // Logika dla potęgowania
-else if (depName.startsWith('powerOfDigitsAt')) {
+else if (depName.startsWith('powerOfDigits')) {
     const [baseIndex, power, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
         let poweredResult = Math.pow(parseInt(string[baseIndex], 10), power);
@@ -233,31 +233,31 @@ function generateRandomString(length) {
                 // Dodaj zależności oparte na potęgach
         for (let baseIndex = 0; baseIndex < strings[0].length; baseIndex++) {
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power2OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit2At${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 2, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power3OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit3At${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 3, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power4OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit4At${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 4, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power5OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit5At5${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 5, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power6OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit6At${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 6, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power7OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit7At${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 7, targetIndex);
             }
             if (targetIndex !== baseIndex) {
-                let powerDepName = `power8OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                let powerDepName = `powerOfDigit8t${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 8, targetIndex);
             }
         }
