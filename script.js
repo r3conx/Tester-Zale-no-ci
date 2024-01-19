@@ -249,6 +249,18 @@ function generateRandomString(length) {
                             let mulDepNameRange = `productOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameRange] = createProductCheckFunction(targetIndex, [index1, index2], true);
                         }
+
+                        // Mnożenie z przerwą
+                        for (let skip = 1; skip < index2 - index1; skip++) {
+                            let mulIndexes = [];
+                            for (let i = index1; i <= index2; i++) {
+                                if (i !== index1 + skip) {
+                                    mulIndexes.push(i);
+                                }
+                            }
+                            let mulDepNameSkip = `productOfDigitsAt${mulIndexes.join('and')}EqualsDigitAt${targetIndex}`;
+                            dynamicDependencies[mulDepNameSkip] = createProductCheckFunction(targetIndex, mulIndexes);
+                        }
                     }
                 }
             }
@@ -289,3 +301,24 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
             });
         };
     }
+
+    function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
+        return function(strings) {
+            return strings.map(string => {
+                if (string.length <= targetIndex || powerIndexes.some(index => index >= string.length)) return false;
+    
+                let powerResult = 1;
+                if (isRange) {
+                    for (let i = powerIndexes[0]; i <= powerIndexes[1]; i++) {
+                        powerResult *= Math.pow(parseInt(string[i], 10), i - powerIndexes[0] + 1);
+                    }
+                } else {
+                    powerIndexes.forEach(index => {
+                        powerResult *= Math.pow(parseInt(string[index], 10), index - powerIndexes[0] + 1);
+                    });
+                }
+                return parseInt(string[targetIndex], 10) === (powerResult % 10);
+            });
+        };
+    }
+    
