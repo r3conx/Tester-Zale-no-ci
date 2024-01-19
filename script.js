@@ -49,7 +49,7 @@ function runTest() {
 
 
 
-    zal++;
+
 
     //zapisz czas zakończenia testu
     const endTime2 = performance.now();
@@ -165,7 +165,7 @@ function generateRandomString(length) {
             const result = func(strings);
             const resultText = result.every(res => res) ? '✅' : '❌';
             let calcDetails = '';  
-
+            zal++;
             
             
         // Logika dla sumowania
