@@ -270,26 +270,7 @@ function generateRandomString(length) {
                             let mulDepNameSkip = `productOfDigitsAt${mulIndexes.join('and')}EqualsDigitAt${targetIndex}`;
                             dynamicDependencies[mulDepNameSkip] = createProductCheckFunction(targetIndex, mulIndexes);
                         }
-                        // Zależności dla potęgowania
-                        let powDepName = `powerOfDigitsAt${index1}and${index2}EqualsDigitAt${targetIndex}`;
-                        dynamicDependencies[powDepName] = createPowerCheckFunction(targetIndex, [index1, index2], false);
 
-                        if (index2 - index1 > 1) {
-                            let powDepNameRange = `powerOfDigitsAt${index1}to${index2}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[powDepNameRange] = createPowerCheckFunction(targetIndex, [index1, index2], true);
-                        }
-
-                        // Potęgowanie z przerwą
-                        for (let skip = 1; skip < index2 - index1; skip++) {
-                            let powIndexes = [];
-                            for (let i = index1; i <= index2; i++) {
-                                if (i !== index1 + skip) {
-                                    powIndexes.push(i);
-                                }
-                            }
-                            let powDepNameSkip = `powerOfDigitsAt${powIndexes.join('and')}EqualsDigitAt${targetIndex}`;
-                            dynamicDependencies[powDepNameSkip] = createPowerCheckFunction(targetIndex, powIndexes);
-                        }
 
 
 
