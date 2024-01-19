@@ -230,6 +230,26 @@ function generateRandomString(length) {
                 let powerDepName = `power3OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 3, targetIndex);
             }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power4OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 4, targetIndex);
+            }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power5OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 5, targetIndex);
+            }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power6OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 6, targetIndex);
+            }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power7OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 7, targetIndex);
+            }
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `power8OfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 8, targetIndex);
+            }
         }
 
 
