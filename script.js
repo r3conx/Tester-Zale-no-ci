@@ -225,6 +225,8 @@ function generateRandomString(length) {
             if (targetIndex !== baseIndex) {
                 let powerDepName = `powerOfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
                 dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 2, targetIndex);
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 3, targetIndex);
+
             }
         }
 
