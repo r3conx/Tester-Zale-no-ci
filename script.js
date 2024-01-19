@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let results = [];
 let dynamicDependencies = {};
+var zal = 0;
 
 function initializeDependencies() {
     updateDynamicDependencies();
@@ -31,7 +32,7 @@ function updateDynamicDependencies() {
 }
 
 function runTest() {
-    var zal = 0;
+
     results.length = 0;
     //zapisz czas rozpoczęcia testu
     const startTime2 = performance.now();
