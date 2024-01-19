@@ -111,7 +111,7 @@ function generateString() {
 
     let generatedString = '';
     let attempts = 0;
-    const maxAttempts = 5000000;
+    const maxAttempts = 2000000;
 
     while(attempts < maxAttempts) {
 
