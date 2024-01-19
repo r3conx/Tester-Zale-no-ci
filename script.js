@@ -122,12 +122,13 @@ function generateString() {
                 let sum = 0;
                 for (let i = 0; i < candidate.length; i++) {
                     sum += parseInt(candidate[i], 10);
+                    console.log(sum);
                 }
                 if (sum !== 60 && sum !== 66) {
                     continue;
                 }
 
-                
+
         if (testStringWithDependencies(candidate, selectedDependencies)) {
             generatedString = candidate;
             break;
