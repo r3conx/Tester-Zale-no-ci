@@ -227,9 +227,9 @@ else if (depName.startsWith('powerOfDigit')) {
 
 
 
-});
-results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
 
+results.push(`Zależność: ${depName} ${resultText}${calcDetails}<br>`);
+});
 
     };
         
