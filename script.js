@@ -103,8 +103,8 @@ else if (depName.startsWith('productOfDigitsAt')) {
 else if (depName.startsWith('power')) {
     const [baseIndex, exponent, target] = depName.match(/\d+/g).map(Number);
     calcDetails = strings.map(string => {
-        let base = parseInt(string[baseIndex], 10);
-        let expectedValue = Math.pow(base, exponent);
+        const base = parseInt(string[baseIndex], 10);
+        const expectedValue = Math.pow(base, exponent);
         return ` (${base}^${exponent}=${expectedValue % 10}, target: ${string[target]})`;
     }).join(' ');
 }
