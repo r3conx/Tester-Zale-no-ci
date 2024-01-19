@@ -116,12 +116,13 @@ function generateString() {
     while(attempts < maxAttempts) {
 
         let candidate = generateRandomString(maxLength);
-                    //suma cyfr wygenerowanego stringa musi być równa 60 lub 66
+                    //suma cyfr wygenerowanego stringa musi być należeć do zbioru 68,66,80,73,78,71,63,70,55
+
                     let sum = 0;
                     for (let i = 0; i < candidate.length; i++) {
                         sum += parseInt(candidate[i], 10);
                     }
-                    while (sum !== 8 && sum !== 10) {
+                    while (sum !== 68 && sum !== 66 && sum !== 80 && sum !== 73 && sum !== 78 && sum !== 71 && sum !== 63 && sum !== 70 && sum !== 55) {
                         candidate = generateRandomString(maxLength);
                         sum = 0;
                         for (let i = 0; i < candidate.length; i++) {
