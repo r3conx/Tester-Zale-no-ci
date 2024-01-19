@@ -285,22 +285,23 @@ function createSumCheckFunction(targetIndex, sumIndexes) {
 
     
     
-    function createProductCheckFunction(targetIndex, productStartIndex, productEndIndex, isRange) {
-        return function(strings) {
-            return strings.map(string => {
-                if (string.length <= targetIndex || productStartIndex >= string.length || productEndIndex >= string.length) return false;
-                let product = 1;
-                if (isRange) {
-                    for (let i = productStartIndex; i <= productEndIndex; i++) {
-                        product *= parseInt(string[i], 10);
-                    }
-                } else {
-                    product = parseInt(string[productStartIndex], 10) * parseInt(string[productEndIndex], 10);
+function createProductCheckFunction(targetIndex, mulIndexes, isRange) {
+    return function(strings) {
+        return strings.map(string => {
+            if (string.length <= targetIndex || mulIndexes.some(index => index >= string.length)) return false;
+            let product = 1;
+            if (isRange) {
+                for (let i = 0; i < mulIndexes.length; i++) {
+                    product *= parseInt(string[mulIndexes[i]], 10);
                 }
-                return parseInt(string[targetIndex], 10) === (product % 10);
-            });
-        };
-    }
+            } else {
+                product = parseInt(string[mulIndexes[0]], 10) * parseInt(string[mulIndexes[1]], 10);
+            }
+            return parseInt(string[targetIndex], 10) === (product % 10);
+        });
+    };
+}
+
 
     function createPowerCheckFunction(targetIndex, powerIndexes, isRange) {
         return function(strings) {
