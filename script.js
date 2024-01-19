@@ -219,6 +219,16 @@ function generateRandomString(length) {
 
     
         for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
+
+                // Dodaj zależności oparte na potęgach
+        for (let baseIndex = 0; baseIndex < strings[0].length; baseIndex++) {
+            if (targetIndex !== baseIndex) {
+                let powerDepName = `powerOfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
+                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 2, targetIndex);
+            }
+        }
+
+
             for (let index1 = 0; index1 < strings[0].length; index1++) {
                 for (let index2 = index1 + 1; index2 < strings[0].length; index2++) {
                     if (targetIndex !== index1 && targetIndex !== index2) {
@@ -273,17 +283,6 @@ function generateRandomString(length) {
                 }
             }
         }
-    
-    // Dodaj zależności oparte na potęgach
-    for (let targetIndex = 0; targetIndex < strings[0].length; targetIndex++) {
-        for (let baseIndex = 0; baseIndex < strings[0].length; baseIndex++) {
-            if (targetIndex !== baseIndex) {
-                let powerDepName = `powerOfDigitAt${baseIndex}EqualsDigitAt${targetIndex}`;
-                dynamicDependencies[powerDepName] = createPowerCheckFunction(baseIndex, 2, targetIndex);
-            }
-        }
-    }
-
         return dynamicDependencies;
     }
     
